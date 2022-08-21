@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    x:Class="Sample.Views.MainPage"    
+    Title="SettingsView.Maui">
+			 
+    <sv:SettingsView>
+
+        <sv:Section FooterText="Footer">
+
+            <sv:Section.HeaderView>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+
+                    <BoxView WidthRequest="30" HeightRequest="30" Color="Red" Grid.Column="0" />
+                    <Label Text="Hoge" Grid.Column="2" VerticalOptions="Center" />
+
+                </Grid>
+            </sv:Section.HeaderView>
+
+            <sv:Section.FooterView>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+
+                    <BoxView WidthRequest="30" HeightRequest="30" Color="Red" Grid.Column="0" />
+                    <Label Text="Hoge" Grid.Column="2" VerticalOptions="Center" />
+
+                </Grid>
+            </sv:Section.FooterView>
+
+            <sv:LabelCell Title="LabelCell" ValueText="Value" Description="Description"
+                          IconSource="dotnet_bot"/>
+
+        </sv:Section>
+
+    </sv:SettingsView>
+ 
+</ContentPage>
+

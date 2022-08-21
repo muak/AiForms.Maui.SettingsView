@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">27.0</SupportedOSPlatformVersion>
+		<RootNamespace>AiForms.Settings</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) != true">
+	  <Compile Remove="**\**\*.Android.cs" />
+	  <None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	  <Compile Remove="**\Android\**\*.cs" />
+	  <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) != true AND $(TargetFramework.StartsWith('net6.0-maccatalyst')) != true">
+	  <Compile Remove="**\**\*.iOS.cs" />
+	  <None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	  <Compile Remove="**\iOS\**\*.cs" />
+	  <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) == true">
+		<AndroidResource Include="**\Resources\**\*.axml" Generator="MSBuild:UpdateGeneratedFiles" />
+		<AndroidResource Include="**\Resources\**\*.xml" Generator="MSBuild:UpdateGeneratedFiles" />
+		<AndroidResource Include="**\Resources\**\*.png" Generator="MSBuild:UpdateGeneratedFiles" />
+	  </ItemGroup>
+
+	
+	<ItemGroup>
+	  <Folder Include="Cells\" />
+	  <Folder Include="Handlers\" />
+	  <Folder Include="Platforms\Android\" />
+	  <Folder Include="Platforms\iOS\" />
+	  <Folder Include="Platforms\iOS\Extensions\" />
+	  <Folder Include="Handlers\CellBase\" />
+	  <Folder Include="Platforms\Android\Resources\" />
+	  <Folder Include="Platforms\Android\Extensions\" />
+	  <Folder Include="Extensions\" />
+	  <Folder Include="Handlers\LabelCell\" />
+	  <Folder Include="Platforms\iOS\Cells\" />
+	  <Folder Include="Platforms\Android\Cells\" />
+	  <Folder Include="Handlers\CommandCell\" />
+	  <Folder Include="Handlers\Template\" />
+	  <Folder Include="Handlers\ButtonCell\" />
+	  <Folder Include="Handlers\CheckboxCell\" />
+	  <Folder Include="Handlers\DatePickerCell\" />
+	  <Folder Include="Handlers\EntryCell\" />
+	</ItemGroup>	
+</Project>
