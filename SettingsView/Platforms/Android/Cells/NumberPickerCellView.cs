@@ -49,27 +49,7 @@ public class NumberPickerCellView : LabelCellView
     /// <param name="e">E.</param>
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == NumberPickerCell.MinProperty.PropertyName)
-        {
-            UpdateMin();
-        }
-        else if (e.PropertyName == NumberPickerCell.MaxProperty.PropertyName)
-        {
-            UpdateMax();
-        }
-        else if (e.PropertyName == NumberPickerCell.NumberProperty.PropertyName)
-        {
-            UpdateNumber();
-        }
-        else if (e.PropertyName == NumberPickerCell.PickerTitleProperty.PropertyName)
-        {
-            UpdatePickerTitle();
-        }
-        else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName)
-        {
-            UpdateCommand();
-        }
+        base.CellPropertyChanged(sender, e);        
     }
 
     /// <summary>
@@ -88,11 +68,11 @@ public class NumberPickerCellView : LabelCellView
     public override void UpdateCell()
     {
         base.UpdateCell();
-        UpdateMin();
-        UpdateMax();
-        UpdatePickerTitle();
-        UpdateNumber();
-        UpdateCommand();
+        //UpdateMin();
+        //UpdateMax();
+        //UpdatePickerTitle();
+        //UpdateNumber();
+        //UpdateCommand();
     }
 
     /// <summary>
@@ -111,17 +91,17 @@ public class NumberPickerCellView : LabelCellView
         base.Dispose(disposing);
     }
 
-    void UpdateMin()
+    internal void UpdateMin()
     {
         _min = _NumberPickerCell.Min;
     }
 
-    void UpdateMax()
+    internal void UpdateMax()
     {
         _max = _NumberPickerCell.Max;
     }
 
-    void UpdateNumber()
+    internal void UpdateNumber()
     {
         vValueLabel.Text = FormatNumber(_NumberPickerCell.Number);
     }
@@ -133,12 +113,12 @@ public class NumberPickerCellView : LabelCellView
             : number?.ToString() ?? "";
     }
 
-    void UpdatePickerTitle()
+    internal void UpdatePickerTitle()
     {
         _title = _NumberPickerCell.PickerTitle;
     }
 
-    void UpdateCommand()
+    internal void UpdateCommand()
     {
         _command = _NumberPickerCell.SelectedCommand;
     }

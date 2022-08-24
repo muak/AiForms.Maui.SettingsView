@@ -52,23 +52,6 @@ public class TextPickerCellView : LabelCellView
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-
-        if (e.PropertyName == TextPickerCell.SelectedItemProperty.PropertyName)
-        {
-            UpdateSelectedItem();
-        }
-        else if (e.PropertyName == TextPickerCell.PickerTitleProperty.PropertyName)
-        {
-            UpdateTitle();
-        }
-        else if (e.PropertyName == TextPickerCell.SelectedCommandProperty.PropertyName)
-        {
-            UpdateCommand();
-        }
-        else if (e.PropertyName == TextPickerCell.ItemsProperty.PropertyName)
-        {
-            UpdateItems();
-        }
     }
 
     /// <summary>
@@ -88,10 +71,10 @@ public class TextPickerCellView : LabelCellView
     public override void UpdateCell(UITableView tableView)
     {
         base.UpdateCell(tableView);
-        UpdateItems();
-        UpdateSelectedItem();
-        UpdateTitle();
-        UpdateCommand();
+        //UpdateItems();
+        //UpdateSelectedItem();
+        //UpdateTitle();
+        //UpdateCommand();
     }
 
     /// <summary>
@@ -155,13 +138,13 @@ public class TextPickerCellView : LabelCellView
         _model.UpdatePickerFromModel += Model_UpdatePickerFromModel;
     }
 
-    void UpdateSelectedItem()
+    internal void UpdateSelectedItem()
     {
         Select(_TextPickerCell.SelectedItem);
         ValueLabel.Text = _TextPickerCell.SelectedItem?.ToString();
     }
 
-    void UpdateItems()
+    internal void UpdateItems()
     {
         var items = _TextPickerCell.Items ?? new List<object>();
         _model.SetItems(items);
@@ -172,14 +155,14 @@ public class TextPickerCellView : LabelCellView
         Select(_TextPickerCell.SelectedItem);
     }
 
-    void UpdateTitle()
+    internal void UpdateTitle()
     {
         _titleLabel.Text = _TextPickerCell.PickerTitle;
         _titleLabel.SizeToFit();
         _titleLabel.Frame = new CGRect(0, 0, 160, 44);
     }
 
-    void UpdateCommand()
+    internal void UpdateCommand()
     {
         _command = _TextPickerCell.SelectedCommand;
     }

@@ -56,9 +56,9 @@ public class LabelCellView: CellBaseView
     /// </summary>
     public override void UpdateCell(UITableView tableView)
     {
-        UpdateValueText();
-        UpdateValueTextColor();
-        UpdateValueTextFont();
+        //UpdateValueText();
+        //UpdateValueTextColor();
+        //UpdateValueTextFont();
         base.UpdateCell(tableView);
     }
 

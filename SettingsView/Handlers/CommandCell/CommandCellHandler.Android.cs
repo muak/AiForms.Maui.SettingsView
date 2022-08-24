@@ -4,16 +4,16 @@ using Android.Bluetooth;
 
 namespace AiForms.Settings.Handlers;
 
-public partial class CommandCellHandler : CellBaseHandler<CommandCell, CommandCellView>
+public partial class CommandCellHandler : LabelCellBaseHandler<CommandCell, CommandCellView>
 {
-    public static IPropertyMapper<CommandCell, CellBaseHandler<CommandCell, CommandCellView>> CommandMapper =
-        new PropertyMapper<CommandCell, CellBaseHandler<CommandCell, CommandCellView>>(BasePropertyMapper)
+    public static IPropertyMapper<CommandCell, CommandCellHandler> CommandMapper =
+        new PropertyMapper<CommandCell, CommandCellHandler>(LabelMapper)
         {
             [nameof(CommandCell.Command)] = MapCommand,
             [nameof(CommandCell.CommandParameter)] = MapCommand,
         };
 
-    private static void MapCommand(CellBaseHandler<CommandCell, CommandCellView> handler, CommandCell cell)
+    private static void MapCommand(CommandCellHandler handler, CommandCell cell)
     {
         handler.PlatformView.UpdateCommand();
     }

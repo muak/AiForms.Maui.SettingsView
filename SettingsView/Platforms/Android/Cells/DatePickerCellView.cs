@@ -33,7 +33,7 @@ public class DatePickerCellView : LabelCellView
     public override void UpdateCell()
     {
         base.UpdateCell();
-        UpdateDate();
+        //UpdateDate();
     }
 
     /// <summary>

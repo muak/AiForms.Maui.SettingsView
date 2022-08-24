@@ -45,8 +45,8 @@ public class TimePickerCellView : LabelCellView
     public override void UpdateCell(UITableView tableView)
     {
         base.UpdateCell(tableView);
-        UpdatePickerTitle();
-        UpdateTime();
+        //UpdatePickerTitle();
+        //UpdateTime();
     }
 
     /// <summary>
@@ -156,14 +156,14 @@ public class TimePickerCellView : LabelCellView
         _preSelectedDate = _picker.Date;
     }
 
-    void UpdateTime()
+    internal void UpdateTime()
     {
         _picker.Date = new DateTime(1, 1, 1).Add(_TimePickerCell.Time).ToNSDate();
         ValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);
         _preSelectedDate = _picker.Date;
     }
 
-    void UpdatePickerTitle()
+    internal void UpdatePickerTitle()
     {
         _titleLabel.Text = _TimePickerCell.PickerTitle;
         _titleLabel.SizeToFit();

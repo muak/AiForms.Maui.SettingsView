@@ -89,7 +89,7 @@ namespace AiForms.Settings.Handlers
 
             SetUpPropertyChanged(nativeCell);
 
-            //nativeCell.UpdateCell(tv); // なくても問題なかった。HandlerのMapが発動するらしい。
+            nativeCell.UpdateCell(tv); // Initialization process not handled by Mapper
 
             return nativeCell;
         }
@@ -106,7 +106,6 @@ namespace AiForms.Settings.Handlers
 
         private static void MapTitleFont(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            var fontManager = handler.MauiContext?.Services.GetService<IFontManager>();
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateTitleFont();
             nativeView?.UpdateLayout();

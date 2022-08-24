@@ -41,18 +41,6 @@ public class TextPickerCellView : LabelCellView
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == TextPickerCell.SelectedItemProperty.PropertyName)
-        {
-            UpdateSelectedItem();
-        }
-        else if (e.PropertyName == TextPickerCell.PickerTitleProperty.PropertyName)
-        {
-            UpdatePickerTitle();
-        }
-        else if (e.PropertyName == TextPickerCell.SelectedCommandProperty.PropertyName)
-        {
-            UpdateCommand();
-        }
     }
 
     /// <summary>
@@ -72,9 +60,9 @@ public class TextPickerCellView : LabelCellView
     public override void UpdateCell()
     {
         base.UpdateCell();
-        UpdatePickerTitle();
-        UpdateSelectedItem();
-        UpdateCommand();
+        //UpdatePickerTitle();
+        //UpdateSelectedItem();
+        //UpdateCommand();
     }
 
     /// <summary>
@@ -93,17 +81,17 @@ public class TextPickerCellView : LabelCellView
         base.Dispose(disposing);
     }
 
-    void UpdateSelectedItem()
+    internal void UpdateSelectedItem()
     {
         vValueLabel.Text = _TextPickerCell.SelectedItem?.ToString();
     }
 
-    void UpdatePickerTitle()
+    internal void UpdatePickerTitle()
     {
         _title = _TextPickerCell.PickerTitle;
     }
 
-    void UpdateCommand()
+    internal void UpdateCommand()
     {
         _command = _TextPickerCell.SelectedCommand;
     }

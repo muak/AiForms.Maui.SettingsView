@@ -96,11 +96,11 @@ public class LabelCellView: CellBaseView
     public override void UpdateCell()
     {
         base.UpdateCell();
-        UpdateUseDescriptionAsValue();  //at first after base
-        UpdateValueText();
-        UpdateValueTextColor();
-        UpdateValueTextFontSize();
-        UpdateValueTextFont();
+        //UpdateUseDescriptionAsValue();  //at first after base
+        //UpdateValueText();
+        //UpdateValueTextColor();
+        //UpdateValueTextFontSize();
+        //UpdateValueTextFont();
     }
 
     /// <summary>

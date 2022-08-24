@@ -434,7 +434,7 @@ public class CellBase: Element, IImageSourcePart
             nameof(Height),
             typeof(double),
             typeof(CellBase),
-            default(double),
+            -1d,
             defaultBindingMode: BindingMode.OneWay
         );
 
@@ -471,8 +471,6 @@ public class CellBase: Element, IImageSourcePart
     {
         IsLoading = isLoading;
     }
-
-    internal ImageSourcePartLoader ImageLoader { get; set; }
 
 #if ANDROID
     // This is used by ListView to pass data to the GetCell call

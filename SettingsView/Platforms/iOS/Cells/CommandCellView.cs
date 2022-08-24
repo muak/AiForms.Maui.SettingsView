@@ -62,7 +62,7 @@ public class CommandCellView : LabelCellView
     public override void UpdateCell(UITableView tableView)
     {
         base.UpdateCell(tableView);
-        UpdateCommand();
+        //UpdateCommand();
     }
 
     /// <summary>

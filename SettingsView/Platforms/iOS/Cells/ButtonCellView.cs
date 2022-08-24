@@ -56,8 +56,8 @@ public class ButtonCellView : CellBaseView
         if (TitleLabel is null)
             return; // For HotReload
 
-        UpdateCommand();
-        UpdateTitleAlignment();
+        //UpdateCommand();
+        //UpdateTitleAlignment();
     }
 
 

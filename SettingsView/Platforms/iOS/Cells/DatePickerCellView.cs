@@ -44,9 +44,9 @@ public class DatePickerCellView : LabelCellView
     public override void UpdateCell(UITableView tableView)
     {
         base.UpdateCell(tableView);
-        UpdateMaximumDate();
-        UpdateMinimumDate();
-        UpdateDate();
+        //UpdateMaximumDate();
+        //UpdateMinimumDate();
+        //UpdateDate();
     }
 
     /// <summary>

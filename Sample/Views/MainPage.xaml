@@ -5,35 +5,107 @@
     xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
     x:Class="Sample.Views.MainPage"    
     Title="SettingsView.Maui">
-			 
-    <sv:SettingsView>
 
-        <sv:Section FooterText="Footer">
+    <ContentPage.Resources>
+        <!-- アプリ全体の背景色 -->
+        <Color x:Key="AppBackground">#ffffff</Color>
+        <!-- アクセントカラー -->
+        <Color x:Key="AccentColor">#FFBF00</Color>
+        <!-- 非アクティブカラー -->
+        <Color x:Key="DisabledColor">#E6DAB9</Color>
+        <!-- タイトルテキストカラー -->
+        <Color x:Key="TitleTextColor">#CC9900</Color>
+        <!-- 薄い背景色1 -->
+        <Color x:Key="PaleBackColorPrimary">#F2EFE6</Color>
+        <!-- 薄い背景色2 -->
+        <Color x:Key="PaleBackColorSecondary">#F2EDDA</Color>
+        <!-- 濃いめの文字色 -->
+        <Color x:Key="DeepTextColor">#555555</Color>
+        <!-- 通常文字色 -->
+        <Color x:Key="NormalTextColor">#666666</Color>
+        <!-- 薄い文字色 -->
+        <Color x:Key="PaleTextColor">#999999</Color>
+        <!-- 強調文字色 -->
+        <Color x:Key="EmphasisTextColor">#FF0000</Color>
 
-            <sv:Section.HeaderView>
-                <Grid ColumnDefinitions="Auto,*,Auto">
+         <Style TargetType="sv:SettingsView">
+            <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
+            <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+            <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+            <Setter Property="CellBackgroundColor" Value="{StaticResource AppBackground}" />
+            <Setter Property="CellTitleColor" Value="{StaticResource DeepTextColor}" />
+            <Setter Property="CellValueTextColor" Value="{StaticResource NormalTextColor}" />
+            <Setter Property="CellTitleFontSize" Value="17" />
+            <Setter Property="CellValueTextFontSize" Value="12" />
+            <Setter Property="CellDescriptionColor" Value="{StaticResource NormalTextColor}" />
+            <Setter Property="CellDescriptionFontSize" Value="11" />
+            <Setter Property="CellAccentColor" Value="{StaticResource AccentColor}" />
+            <Setter Property="SelectedColor" Value="#50FFBF00" />
+            <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
+            <Setter Property="FooterFontSize" Value="11" />
+            <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
+        </Style>
+    </ContentPage.Resources>
 
-                    <BoxView WidthRequest="30" HeightRequest="30" Color="Red" Grid.Column="0" />
-                    <Label Text="Hoge" Grid.Column="2" VerticalOptions="Center" />
+<sv:SettingsView HasUnevenRows="True" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"                   ShowArrowIndicatorForAndroid="True" 
+        >
+     
+		<sv:Section FooterText="This is a footer. optionaly you can write here.">
+            
+            <sv:CommandCell IconSource="dotnet_bot" IconSize="60,60" IconRadius="30" Title="Xam Xamarin" Height="80"
+                Description="hoge@fuga.com" Command="{Binding ToProfileCommand}" KeepSelectedUntilBack="true"
+                IgnoreUseDescriptionAsValue="true" 
+            />
+		</sv:Section>
 
-                </Grid>
-            </sv:Section.HeaderView>
-
-            <sv:Section.FooterView>
-                <Grid ColumnDefinitions="Auto,*,Auto">
-
-                    <BoxView WidthRequest="30" HeightRequest="30" Color="Red" Grid.Column="0" />
-                    <Label Text="Hoge" Grid.Column="2" VerticalOptions="Center" />
-
-                </Grid>
-            </sv:Section.FooterView>
-
-            <sv:LabelCell Title="LabelCell" ValueText="Value" Description="Description"
-                          IconSource="dotnet_bot"/>
-
+        <sv:Section Title="LabelCell">
+            <sv:LabelCell Title="Storage" IconSource="dotnet_bot" ValueText="3,065MB" />
         </sv:Section>
 
-    </sv:SettingsView>
+        <sv:Section Title="CheckableCell">
+            <sv:SwitchCell Title="Switch" On="true" 
+                Description="This is description. you can write detail explanation of the item here. long text wrap automatically." />
+            <sv:CheckboxCell Title="Checkbox" Checked="true" />
+        </sv:Section>
+
+        <!--<sv:Section Title="MultiPicker" FooterText="This is a multi select picker. you are free to select items until MaxSelectedNumber.">
+            <sv:PickerCell Title="Favorites" ItemsSource="{Binding ItemsSource}" DisplayMember="Name" MaxSelectedNumber="3" 
+            SelectedItems="{Binding SelectedItems}" KeepSelectedUntilBack="true" PageTitle="select 3 items" />
+        </sv:Section>-->
+
+        <sv:Section Title="Picker 4 Brothers">
+            <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" Unit="px" PickerTitle="Select number" />
+            <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
+            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/11/10" MaximumDate="2025/12/31" TodayText="Today's date" />
+            <sv:TextPickerCell Title="TextPicker" Items="{Binding TextItems}" SelectedItem="{Binding SelectedText.Value}" IsCircularPicker="False" />
+        </sv:Section>  
+        
+        <sv:Section Title="RadioCell" FooterText="You can select either TypeA or TypeB." sv:RadioCell.SelectedValue="1">
+            <sv:RadioCell Title="TypeA" Value="1" />
+            <sv:RadioCell Title="TypeB" Value="2" />
+        </sv:Section>
+
+        <sv:Section Title="Input" IsVisible="{Binding InputSectionVisible.Value}">
+            <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" TextAlignment="End" HintText="{Binding InputError.Value}" Keyboard="Default" />
+        </sv:Section>
+
+        <!--<sv:Section>
+            <sv:Section.HeaderView>
+                <FlexLayout Direction="Row" JustifyContent="SpaceBetween" AlignItems="End" HeightRequest="50" Padding="10,0,10,6">
+                    <Label Text="CustomHeaderView" TextColor="DeepSkyBlue" />
+                    <ImageButton Source="icon.png" WidthRequest="20" HeightRequest="20" />
+                </FlexLayout>                
+            </sv:Section.HeaderView>
+            <sv:Section.FooterView>
+                <Label Text="CustomFooterView. " TextColor="DeepSkyBlue" Padding="10,6,10,0" />
+            </sv:Section.FooterView>
+            <cell:SliderCell Value="0.5" HintText="CustomCell" />            
+        </sv:Section>-->       
+
+        <sv:Section Title="ButtonCell" FooterText="Change input section visibility.">
+            <sv:ButtonCell Title="Toggle Section" TitleColor="{StaticResource TitleTextColor}" TitleAlignment="Center" Command="{Binding SectionToggleCommand}" />
+        </sv:Section>
+	</sv:SettingsView>
  
 </ContentPage>
 

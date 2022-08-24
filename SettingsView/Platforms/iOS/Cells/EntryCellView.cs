@@ -55,13 +55,13 @@ public class EntryCellView : CellBaseView
         if (ValueField is null)
             return; // For HotReload
 
-        UpdateValueText();
-        UpdateValueTextColor();
-        UpdateValueTextFont();
-        UpdatePlaceholder();
-        UpdateKeyboard();
-        UpdateIsPassword();
-        UpdateTextAlignment();
+        //UpdateValueText();
+        //UpdateValueTextColor();
+        //UpdateValueTextFont();
+        //UpdatePlaceholder();
+        //UpdateKeyboard();
+        //UpdateIsPassword();
+        //UpdateTextAlignment();
     }
 
     /// <summary>
@@ -72,37 +72,6 @@ public class EntryCellView : CellBaseView
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName)
-        {
-            UpdateValueText();
-        }
-        else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName ||
-                 e.PropertyName == AiEntryCell.ValueTextFontFamilyProperty.PropertyName ||
-                 e.PropertyName == AiEntryCell.ValueTextFontAttributesProperty.PropertyName)
-        {
-            UpdateWithForceLayout(UpdateValueTextFont);
-        }
-        else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName)
-        {
-            UpdateValueTextColor();
-        }
-        else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName)
-        {
-            UpdateKeyboard();
-        }
-        else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName ||
-                 e.PropertyName == AiEntryCell.PlaceholderColorProperty.PropertyName)
-        {
-            UpdatePlaceholder();
-        }
-        else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName)
-        {
-            UpdateTextAlignment();
-        }
-        else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName)
-        {
-            UpdateIsPassword();
-        }
     }
 
     /// <summary>
@@ -181,7 +150,7 @@ public class EntryCellView : CellBaseView
         base.SetEnabledAppearance(isEnabled);
     }
 
-    void UpdateValueText()
+    internal void UpdateValueText()
     {
         //Without this judging, TextField don't correctly work when inputting Japanese (maybe other 2byte languages either).
         if (ValueField.Text != _EntryCell.ValueText)
@@ -190,7 +159,7 @@ public class EntryCellView : CellBaseView
         }
     }
 
-    void UpdateValueTextFont()
+    internal void UpdateValueTextFont()
     {
         var family = _EntryCell.ValueTextFontFamily ?? CellParent.CellValueTextFontFamily;
         var attr = _EntryCell.ValueTextFontAttributes ?? CellParent.CellValueTextFontAttributes;
@@ -210,7 +179,7 @@ public class EntryCellView : CellBaseView
         _FieldWrapper.Bounds = new CoreGraphics.CGRect(0, 0, _FieldWrapper.Bounds.Width, contentH);
     }
 
-    void UpdateValueTextColor()
+    internal void UpdateValueTextColor()
     {
         if (_EntryCell.ValueTextColor.IsNotDefault())
         {
@@ -223,12 +192,12 @@ public class EntryCellView : CellBaseView
         ValueField.SetNeedsLayout();
     }
 
-    void UpdateKeyboard()
+    internal void UpdateKeyboard()
     {
         ValueField.ApplyKeyboard(_EntryCell.Keyboard);
     }
 
-    void UpdatePlaceholder()
+    internal void UpdatePlaceholder()
     {
         if (_EntryCell.PlaceholderColor.IsNotDefault())
         {
@@ -242,13 +211,13 @@ public class EntryCellView : CellBaseView
         }
     }
 
-    void UpdateTextAlignment()
+    internal void UpdateTextAlignment()
     {
         ValueField.TextAlignment = _EntryCell.TextAlignment.ToUITextAlignment();
         ValueField.SetNeedsLayout();
     }
 
-    void UpdateIsPassword()
+    internal void UpdateIsPassword()
     {
         ValueField.SecureTextEntry = _EntryCell.IsPassword;
     }

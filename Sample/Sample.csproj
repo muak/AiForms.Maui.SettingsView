@@ -31,8 +31,6 @@
 		<LangVersion>10.0</LangVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
-		<!--<MtouchLink>None</MtouchLink>
-		<MtouchArch>ARM64</MtouchArch>-->
 		<CodesignKey>iPhone Developer</CodesignKey>
 	</PropertyGroup>
 	<ItemGroup>
@@ -55,9 +53,11 @@
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
 	  <None Remove="Platforms\Android\Resources\layout\" />
+	  <None Remove="ReactiveProperty" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.254-beta" />
+	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
+	  <PackageReference Include="ReactiveProperty" Version="8.1.2" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Views\" />

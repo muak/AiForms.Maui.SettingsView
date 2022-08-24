@@ -37,7 +37,7 @@ public class LabelCell:CellBase
             nameof(ValueTextColor),
             typeof(Color),
             typeof(LabelCell),
-            new Color(),
+            KnownColor.Default,
             defaultBindingMode: BindingMode.OneWay
         );
 

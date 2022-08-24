@@ -52,8 +52,8 @@ public class ButtonCellView : CellBaseView
     public override void UpdateCell()
     {
         base.UpdateCell();
-        UpdateCommand();
-        UpdateTitleAlignment();
+        //UpdateCommand();
+        //UpdateTitleAlignment();
     }
 
     /// <summary>

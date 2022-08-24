@@ -22,8 +22,6 @@ namespace AiForms.Settings.Platforms.Droid;
 /// </summary>
 public class CellBaseView : ARelativeLayout
 {
-    public Action<object, PropertyChangedEventArgs> PropertyChanged;
-
     CellBase _cell;
     public CellBase Cell
     {
@@ -36,15 +34,14 @@ public class CellBaseView : ARelativeLayout
             if (_cell != null)
             {
                 _cell.PropertyChanged -= CellPropertyChanged;
-                _cell.ImageLoader?.Reset();
-                _cell.ImageLoader = null;
+                _imageLoader?.Reset();
+                _imageLoader = null;
             }
             _cell = value;
 
             if (_cell != null)
             {
                 _cell.PropertyChanged += CellPropertyChanged;
-                _cell.ImageLoader = new ImageSourcePartLoader(_cell.Handler, () => value, OnSetImageSource);
             }
         }
     }
@@ -85,7 +82,8 @@ public class CellBaseView : ARelativeLayout
     /// <value>The hint label.</value>
     public TextView HintLabel { get; private set; }
 
-    protected Lazy<IFontManager> _fontManager;    
+    protected Lazy<IFontManager> _fontManager;
+    ImageSourcePartLoader _imageLoader;
     /// <summary>
     /// The context.
     /// </summary>
@@ -543,6 +541,8 @@ public class CellBaseView : ARelativeLayout
     {
         UpdateIconSize();
 
+        _imageLoader?.Reset();
+
         if (IconView.Drawable != null)
         {
             IconView.SetImageDrawable(null);
@@ -552,7 +552,9 @@ public class CellBaseView : ARelativeLayout
         if (Cell.IconSource != null)
         {
             IconView.Visibility = ViewStates.Visible;
-            Cell.ImageLoader?.UpdateImageSourceAsync();
+
+            _imageLoader = new ImageSourcePartLoader(Cell.Handler, () => Cell, OnSetImageSource);
+            _imageLoader?.UpdateImageSourceAsync();
         }
         else
         {
@@ -601,7 +603,8 @@ public class CellBaseView : ARelativeLayout
     {
         if (disposing)
         {
-            PropertyChanged = null;
+            _imageLoader?.Reset();
+            _imageLoader = null;
 
             if(_cell != null)
             {

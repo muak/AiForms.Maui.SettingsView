@@ -17,19 +17,6 @@ namespace AiForms.Settings.Handlers
 {
     public partial class CellBaseHandler<TvirtualCell, TnativeCell>
     {
-
-        //static readonly BindableProperty RealCellProperty = BindableProperty.CreateAttached("RealCell", typeof(TnativeCell), typeof(CellBase), null);
-
-        //internal static TnativeCell GetRealCell(BindableObject cell)
-        //{
-        //    return (TnativeCell)cell.GetValue(RealCellProperty);
-        //}
-
-        //internal static void SetRealCell(BindableObject cell, TnativeCell renderer)
-        //{
-        //    cell.SetValue(RealCellProperty, renderer);
-        //}
-
         public CellBaseHandler(): base(BasePropertyMapper)
         {
         }

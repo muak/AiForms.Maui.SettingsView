@@ -35,8 +35,8 @@ public class TimePickerCellView : LabelCellView
     public override void UpdateCell()
     {
         base.UpdateCell();
-        UpdateTime();
-        UpdatePickerTitle();
+        //UpdateTime();
+        //UpdatePickerTitle();
     }
 
     /// <summary>
@@ -47,15 +47,6 @@ public class TimePickerCellView : LabelCellView
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == TimePickerCell.TimeProperty.PropertyName ||
-           e.PropertyName == TimePickerCell.FormatProperty.PropertyName)
-        {
-            UpdateTime();
-        }
-        else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName)
-        {
-            UpdatePickerTitle();
-        }
     }
 
     /// <summary>
@@ -116,12 +107,12 @@ public class TimePickerCellView : LabelCellView
 
     }
 
-    void UpdateTime()
+    internal void UpdateTime()
     {
         vValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);
     }
 
-    void UpdatePickerTitle()
+    internal void UpdatePickerTitle()
     {
         _title = _TimePickerCell.PickerTitle;
     }

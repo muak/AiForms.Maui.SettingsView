@@ -5,8 +5,8 @@ namespace AiForms.Settings.Handlers;
 
 public partial class EntryCellHandler : CellBaseHandler<EntryCell, EntryCellView>
 {
-    public static IPropertyMapper<EntryCell, CellBaseHandler<EntryCell, EntryCellView>> EntryMapper =
-        new PropertyMapper<EntryCell, CellBaseHandler<EntryCell, EntryCellView>>(BasePropertyMapper)
+    public static IPropertyMapper<EntryCell, EntryCellHandler> EntryMapper =
+        new PropertyMapper<EntryCell, EntryCellHandler>(BasePropertyMapper)
         {
             [nameof(EntryCell.ValueText)] = MapValueText,
             [nameof(EntryCell.ValueTextFontSize)] = MapValueTextFontSize,
@@ -21,50 +21,52 @@ public partial class EntryCellHandler : CellBaseHandler<EntryCell, EntryCellView
             [nameof(EntryCell.IsPassword)] = MapIsPassword,
         };
 
-    private static void MapValueText(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapValueText(EntryCellHandler handler, EntryCell arg2)
     {
         handler.PlatformView.UpdateValueText();
     }
 
-    private static void MapValueTextFontSize(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapValueTextFontSize(EntryCellHandler handler, EntryCell arg2)
     {
         handler.PlatformView.UpdateValueTextFontSize();
-        handler.PlatformView.updatelayout
+        handler.PlatformView.UpdateLayout();
     }
 
-    private static void MapValueTextFont(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapValueTextFont(EntryCellHandler handler, EntryCell arg2)
     {
-        throw new NotImplementedException();
+        handler.PlatformView.UpdateValueTextFont();
+        handler.PlatformView.UpdateLayout();
     }
 
-    private static void MapValueTextColor(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapValueTextColor(EntryCellHandler handler, EntryCell arg2)
     {
-        throw new NotImplementedException();
+        handler.PlatformView.UpdateValueTextColor();
+        handler.PlatformView.UpdateLayout();
     }
 
-    private static void MapKeyboard(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapKeyboard(EntryCellHandler handler, EntryCell arg2)
     {
-        throw new NotImplementedException();
+        handler.PlatformView.UpdateKeyboard();
     }
 
-    private static void MapPlaceholder(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapPlaceholder(EntryCellHandler handler, EntryCell arg2)
     {
-        throw new NotImplementedException();
+        handler.PlatformView.UpdatePlaceholder();
     }
 
-    private static void MapAccentColor(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapAccentColor(EntryCellHandler handler, EntryCell arg2)
     {
-        throw new NotImplementedException();
+        handler.PlatformView.UpdateAccentColor();
     }
 
-    private static void MapTextAlignment(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapTextAlignment(EntryCellHandler handler, EntryCell arg2)
     {
-        throw new NotImplementedException();
+        handler.PlatformView.UpdateTextAlignment();
     }
 
-    private static void MapIsPassword(CellBaseHandler<EntryCell, EntryCellView> handler, EntryCell arg2)
+    private static void MapIsPassword(EntryCellHandler handler, EntryCell arg2)
     {
-        throw new NotImplementedException();
+        handler.PlatformView.UpdateIsPassword();
     }
 }
 

@@ -3,10 +3,10 @@ using AiForms.Settings.Platforms.iOS;
 
 namespace AiForms.Settings.Handlers;
 
-public partial class DatePickerCellHandler : CellBaseHandler<DatePickerCell, DatePickerCellView>
+public partial class DatePickerCellHandler : LabelCellBaseHandler<DatePickerCell, DatePickerCellView>
 {
-    public static IPropertyMapper<DatePickerCell, CellBaseHandler<DatePickerCell, DatePickerCellView>> DatePickerMapper =
-        new PropertyMapper<DatePickerCell, CellBaseHandler<DatePickerCell, DatePickerCellView>>(BasePropertyMapper)
+    public static IPropertyMapper<DatePickerCell, DatePickerCellHandler> DatePickerMapper =
+        new PropertyMapper<DatePickerCell, DatePickerCellHandler>(LabelMapper)
         {
             [nameof(DatePickerCell.Date)] = MapDate,
             [nameof(DatePickerCell.Format)] = MapDate,
@@ -15,22 +15,22 @@ public partial class DatePickerCellHandler : CellBaseHandler<DatePickerCell, Dat
             [nameof(DatePickerCell.TodayText)] = MapTodayText,
         };
 
-    private static void MapDate(CellBaseHandler<DatePickerCell, DatePickerCellView> handler, DatePickerCell arg2)
+    private static void MapDate(DatePickerCellHandler handler, DatePickerCell arg2)
     {
         handler.PlatformView.UpdateDate();
     }
 
-    private static void MapMaximumDate(CellBaseHandler<DatePickerCell, DatePickerCellView> handler, DatePickerCell arg2)
+    private static void MapMaximumDate(DatePickerCellHandler handler, DatePickerCell arg2)
     {
         handler.PlatformView.UpdateMaximumDate();
     }
 
-    private static void MapMinimumDate(CellBaseHandler<DatePickerCell, DatePickerCellView> handler, DatePickerCell arg2)
+    private static void MapMinimumDate(DatePickerCellHandler handler, DatePickerCell arg2)
     {
         handler.PlatformView.UpdateMinimumDate();
     }
 
-    private static void MapTodayText(CellBaseHandler<DatePickerCell, DatePickerCellView> handler, DatePickerCell arg2)
+    private static void MapTodayText(DatePickerCellHandler handler, DatePickerCell arg2)
     {
         handler.PlatformView.UpdateTodayText();
     }

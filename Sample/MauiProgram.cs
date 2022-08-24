@@ -15,7 +15,8 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UsePrismApp<App>(prism =>
+            .UseMauiApp<App>()            
+            .UsePrism(prism =>
             {
                 prism.RegisterTypes(containerRegistry =>
                 {

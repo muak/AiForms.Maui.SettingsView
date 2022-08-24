@@ -43,8 +43,8 @@ public class CheckboxCellView : CellBaseView
     /// </summary>
     public override void UpdateCell(UITableView tableView)
     {
-        UpdateAccentColor();
-        UpdateChecked();
+        //UpdateAccentColor();
+        //UpdateChecked();
         base.UpdateCell(tableView);
     }
 

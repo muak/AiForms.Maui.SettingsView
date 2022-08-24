@@ -75,7 +75,7 @@ namespace AiForms.Settings.Handlers
 
             SetUpPropertyChanged(nativeCell);
 
-            //nativeCell.UpdateCell();
+            nativeCell.UpdateCell(); // Initialization process not handled by Mapper
 
             return nativeCell;
         }        

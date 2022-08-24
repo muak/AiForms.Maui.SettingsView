@@ -51,24 +51,6 @@ public class NumberPickerCellView : LabelCellView
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == NumberPickerCell.MinProperty.PropertyName ||
-            e.PropertyName == NumberPickerCell.MaxProperty.PropertyName)
-        {
-            UpdateNumberList();
-        }
-        else if (e.PropertyName == NumberPickerCell.NumberProperty.PropertyName)
-        {
-            UpdateNumber();
-        }
-        else if (e.PropertyName == NumberPickerCell.PickerTitleProperty.PropertyName)
-        {
-            UpdateTitle();
-
-        }
-        else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName)
-        {
-            UpdateCommand();
-        }
     }
 
     /// <summary>
@@ -91,10 +73,10 @@ public class NumberPickerCellView : LabelCellView
         if (DummyField is null)
             return; // For HotReload
 
-        UpdateNumberList();
-        UpdateNumber();
-        UpdateTitle();
-        UpdateCommand();
+        //UpdateNumberList();
+        //UpdateNumber();
+        //UpdateTitle();
+        //UpdateCommand();
     }
 
     /// <summary>
@@ -158,7 +140,7 @@ public class NumberPickerCellView : LabelCellView
         _model.UpdatePickerFromModel += Model_UpdatePickerFromModel;
     }
 
-    protected virtual void UpdateNumber()
+    internal virtual void UpdateNumber()
     {
         Select(_NumberPickerCell.Number);
         ValueLabel.Text = FormatNumber(_NumberPickerCell.Number);
@@ -171,20 +153,20 @@ public class NumberPickerCellView : LabelCellView
             : number?.ToString() ?? "";
     }
 
-    void UpdateNumberList()
+    internal void UpdateNumberList()
     {
         _model.SetNumbers(_NumberPickerCell.Min, _NumberPickerCell.Max);
         Select(_NumberPickerCell.Number);
     }
 
-    void UpdateTitle()
+    internal void UpdateTitle()
     {
         _titleLabel.Text = _NumberPickerCell.PickerTitle;
         _titleLabel.SizeToFit();
         _titleLabel.Frame = new CGRect(0, 0, 160, 44);
     }
 
-    void UpdateCommand()
+    internal void UpdateCommand()
     {
         _command = _NumberPickerCell.SelectedCommand;
     }

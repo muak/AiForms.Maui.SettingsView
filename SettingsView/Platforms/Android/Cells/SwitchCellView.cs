@@ -55,8 +55,8 @@ public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListe
     /// </summary>
     public override void UpdateCell()
     {
-        UpdateAccentColor();
-        UpdateOn();
+        //UpdateAccentColor();
+        //UpdateOn();
         base.UpdateCell();
     }
 
@@ -68,14 +68,6 @@ public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListe
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == SwitchCell.AccentColorProperty.PropertyName)
-        {
-            UpdateAccentColor();
-        }
-        if (e.PropertyName == SwitchCell.OnProperty.PropertyName)
-        {
-            UpdateOn();
-        }
     }
 
     /// <summary>
@@ -151,12 +143,12 @@ public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListe
         base.SetEnabledAppearance(isEnabled);
     }
 
-    void UpdateOn()
+    internal void UpdateOn()
     {
         _switch.Checked = _SwitchCell.On;
     }
 
-    void UpdateAccentColor()
+    internal void UpdateAccentColor()
     {
         if (_SwitchCell.AccentColor.IsNotDefault())
         {

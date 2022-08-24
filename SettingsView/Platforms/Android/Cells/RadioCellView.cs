@@ -82,7 +82,7 @@ public class RadioCellView : CellBaseView
     /// </summary>
     public override void UpdateCell()
     {
-        UpdateAccentColor();
+        //UpdateAccentColor();
         UpdateSelectedValue();
         base.UpdateCell();
     }
@@ -95,11 +95,6 @@ public class RadioCellView : CellBaseView
     public override void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == CheckboxCell.AccentColorProperty.PropertyName)
-        {
-            UpdateAccentColor();
-            _simpleCheck.Invalidate();
-        }
     }
 
     /// <summary>
@@ -113,7 +108,6 @@ public class RadioCellView : CellBaseView
         if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName)
         {
             UpdateAccentColor();
-            _simpleCheck.Invalidate();
         }
         else if (e.PropertyName == RadioCell.SelectedValueProperty.PropertyName)
         {
@@ -163,7 +157,7 @@ public class RadioCellView : CellBaseView
         _simpleCheck.Selected = result;
     }
 
-    void UpdateAccentColor()
+    internal void UpdateAccentColor()
     {
         if (_radioCell.AccentColor.IsNotDefault())
         {
@@ -173,5 +167,6 @@ public class RadioCellView : CellBaseView
         {
             _simpleCheck.Color = CellParent.CellAccentColor.ToPlatform();
         }
+        _simpleCheck.Invalidate();
     }
 }

@@ -74,15 +74,15 @@ public class EntryCellView : CellBaseView, ITextWatcher,
     /// </summary>
     public override void UpdateCell()
     {
-        UpdateValueText();
-        UpdateValueTextColor();
-        UpdateValueTextFontSize();
-        UpdateValueTextFont();
-        UpdateKeyboard();
-        UpdatePlaceholder();
-        UpdateAccentColor();
-        UpdateTextAlignment();
-        UpdateIsPassword();
+        //UpdateValueText();
+        //UpdateValueTextColor();
+        //UpdateValueTextFontSize();
+        //UpdateValueTextFont();
+        //UpdateKeyboard();
+        //UpdatePlaceholder();
+        //UpdateAccentColor();
+        //UpdateTextAlignment();
+        //UpdateIsPassword();
         base.UpdateCell();
     }
 
@@ -93,45 +93,7 @@ public class EntryCellView : CellBaseView, ITextWatcher,
     /// <param name="e">E.</param>
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName)
-        {
-            UpdateValueText();
-        }
-        else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName)
-        {
-            UpdateWithForceLayout(UpdateValueTextFontSize);
-        }
-        else if (e.PropertyName == AiEntryCell.ValueTextFontFamilyProperty.PropertyName ||
-                 e.PropertyName == AiEntryCell.ValueTextFontAttributesProperty.PropertyName)
-        {
-            UpdateWithForceLayout(UpdateValueTextFont);
-        }
-        else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName)
-        {
-            UpdateWithForceLayout(UpdateValueTextColor);
-        }
-        else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName)
-        {
-            UpdateKeyboard();
-        }
-        else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName ||
-                 e.PropertyName == AiEntryCell.PlaceholderColorProperty.PropertyName)
-        {
-            UpdatePlaceholder();
-        }
-        else if (e.PropertyName == AiEntryCell.AccentColorProperty.PropertyName)
-        {
-            UpdateAccentColor();
-        }
-        else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName)
-        {
-            UpdateTextAlignment();
-        }
-        else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName)
-        {
-            UpdateIsPassword();
-        }
+        base.CellPropertyChanged(sender, e);        
     }
 
     /// <summary>

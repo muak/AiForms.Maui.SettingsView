@@ -56,7 +56,7 @@ public class RadioCellView : CellBaseView
     /// </summary>
     public override void UpdateCell(UITableView tableView)
     {
-        UpdateAccentColor();
+        //UpdateAccentColor();
         UpdateSelectedValue();
         base.UpdateCell(tableView);
     }
@@ -69,10 +69,6 @@ public class RadioCellView : CellBaseView
     public override void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == CheckboxCell.AccentColorProperty.PropertyName)
-        {
-            UpdateAccentColor();
-        }
     }
 
     /// <summary>
@@ -139,7 +135,7 @@ public class RadioCellView : CellBaseView
         Accessory = result ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
     }
 
-    void UpdateAccentColor()
+    internal void UpdateAccentColor()
     {
         if (_radioCell.AccentColor.IsNotDefault())
         {

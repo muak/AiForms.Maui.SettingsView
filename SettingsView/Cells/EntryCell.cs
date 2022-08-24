@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
+using Microsoft.Maui.Converters;
 
 namespace AiForms.Settings;
 
@@ -157,6 +158,7 @@ public class EntryCell:CellBase,IEntryCellController
     /// Gets or sets the keyboard.
     /// </summary>
     /// <value>The keyboard.</value>
+    [TypeConverter(typeof(KeyboardTypeConverter))]
     public Keyboard Keyboard {
         get { return (Keyboard)GetValue(KeyboardProperty); }
         set { SetValue(KeyboardProperty, value); }

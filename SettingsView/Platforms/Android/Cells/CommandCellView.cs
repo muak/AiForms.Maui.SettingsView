@@ -75,7 +75,7 @@ public class CommandCellView : LabelCellView
     public override void UpdateCell()
     {
         base.UpdateCell();
-        UpdateCommand();
+        //UpdateCommand();
     }
 
     /// <summary>

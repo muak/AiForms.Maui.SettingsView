@@ -43,14 +43,6 @@ public class SwitchCellView : CellBaseView
     public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         base.CellPropertyChanged(sender, e);
-        if (e.PropertyName == AiSwitchCell.AccentColorProperty.PropertyName)
-        {
-            UpdateAccentColor();
-        }
-        if (e.PropertyName == AiSwitchCell.OnProperty.PropertyName)
-        {
-            UpdateOn();
-        }
     }
 
     /// <summary>
@@ -76,8 +68,8 @@ public class SwitchCellView : CellBaseView
         if (_switch is null)
             return; // for HotReload
 
-        UpdateAccentColor();
-        UpdateOn();
+        //UpdateAccentColor();
+        //UpdateOn();
     }
 
     /// <summary>
@@ -119,7 +111,7 @@ public class SwitchCellView : CellBaseView
         _SwitchCell.On = _switch.On;
     }
 
-    void UpdateOn()
+    internal void UpdateOn()
     {
         if (_switch.On != _SwitchCell.On)
         {
@@ -127,7 +119,7 @@ public class SwitchCellView : CellBaseView
         }
     }
 
-    void UpdateAccentColor()
+    internal void UpdateAccentColor()
     {
         if (_SwitchCell.AccentColor.IsNotDefault())
         {

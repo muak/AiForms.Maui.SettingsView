@@ -23,8 +23,6 @@ namespace AiForms.Settings.Platforms.iOS;
 [Foundation.Preserve(AllMembers = true)]
 public class CellBaseView : UITableViewCell
 {
-    public Action<object, PropertyChangedEventArgs> PropertyChanged;
-
     /// <summary>
     /// Gets the hint label.
     /// </summary>
@@ -64,20 +62,21 @@ public class CellBaseView : UITableViewCell
             if (_cell != null)
             {
                 _cell.PropertyChanged -= CellPropertyChanged;
-                _cell.ImageLoader?.Reset();
-                _cell.ImageLoader = null;
+                _imageLoader?.Reset();
+                _imageLoader = null;
             }
             _cell = value;
 
             if (_cell != null)
             {
-                _cell.PropertyChanged += CellPropertyChanged;
-                _cell.ImageLoader = new ImageSourcePartLoader(_cell.Handler, () => value, OnSetImageSource);
+                _cell.PropertyChanged += CellPropertyChanged;                
             }
         }
     }
 
     protected Lazy<IFontManager> _fontManager;
+    ImageSourcePartLoader _imageLoader;
+
     /// <summary>
     /// Gets the content stack.
     /// </summary>
@@ -478,7 +477,7 @@ public class CellBaseView : UITableViewCell
         if (IconView is null)
             return; // for HotReload
 
-        Cell.ImageLoader?.Reset();
+        _imageLoader?.Reset();
 
         UpdateIconSize();
 
@@ -493,7 +492,8 @@ public class CellBaseView : UITableViewCell
             //hide IconView because UIStackView Distribution won't work when a image isn't set.
             IconView.Hidden = false;
 
-            Cell.ImageLoader?.UpdateImageSourceAsync();           
+            _imageLoader = new ImageSourcePartLoader(Cell.Handler, () => Cell, OnSetImageSource);
+            _imageLoader.UpdateImageSourceAsync();         
         }
         else
         {
@@ -534,24 +534,24 @@ public class CellBaseView : UITableViewCell
         if (TitleLabel is null)
             return; // For HotReload
 
-        UpdateBackgroundColor();
-        UpdateTitleText();
-        UpdateTitleColor();
-        UpdateTitleFont();
-        UpdateDescriptionText();
-        UpdateDescriptionColor();
-        UpdateDescriptionFont();
-        UpdateHintText();
-        UpdateHintTextColor();
-        UpdateHintFont();
+        //UpdateBackgroundColor();
+        //UpdateTitleText();
+        //UpdateTitleColor();
+        //UpdateTitleFont();
+        //UpdateDescriptionText();
+        //UpdateDescriptionColor();
+        //UpdateDescriptionFont();
+        //UpdateHintText();
+        //UpdateHintTextColor();
+        //UpdateHintFont();
 
-        //UpdateIcon();
-        UpdateIconRadius();
+        ////UpdateIcon();
+        //UpdateIconRadius();
 
-        UpdateIsEnabled();
-        UpdateIsVisible();
+        //UpdateIsEnabled();
+        //UpdateIsVisible();
 
-        SetNeedsLayout();
+        //SetNeedsLayout();
     }
 
     /// <summary>
@@ -563,14 +563,11 @@ public class CellBaseView : UITableViewCell
     {
         if (disposing)
         {
-
-            PropertyChanged = null;
+            _imageLoader?.Reset();
+            _imageLoader = null;
 
             if(_cell != null)
             {
-                _cell.ImageLoader?.Reset();
-                _cell.ImageLoader = null;
-
                 _cell.PropertyChanged -= CellPropertyChanged;
                 if (_cell.Section != null)
                 {

@@ -55,8 +55,8 @@ public class CheckboxCellView : CellBaseView, CompoundButton.IOnCheckedChangeLis
     /// </summary>
     public override void UpdateCell()
     {
-        UpdateAccentColor();
-        UpdateChecked();
+        //UpdateAccentColor();
+        //UpdateChecked();
         base.UpdateCell();
     }
 
