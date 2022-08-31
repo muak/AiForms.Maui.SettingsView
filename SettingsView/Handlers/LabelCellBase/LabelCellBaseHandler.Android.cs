@@ -20,6 +20,16 @@ namespace AiForms.Settings.Handlers
 
         private static void MapValueText(LabelCellBaseHandler<TvirtualCell, TnativeCell> handler, LabelCell cell)
         {
+            switch (cell)
+            {
+                // disabled ValueTextMapper if cell is PickerCell.
+                case NumberPickerCell:
+                case TimePickerCell:
+                case DatePickerCell:
+                case TextPickerCell:
+                    return;
+            }
+
             handler.PlatformView.UpdateValueText();
         }
 
