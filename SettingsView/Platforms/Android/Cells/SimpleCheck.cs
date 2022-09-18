@@ -8,6 +8,7 @@ using Paint = Android.Graphics.Paint;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class SimpleCheck : AView
 {
     /// <summary>

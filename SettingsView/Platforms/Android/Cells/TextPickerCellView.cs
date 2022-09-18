@@ -12,6 +12,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Text picker cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class TextPickerCellView : LabelCellView
 {
     TextPickerCell _TextPickerCell => Cell as TextPickerCell;

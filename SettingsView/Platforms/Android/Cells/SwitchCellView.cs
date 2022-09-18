@@ -14,6 +14,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Switch cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener
 {
     SwitchCompat _switch { get; set; }

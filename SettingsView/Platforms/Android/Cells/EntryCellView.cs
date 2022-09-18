@@ -21,6 +21,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Entry cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class EntryCellView : CellBaseView, ITextWatcher,
     TextView.IOnFocusChangeListener, TextView.IOnEditorActionListener
 {

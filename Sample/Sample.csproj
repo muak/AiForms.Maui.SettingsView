@@ -35,6 +35,9 @@
 		<EnableCodeSigning>false</EnableCodeSigning>
 		<MtouchLink>None</MtouchLink>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	  <EnableCodeSigning>false</EnableCodeSigning>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -58,6 +61,7 @@
 	  <None Remove="ReactiveProperty" />
 	  <None Remove="Views\Cells\" />
 	  <None Remove="Resources\.DS_Store" />
+	  <None Remove="AiForms.Maui.SettingsView" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />

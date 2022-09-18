@@ -12,6 +12,7 @@ using AiForms.Settings.Extensions;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 internal class FormsViewContainer : FrameLayout
 {
     public ViewHolder ViewHolder { get; set; }

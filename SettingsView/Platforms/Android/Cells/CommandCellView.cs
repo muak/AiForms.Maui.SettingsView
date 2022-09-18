@@ -11,6 +11,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Command cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class CommandCellView : LabelCellView
 {
     internal Action Execute { get; set; }

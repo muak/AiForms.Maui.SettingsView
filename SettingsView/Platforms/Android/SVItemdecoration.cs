@@ -7,6 +7,7 @@ using View = Android.Views.View;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class SVItemdecoration : RecyclerView.ItemDecoration
 {
     Drawable _drawable;

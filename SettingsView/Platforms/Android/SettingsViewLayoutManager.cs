@@ -5,6 +5,7 @@ using Microsoft.Maui.Platform;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class SettingsViewLayoutManager:LinearLayoutManager
 {
     SettingsView _settingsView;

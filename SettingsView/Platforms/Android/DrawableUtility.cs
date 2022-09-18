@@ -7,6 +7,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Drawable utility.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public static class DrawableUtility
 {
     /// <summary>

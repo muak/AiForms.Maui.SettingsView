@@ -19,6 +19,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Number picker cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class NumberPickerCellView : LabelCellView
 {
     NumberPickerCell _NumberPickerCell => Cell as NumberPickerCell;

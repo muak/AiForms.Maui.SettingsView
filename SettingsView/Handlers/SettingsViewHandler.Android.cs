@@ -7,6 +7,7 @@ using Microsoft.Maui.Platform;
 
 namespace AiForms.Settings.Handlers;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public partial class SettingsViewHandler : ViewHandler<SettingsView, AiRecyclerView>
 {
     public static IPropertyMapper<SettingsView, SettingsViewHandler> Mapper =

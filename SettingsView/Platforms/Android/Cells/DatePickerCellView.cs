@@ -9,6 +9,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Date picker cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class DatePickerCellView : LabelCellView
 {
     DatePickerCell _datePickerCell => Cell as DatePickerCell;

@@ -13,6 +13,7 @@ using Microsoft.Maui.Platform;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class LabelCellView: CellBaseView
 {
     LabelCell _LabelCell => Cell as LabelCell;

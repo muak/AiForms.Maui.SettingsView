@@ -12,6 +12,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Radio cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class RadioCellView : CellBaseView
 {
     SimpleCheck _simpleCheck;

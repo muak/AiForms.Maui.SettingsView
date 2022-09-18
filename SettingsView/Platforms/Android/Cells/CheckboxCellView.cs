@@ -14,6 +14,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Checkbox cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class CheckboxCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener
 {
     AppCompatCheckBox _checkbox;

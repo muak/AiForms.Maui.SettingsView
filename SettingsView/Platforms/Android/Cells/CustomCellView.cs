@@ -10,6 +10,7 @@ using ARelativeLayout = Android.Widget.RelativeLayout;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class CustomCellView: CellBaseView
 {
     protected Action Execute { get; set; }

@@ -6,6 +6,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Layout alignment extensions.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public static class LayoutAlignmentExtensions
 {
     /// <summary>

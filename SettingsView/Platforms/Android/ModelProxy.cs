@@ -16,6 +16,7 @@ public enum ViewType
     CustomFooter,
 }
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class ModelProxy:List<RowInfo>,IDisposable
 {
     public Dictionary<Type, int> ViewTypes { get; private set; }

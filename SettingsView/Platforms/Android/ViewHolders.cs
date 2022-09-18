@@ -7,6 +7,7 @@ using Resource = global::AiForms.Settings.Resource;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 internal class ViewHolder : RecyclerView.ViewHolder
 {
     public RowInfo RowInfo { get; set; }
@@ -24,14 +25,17 @@ internal class ViewHolder : RecyclerView.ViewHolder
     }
 }
 
+[Android.Runtime.Preserve(AllMembers = true)]
 internal interface IHeaderViewHolder
 { 
 }
 
+[Android.Runtime.Preserve(AllMembers = true)]
 internal interface IFooterViewHolder
 {
 }
 
+[Android.Runtime.Preserve(AllMembers = true)]
 internal class HeaderViewHolder :ViewHolder, IHeaderViewHolder
 {
     public TextView TextView { get; private set; }
@@ -52,7 +56,7 @@ internal class HeaderViewHolder :ViewHolder, IHeaderViewHolder
     }
 }
 
-
+[Android.Runtime.Preserve(AllMembers = true)]
 internal class FooterViewHolder :ViewHolder, IFooterViewHolder
 {
     public TextView TextView { get; private set; }
@@ -73,7 +77,7 @@ internal class FooterViewHolder :ViewHolder, IFooterViewHolder
     }
 }
 
-
+[Android.Runtime.Preserve(AllMembers = true)]
 internal class CustomHeaderViewHolder :ViewHolder, IHeaderViewHolder
 {
     public CustomHeaderViewHolder(AView view) : base(view)
@@ -82,7 +86,7 @@ internal class CustomHeaderViewHolder :ViewHolder, IHeaderViewHolder
     }       
 }
 
-
+[Android.Runtime.Preserve(AllMembers = true)]
 internal class CustomFooterViewHolder :ViewHolder, IFooterViewHolder
 {
     public CustomFooterViewHolder(AView view) : base(view)
@@ -91,7 +95,7 @@ internal class CustomFooterViewHolder :ViewHolder, IFooterViewHolder
     }
 }
 
-
+[Android.Runtime.Preserve(AllMembers = true)]
 internal class ContentBodyViewHolder : ViewHolder
 {
     public LinearLayout Body { get; private set; }

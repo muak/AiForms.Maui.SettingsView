@@ -17,6 +17,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Settings view recycler adapter.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickListener, AView.IOnLongClickListener
 {
     float MinRowHeight => _context.ToPixels(44);

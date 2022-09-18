@@ -20,6 +20,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Cell base view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class CellBaseView : ARelativeLayout
 {
     CellBase _cell;

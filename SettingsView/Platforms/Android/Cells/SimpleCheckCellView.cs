@@ -7,6 +7,7 @@ using Microsoft.Maui.Platform;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class SimpleCheckCellView: CellBaseView
 {
     SimpleCheck _checkView;

@@ -9,6 +9,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Copy form Microsoft.Maui.ViewHandlerExtensions.Android.cs
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public static class ViewHandlerExtension
 {
     // TODO: Possibly reconcile this code with LayoutViewGroup.OnLayout

@@ -4,6 +4,7 @@ using Android.Views;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public static class ViewExtension
 {
     public static T? GetParentOfType<T>(this Android.Views.View view)

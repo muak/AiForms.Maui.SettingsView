@@ -10,6 +10,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Time picker cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class TimePickerCellView : LabelCellView
 {
     TimePickerCell _TimePickerCell => Cell as TimePickerCell;

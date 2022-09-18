@@ -14,6 +14,7 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace AiForms.Settings.Platforms.Droid;
 
+[Android.Runtime.Preserve(AllMembers = true)]
 public class AiRecyclerView : RecyclerView
 {
     SettingsViewRecyclerAdapter _adapter;

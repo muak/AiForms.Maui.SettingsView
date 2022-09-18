@@ -8,6 +8,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// <summary>
 /// Button cell view.
 /// </summary>
+[Android.Runtime.Preserve(AllMembers = true)]
 public class ButtonCellView : CellBaseView
 {
     internal Action Execute { get; set; }
