@@ -35,7 +35,7 @@ AndroidとiOSに対応しています。
 * Xamarin.FormsのViewCell、それ以外の定義済みCellの使用
 
 
-<img src="images/iOS_SS.png" height="1200" /> <img src="images/AndroidSS.png" height="1200" />
+<img src="https://github.com/muak/AiForms.SettingsView/blob/f82cc9ef2a6db043a1278c6f8349e1bde805a6d1/images/iOS_SS.png" height="1200" /> <img src="https://github.com/muak/AiForms.SettingsView/blob/f82cc9ef2a6db043a1278c6f8349e1bde805a6d1/images/AndroidSS.png" height="1200" />
 
 ### デモ動画
 
