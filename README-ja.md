@@ -65,6 +65,8 @@ public static MauiApp CreateMauiApp()
         {
             handlers.AddSettingsViewHandler(); // write this
         });
+    ...
+}
 ```
 
 
@@ -820,6 +822,6 @@ NaturalSortの実装に以下のソースを利用させていただきました
 
 MIT Licensed.
 
-Some code is taken from [Xamarin.Forms](https://github.com/xamarin/Xamarin.Forms).
+Some code is taken from [.NET MAUI](https://github.com/dotnet/maui).
 
 [Material design icons](https://github.com/google/material-design-icons) - [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)

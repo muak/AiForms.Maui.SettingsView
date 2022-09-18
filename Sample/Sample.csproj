@@ -66,6 +66,7 @@
 	<ItemGroup>
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
 	  <PackageReference Include="ReactiveProperty" Version="8.1.2" />
+	  <PackageReference Include="AiForms.Maui.SettingsView" Version="0.1.9-pre" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Views\" />
@@ -89,8 +90,5 @@
 	  <MauiXaml Update="Views\Cells\SliderCell.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\SettingsView\SettingsView.csproj" />
 	</ItemGroup>
 </Project>
