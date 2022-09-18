@@ -5,7 +5,7 @@ AndroidとiOSに対応しています。
 
 **現在プレビュー版です。動作は安定しませんので調査・検証用としてお使いください。**
 
-![Build status](https://kamusoft.visualstudio.com/NugetCI/_apis/build/status/AiForms.SettingsView)
+![Build status](https://dev.azure.com/kamusoft/NugetCI/_apis/build/status/AiForms.Maui.SettingsView)
 
 ## SettingsViewでできること（標準のTableViewとの違い）
 

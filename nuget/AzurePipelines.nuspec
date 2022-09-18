@@ -22,12 +22,12 @@ Preview version.
     </metadata>
     <files>        
         <!-- Android -->
-        <file src="artifacts/net6.0-android/SettingsView.dll" target="lib/net6.0-android" />
-        <file src="artifacts/net6.0-android/SettingsView.xml" target="lib/net6.0-android" />
-        <file src="artifacts/net6.0-android/SettingsView.pdb" target="lib/net6.0-android" />
+        <file src="artifacts/net6.0-android/SettingsView.dll" target="lib/net6.0-android26.0" />
+        <file src="artifacts/net6.0-android/SettingsView.xml" target="lib/net6.0-android26.0" />
+        <file src="artifacts/net6.0-android/SettingsView.pdb" target="lib/net6.0-android26.0" />
         <!-- iOS -->
-        <file src="artifacts/net6.0-ios/SettingsView.dll" target="lib/net6.0-ios" />
-        <file src="artifacts/net6.0-ios/SettingsView.xml" target="lib/net6.0-ios" />
-        <file src="artifacts/net6.0-ios/SettingsView.pdb" target="lib/net6.0-ios" />
+        <file src="artifacts/net6.0-ios/SettingsView.dll" target="lib/net6.0-ios13.0" />
+        <file src="artifacts/net6.0-ios/SettingsView.xml" target="lib/net6.0-ios13.0" />
+        <file src="artifacts/net6.0-ios/SettingsView.pdb" target="lib/net6.0-ios13.0" />
     </files>
 </package>
