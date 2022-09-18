@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using AiForms.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 #if IOS
 using CellBaseView = AiForms.Settings.Platforms.iOS.CellBaseView;
@@ -17,11 +18,21 @@ namespace AiForms.Settings.Handlers
 {
     public partial class CellBaseHandler<TvirtualCell, TnativeCell>
     {
+        public static CommandMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>> BaseCommandMapper = new CommandMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>>
+        {
+            [nameof(CellBase.SetEnabledAppearance)] = MapSetEnabledAppearance
+        };
+
+        private static void MapSetEnabledAppearance(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase view, object? param)
+        {
+            handler.PlatformView?.SetEnabledAppearance((bool)param!);
+        }
+
         public CellBaseHandler(): base(BasePropertyMapper)
         {
         }
 
-        public CellBaseHandler(IPropertyMapper? mapper = null): base(mapper ?? BasePropertyMapper)
+        public CellBaseHandler(IPropertyMapper? mapper = null, CommandMapper? commandMapper = null): base(mapper ?? BasePropertyMapper, commandMapper ?? BaseCommandMapper)
         {
         }
         

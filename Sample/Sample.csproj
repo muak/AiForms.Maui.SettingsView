@@ -32,6 +32,8 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 		<CodesignKey>iPhone Developer</CodesignKey>
+		<EnableCodeSigning>false</EnableCodeSigning>
+		<MtouchLink>None</MtouchLink>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -54,6 +56,8 @@
 	  <None Remove="ViewModels\" />
 	  <None Remove="Platforms\Android\Resources\layout\" />
 	  <None Remove="ReactiveProperty" />
+	  <None Remove="Views\Cells\" />
+	  <None Remove="Resources\.DS_Store" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
@@ -63,10 +67,23 @@
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
 	  <Folder Include="Platforms\Android\Resources\layout\" />
+	  <Folder Include="Views\Cells\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Condition=" '$(EnableDefaultXamlItems)' == 'true' " Update="Views\MainPage.xaml">
 	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cells\MyCellA.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cells\MyCellB.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cells\MyCellC.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cells\SliderCell.xaml">
+	    <SubType></SubType>
 	  </MauiXaml>
 	</ItemGroup>
 	<ItemGroup>

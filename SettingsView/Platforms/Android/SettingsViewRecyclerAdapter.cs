@@ -257,7 +257,7 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
             return;
         }
 
-        _settingsView.Model.RowSelected(_proxy[position].Cell);
+        _settingsView.Model.OnRowSelected(_proxy[position].Cell);
 
         cell.RowSelected(this,position);
     }

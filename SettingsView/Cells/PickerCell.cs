@@ -2,17 +2,21 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using AiForms.Settings.Pages;
+using Microsoft.Maui.Controls;
 
 namespace AiForms.Settings;
 
 /// <summary>
 /// Picker cell.
 /// </summary>
-public class PickerCell : LabelCell
+public class PickerCell : CommandCell
 {
     /// <summary>
     /// The page title property.
@@ -191,29 +195,7 @@ public class PickerCell : LabelCell
     public int MaxSelectedNumber {
         get { return (int)GetValue(MaxSelectedNumberProperty); }
         set { SetValue(MaxSelectedNumberProperty, value); }
-    }
-
-    /// <summary>
-    /// The keep selected until back property.
-    /// </summary>
-    public static BindableProperty KeepSelectedUntilBackProperty =
-        BindableProperty.Create(
-            nameof(KeepSelectedUntilBack),
-            typeof(bool),
-            typeof(PickerCell),
-            true,
-            defaultBindingMode: BindingMode.OneWay
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.PickerCell"/> keep selected
-    /// until back.
-    /// </summary>
-    /// <value><c>true</c> if keep selected until back; otherwise, <c>false</c>.</value>
-    public bool KeepSelectedUntilBack {
-        get { return (bool)GetValue(KeepSelectedUntilBackProperty); }
-        set { SetValue(KeepSelectedUntilBackProperty, value); }
-    }
+    }    
 
     /// <summary>
     /// The accent color property.
@@ -426,6 +408,34 @@ public class PickerCell : LabelCell
         }
     }
 
+    INotifyCollectionChanged _notifyCollection;
+    INotifyCollectionChanged _selectedCollection;
+
+    public Command ShowCommand { get; } 
+
+    public PickerCell()
+    {
+        ShowCommand = new Command(() =>
+        {
+            if (!HideArrowIndicator)
+            {
+                GetPage(this).Navigation.PushAsync(new PickerPage(this));
+            }
+        });
+
+
+        this.SetBinding(CommandProperty, new Binding("ShowCommand", source: this));
+    }
+
+    Page GetPage(Element element)
+    {
+        if (element.Parent is Page page)
+        {
+            return page;
+        }
+        return GetPage(element.Parent);
+    }
+
     internal string GetSelectedItemsText(){
         List<string> sortedList = null;
 
@@ -546,4 +556,85 @@ public class PickerCell : LabelCell
                 return false;
         }
     }
+
+    protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        base.OnPropertyChanged(propertyName);
+        if (propertyName == PickerCell.SelectedItemsProperty.PropertyName ||
+                propertyName == PickerCell.SelectedItemProperty.PropertyName ||
+                propertyName == PickerCell.DisplayMemberProperty.PropertyName ||
+                propertyName == PickerCell.UseNaturalSortProperty.PropertyName ||
+                propertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName)
+        {
+            UpdateSelectedItems();
+        }
+        if (propertyName == PickerCell.UseAutoValueTextProperty.PropertyName)
+        {
+            if (UseAutoValueText)
+            {
+                UpdateSelectedItems();
+            }            
+        }
+        if (propertyName == PickerCell.ItemsSourceProperty.PropertyName)
+        {
+            UpdateCollectionChanged();
+            UpdateSelectedItems();
+        }
+    }
+
+    void UpdateSelectedItems()
+    {
+        if (!UseAutoValueText)
+        {
+            return;
+        }
+
+        if (_selectedCollection != null)
+        {
+            _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
+        }
+
+        _selectedCollection = SelectedItems as INotifyCollectionChanged;
+
+        if (_selectedCollection != null)
+        {
+            _selectedCollection.CollectionChanged += SelectedItems_CollectionChanged;
+        }
+
+        ValueText = GetSelectedItemsText();
+    }
+
+    void UpdateCollectionChanged()
+    {
+        if (_notifyCollection != null)
+        {
+            _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+        }
+
+        _notifyCollection = ItemsSource as INotifyCollectionChanged;
+
+        if (_notifyCollection != null)
+        {
+            _notifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
+            ItemsSourceCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+    }
+
+
+    void SelectedItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        UpdateSelectedItems();
+    }
+
+    void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (!IsEnabled)
+        {
+            return;
+        }
+
+        SetEnabledAppearance(ItemsSource.Count > 0);
+    }
+
+    
 }

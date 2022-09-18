@@ -19,6 +19,9 @@ namespace AiForms.Settings
             handlers.AddHandler(typeof(SwitchCell), typeof(SwitchCellHandler));
             handlers.AddHandler(typeof(TextPickerCell), typeof(TextPickerCellHandler));
             handlers.AddHandler(typeof(TimePickerCell), typeof(TimePickerCellHandler));
+            handlers.AddHandler(typeof(CustomCell), typeof(CustomCellHandler));
+            handlers.AddHandler(typeof(SimpleCheckCell), typeof(SimpleCheckCellHandler));
+            //handlers.AddHandler(typeof(PickerCell), typeof(CommandCellHandler));
         }
     }
 }

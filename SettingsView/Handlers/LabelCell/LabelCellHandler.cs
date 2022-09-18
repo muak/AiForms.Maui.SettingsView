@@ -7,7 +7,7 @@ public partial class LabelCellHandler
     {
     }
 
-    public LabelCellHandler(IPropertyMapper mapper = null) : base(mapper ?? LabelMapper)
+    public LabelCellHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null) : base(mapper ?? LabelMapper, commandMapper ?? LabelCommandMapper)
     {
     }
 }

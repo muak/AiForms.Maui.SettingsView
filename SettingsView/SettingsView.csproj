@@ -11,6 +11,9 @@
 		<RootNamespace>AiForms.Settings</RootNamespace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+	  <EnableCodeSigning>false</EnableCodeSigning>
+	</PropertyGroup>
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) != true">
 	  <Compile Remove="**\**\*.Android.cs" />
 	  <None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
@@ -57,6 +60,9 @@
 	  <Folder Include="Handlers\TextPickerCell\" />
 	  <Folder Include="Handlers\TimePickerCell\" />
 	  <Folder Include="Handlers\LabelCellBase\" />
+	  <Folder Include="Handlers\CustomCell\" />
+	  <Folder Include="Handlers\SimpleCheckCell\" />
+	  <Folder Include="Pages\" />
 	</ItemGroup>	
 	<ItemGroup>
 	  <None Remove="Handlers\NumberPickerCell\" />
@@ -65,5 +71,13 @@
 	  <None Remove="Handlers\TextPickerCell\" />
 	  <None Remove="Handlers\TimePickerCell\" />
 	  <None Remove="Handlers\LabelCellBase\" />
+	  <None Remove="Handlers\CustomCell\" />
+	  <None Remove="Handlers\SimpleCheckCell\" />
+	  <None Remove="Pages\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Pages\PickerPage.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
 	</ItemGroup>
 </Project>

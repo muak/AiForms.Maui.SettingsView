@@ -1,197 +1,195 @@
-﻿//using System;
-//using System.ComponentModel;
-//using System.Linq;
-//using Android.Content;
-//using Android.Views;
-//using Xamarin.Forms;
-//using Xamarin.Forms.Internals;
-//using Xamarin.Forms.Platform.Android;
-//using Android.Widget;
-//using Android.Graphics.Drawables;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
+using Android.Content;
+using Android.Views;
+using Android.Widget;
+using Android.Graphics.Drawables;
+using AView = Android.Views.View;
+using View = Microsoft.Maui.Controls.View;
+using Microsoft.Maui.Platform;
+using AiForms.Settings.Extensions;
 
-//namespace AiForms.Renderers.Droid
-//{
-//    [Android.Runtime.Preserve(AllMembers = true)]
-//    internal class FormsViewContainer: FrameLayout, INativeElementView
-//    {
-//        // Get internal members
-//        static Type DefaultRenderer = typeof(Platform).Assembly.GetType("Xamarin.Forms.Platform.Android.Platform+DefaultRenderer");
+namespace AiForms.Settings.Platforms.Droid;
 
-//        public ViewHolder ViewHolder { get; set; }
-//        public Element Element => FormsCell;
-//        public bool IsEmpty => _formsCell == null;
-//        public bool IsMeasureOnce => CustomCell?.IsMeasureOnce ?? false;
-//        public CustomCell CustomCell { get; set; }
+internal class FormsViewContainer : FrameLayout
+{
+    public ViewHolder ViewHolder { get; set; }
+    public Element Element => ContentView;
+    public bool IsEmpty => _contentView == null;
+    public bool IsMeasureOnce => CustomCell?.IsMeasureOnce ?? false;
+    public CustomCell CustomCell { get; set; }
 
-//        IVisualElementRenderer _renderer;
-          
-
-//        public FormsViewContainer(Context context) : base(context)
-//        {
-//            Clickable = true;
-//        }
-
-//        Xamarin.Forms.View _formsCell;
-//        public Xamarin.Forms.View FormsCell {
-//            get { return _formsCell; }
-//            set {
-//                if (_formsCell == value)
-//                    return;
-//                UpdateCell(value);
-//            }
-//        }
-
-//        public override bool OnTouchEvent(MotionEvent e)
-//        {
-//            return false; // pass to parent (ripple effect)
-//        }
-
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                if (_formsCell != null)
-//                {
-//                    _formsCell.PropertyChanged -= CellPropertyChanged;
-//                    _formsCell = null;
-//                }
-//                CustomCell = null;
-
-//                ViewHolder = null;
-
-//                _renderer?.View?.RemoveFromParent();
-//                _renderer?.Dispose();
-//                _renderer = null;
-//            }
-//            base.Dispose(disposing);
-//        }
-
-//        protected override void OnLayout(bool changed, int l, int t, int r, int b)
-//        {
-//            if (IsEmpty)
-//            {
-//                return;
-//            }
-
-//            double width = Context.FromPixels(r - l);
-//            double height = Context.FromPixels(b - t);
+    IPlatformViewHandler _viewHandler;
+    AView _currentView;
 
 
-//            Xamarin.Forms.Layout.LayoutChildIntoBoundingRegion(_renderer.Element, new Rectangle(0, 0, width, height));
+    public FormsViewContainer(Context context) : base(context)
+    {
+        Clickable = true;
+    }
 
-//            _renderer.UpdateLayout();
-//        }
+    View _contentView;
+    public View ContentView
+    {
+        get { return _contentView; }
+        set
+        {
+            if (_contentView == value)
+                return;
+            UpdateCell(value);
+        }
+    }
 
-//        int _heightCache;
+    public override bool OnTouchEvent(MotionEvent e)
+    {
+        return false; // pass to parent (ripple effect)
+    }
 
-//        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
-//        {
-//            int width = MeasureSpec.GetSize(widthMeasureSpec);
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (_contentView != null)
+            {
+                _contentView.PropertyChanged -= CellPropertyChanged;
+                _contentView = null;
+            }
+            CustomCell = null;
 
-//            if(IsMeasureOnce && _heightCache > 0)
-//            {
-//                SetMeasuredDimension(width, _heightCache);
-//                return;
-//            }
+            ViewHolder = null;
 
-//            SizeRequest measure = _renderer.Element.Measure(Context.FromPixels(width), double.PositiveInfinity, MeasureFlags.IncludeMargins);
-//            int height = (int)Context.ToPixels(measure.Request.Height);
+            _viewHandler?.DisconnectHandler();
+            _viewHandler = null;
+        }
+        base.Dispose(disposing);
+    }
 
-//            SetMeasuredDimension(width, height);
-//            _heightCache = height;
-//        }
+    protected override void OnLayout(bool changed, int l, int t, int r, int b)
+    {
+        if (IsEmpty)
+        {
+            return;
+        }
 
-//        public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
-//        {
-//            if (e.PropertyName == Cell.IsEnabledProperty.PropertyName)
-//            {
-//                UpdateIsEnabled();
-//            }
-//        }
+        _viewHandler.LayoutVirtualView(l,t,r,b);       
+    }
 
-//        public virtual void UpdateNativeCell()
-//        {
-//            UpdateIsEnabled();
-//        }
+    int _heightCache;
 
-//        public void UpdateIsEnabled()
-//        {
-//            Enabled = _formsCell.IsEnabled;
-//        }
+    protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        int width = MeasureSpec.GetSize(widthMeasureSpec);
 
-//        protected virtual void CreateNewRenderer(Xamarin.Forms.View cell)
-//        {
-//            _formsCell = cell;
-//            _renderer = Platform.CreateRendererWithContext(_formsCell, Context);
-//            AddView(_renderer.View);
-//            Platform.SetRenderer(_formsCell, _renderer);
+        if (IsMeasureOnce && _heightCache > 0)
+        {
+            SetMeasuredDimension(width, _heightCache);
+            return;
+        }
 
-//            _formsCell.IsPlatformEnabled = true;
-//            UpdateNativeCell();
-//        }       
+        var measure = _viewHandler.MeasureVirtualView(width, heightMeasureSpec);
+        int height = (int)measure.Height;
 
-//        public void UpdateCell(Xamarin.Forms.View cell)
-//        {
-//            if(_formsCell == cell && !CustomCell.IsForceLayout)
-//            {
-//                return;
-//            }
-//            CustomCell.IsForceLayout = false;
+        SetMeasuredDimension(width, height);
+        _heightCache = height;
+    }
 
-//            if(_formsCell != null)
-//            {
-//                _formsCell.PropertyChanged -= CellPropertyChanged;
-//            }
+    public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == CellBase.IsEnabledProperty.PropertyName)
+        {
+            UpdateIsEnabled();
+        }
+    }
 
-//            cell.PropertyChanged += CellPropertyChanged;
+    public virtual void UpdateNativeCell()
+    {
+        UpdateIsEnabled();
+    }
 
-//            if (_renderer == null)
-//            {
-//                CreateNewRenderer(cell);
-//                return;
-//            }
+    public void UpdateIsEnabled()
+    {
+        Enabled = _contentView.IsEnabled;
+    }
 
-//            var renderer = GetChildAt(0) as IVisualElementRenderer;
-//            var viewHandlerType = Registrar.Registered.GetHandlerTypeForObject(_formsCell) ?? DefaultRenderer;
-//            var reflectableType = renderer as System.Reflection.IReflectableType;
-//            var rendererType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : (renderer != null ? renderer.GetType() : typeof(System.Object));
-//            if (renderer != null && rendererType == viewHandlerType)
-//            {
-//                _formsCell = cell;
-//                _formsCell.DisableLayout = true;
-//                foreach (VisualElement c in _formsCell.Descendants())
-//                    c.DisableLayout = true;
-                    
-//                renderer.SetElement(_formsCell);
+    protected virtual void CreateNewHandler(View view)
+    {
+        _contentView = view;
+        var platformView = _contentView.ToPlatform(view.FindMauiContext());
+        _viewHandler = (IPlatformViewHandler)_contentView.Handler;
+        AddView(platformView);       
 
-//                Platform.SetRenderer(_formsCell, _renderer);
+        _contentView.IsPlatformEnabled = true;
+        UpdateNativeCell();
+    }
 
-//                _formsCell.DisableLayout = false;
-//                foreach (VisualElement c in _formsCell.Descendants())
-//                    c.DisableLayout = false;
+    public void DisconnectHandler()
+    {
+        var oldView = _currentView ?? _viewHandler.PlatformView;
+        if (oldView != null)
+            RemoveView(oldView);
 
-//                var viewAsLayout = _formsCell as Layout;
-//                if (viewAsLayout != null)
-//                    viewAsLayout.ForceLayout();
+        _contentView.Handler?.DisconnectHandler();
+    }
 
-//                UpdateNativeCell();
-//                Invalidate();
+    public void UpdateCell(View view)
+    {
+        if (_contentView == view && !CustomCell.IsForceLayout)
+        {
+            return;
+        }
+        CustomCell.IsForceLayout = false;
 
-//                return;
-//            }
+        if (_contentView != null)
+        {
+            _contentView.PropertyChanged -= CellPropertyChanged;
+        }
 
-//            RemoveView(_renderer.View);
-//            Platform.SetRenderer(_formsCell, null);
-//            _formsCell.IsPlatformEnabled = false;
-//            _renderer.View.Dispose();
+        view.PropertyChanged += CellPropertyChanged;
 
-//            _formsCell = cell;
-//            _renderer = Platform.CreateRendererWithContext(_formsCell, Context);
+        if (_viewHandler == null)
+        {
+            CreateNewHandler(view);
+            return;
+        }
 
-//            Platform.SetRenderer(_formsCell, _renderer);
-//            AddView(_renderer.View);
+        var viewHandlerType = _viewHandler.MauiContext.Handlers.GetHandlerType(view.GetType());
+        var reflectableType = _viewHandler as System.Reflection.IReflectableType;
+        var rendererType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : (_viewHandler != null ? _viewHandler.GetType() : typeof(System.Object));
+        if (_viewHandler != null && rendererType == viewHandlerType)
+        {
+            _contentView = view;
 
-//            UpdateNativeCell();
-//        }
-//    }
-//}
+            if (_viewHandler != view.Handler)
+            {
+                if (view.Handler?.PlatformView is AView oldCellView &&
+                    oldCellView.GetParent().GetParentOfType<FormsViewContainer>() is FormsViewContainer vc)
+                {
+                    vc.DisconnectHandler();
+                }
+
+                var oldView = _currentView ?? _viewHandler.PlatformView;
+                if (oldView != null)
+                    RemoveView(oldView);
+
+                _contentView.Handler?.DisconnectHandler();
+                _viewHandler.SetVirtualView(_contentView);
+                AddView(_viewHandler.PlatformView);
+            }
+
+            UpdateNativeCell();
+            Invalidate();
+
+            return;
+        }
+
+        RemoveView(_currentView ?? _viewHandler.PlatformView);
+        _contentView.Handler?.DisconnectHandler();
+        _contentView.IsPlatformEnabled = false;
+        _viewHandler.DisconnectHandler();
+
+        CreateNewHandler(view);
+    }
+
+
+}

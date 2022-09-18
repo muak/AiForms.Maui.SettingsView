@@ -472,6 +472,11 @@ public class CellBase: Element, IImageSourcePart
         IsLoading = isLoading;
     }
 
+    public void SetEnabledAppearance(bool isEnabled)
+    {
+        Handler?.Invoke(nameof(SetEnabledAppearance));
+    }
+
 #if ANDROID
     // This is used by ListView to pass data to the GetCell call
     // Ideally we can pass these as arguments to ToHandler

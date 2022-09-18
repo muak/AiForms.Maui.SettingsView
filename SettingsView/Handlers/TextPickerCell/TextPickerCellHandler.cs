@@ -3,11 +3,13 @@ namespace AiForms.Settings.Handlers;
 
 public partial class TextPickerCellHandler
 {
+    public static CommandMapper<TextPickerCell, TextPickerCellHandler> TextPickerCommandMapper = new(LabelCommandMapper);
+
     public TextPickerCellHandler() : base(TextPickerMapper)
     {
     }
 
-    public TextPickerCellHandler(IPropertyMapper mapper = null) : base(mapper ?? TextPickerMapper)
+    public TextPickerCellHandler(IPropertyMapper mapper = null, CommandMapper commandMapper = null) : base(mapper ?? TextPickerMapper, commandMapper ?? TextPickerCommandMapper)
     {
     }
 }

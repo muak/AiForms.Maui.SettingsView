@@ -57,7 +57,6 @@ public partial class SettingsView : TableView
         Model = new SettingsModel(Root);
     }
 
-
     SettingsRoot _root;
     /// <summary>
     /// Gets or sets the root.

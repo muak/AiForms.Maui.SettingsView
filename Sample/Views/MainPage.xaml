@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    xmlns:cell="clr-namespace:Sample.Views.Cells"
     x:Class="Sample.Views.MainPage"    
     Title="SettingsView.Maui">
 
@@ -68,10 +69,10 @@
             <sv:CheckboxCell Title="Checkbox" Checked="true" />
         </sv:Section>
 
-        <!--<sv:Section Title="MultiPicker" FooterText="This is a multi select picker. you are free to select items until MaxSelectedNumber.">
-            <sv:PickerCell Title="Favorites" ItemsSource="{Binding ItemsSource}" DisplayMember="Name" MaxSelectedNumber="3" 
-            SelectedItems="{Binding SelectedItems}" KeepSelectedUntilBack="true" PageTitle="select 3 items" />
-        </sv:Section>-->
+        <sv:Section Title="MultiPicker" FooterText="This is a multi select picker. you are free to select items until MaxSelectedNumber.">
+            <sv:PickerCell Title="Favorites" ItemsSource="{Binding ItemsSource}" DisplayMember="Name" MaxSelectedNumber="3" UsePickToClose="True" 
+            SelectedItems="{Binding SelectedItems}" KeepSelectedUntilBack="true" PageTitle="select 3 items" /> 
+        </sv:Section>
 
         <sv:Section Title="Picker 4 Brothers">
             <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" Unit="px" PickerTitle="Select number" />
@@ -89,9 +90,9 @@
             <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" TextAlignment="End" HintText="{Binding InputError.Value}" Keyboard="Default" />
         </sv:Section>
 
-        <!--<sv:Section>
+        <sv:Section>
             <sv:Section.HeaderView>
-                <FlexLayout Direction="Row" JustifyContent="SpaceBetween" AlignItems="End" HeightRequest="50" Padding="10,0,10,6">
+                <FlexLayout Direction="Row" JustifyContent="SpaceBetween" AlignItems="End" HeightRequest="50" Padding="10,0,10,6">                    
                     <Label Text="CustomHeaderView" TextColor="DeepSkyBlue" />
                     <ImageButton Source="icon.png" WidthRequest="20" HeightRequest="20" />
                 </FlexLayout>                
@@ -100,7 +101,7 @@
                 <Label Text="CustomFooterView. " TextColor="DeepSkyBlue" Padding="10,6,10,0" />
             </sv:Section.FooterView>
             <cell:SliderCell Value="0.5" HintText="CustomCell" />            
-        </sv:Section>-->       
+        </sv:Section>       
 
         <sv:Section Title="ButtonCell" FooterText="Change input section visibility.">
             <sv:ButtonCell Title="Toggle Section" TitleColor="{StaticResource TitleTextColor}" TitleAlignment="Center" Command="{Binding SectionToggleCommand}" />

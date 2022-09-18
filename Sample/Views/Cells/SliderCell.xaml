@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<sv:CustomCell
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    x:Class="Sample.Views.Cells.SliderCell"
+    IsSelectable="False" IsMeasureOnce="True" ShowArrowIndicator="False" x:Name="me">
+
+    <Slider Minimum="{Binding Min,Source={x:Reference me}}" Maximum="{Binding Max,Source={x:Reference me}}" Value="{Binding Value,Source={x:Reference me}}"
+            ValueChanged="OnChanged" MinimumTrackColor="Red" MaximumTrackColor="Gray" ThumbColor="Orange"
+HorizontalOptions="FillAndExpand" />
+
+</sv:CustomCell>

@@ -365,7 +365,7 @@ public class SettingsTableSource : UITableViewSource
     /// <param name="indexPath">Index path.</param>
     public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
     {
-        _settingsView.Model.RowSelected(indexPath.Section, indexPath.Row);
+        _settingsView.Model.OnRowSelected(indexPath.Section, indexPath.Row);
 
         if (tableView.CellAt(indexPath) is CellBaseView cell)
         {

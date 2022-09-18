@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<sv:CustomCell
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    x:Class="Sample.Views.Cells.MyCellA" ShowArrowIndicator="True" IsMeasureOnce="True" UseFullSize="True"
+    x:Name="me" >
+
+    <StackLayout BackgroundColor="Blue" InputTransparent="True">
+        <Label Text="{Binding Text,Source={x:Reference me}}" InputTransparent="True" HeightRequest="20" />
+        <Label Text="Hoge" />
+        <Label Text="Fuga" />
+    </StackLayout>
+
+</sv:CustomCell>

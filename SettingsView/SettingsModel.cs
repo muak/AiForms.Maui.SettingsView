@@ -11,6 +11,8 @@ public class SettingsModel
 {
     static readonly BindableProperty PathProperty = BindableProperty.Create("Path", typeof(Tuple<int, int>), typeof(CellBase), null);
 
+    public event Action<CellBase> RowSelected;
+
     SettingsRoot _root;
 
     /// <summary>
@@ -149,15 +151,17 @@ public class SettingsModel
         return _root.ElementAt(section).HeaderHeight;
     }
 
-    public void RowSelected(int section, int row)
+    public void OnRowSelected(int section, int row)
     {
         var cell = GetCell(section, row);
         cell?.OnTapped();
+        RowSelected?.Invoke(cell);
     }
 
-    public void RowSelected(CellBase cell)
+    public void OnRowSelected(CellBase cell)
     {
         cell.OnTapped();
+        RowSelected?.Invoke(cell);
     }
 
     // this method no longer uses except for iOS.CellBaseRenderer.
