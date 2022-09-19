@@ -28,7 +28,7 @@ namespace AiForms.Settings.Handlers
             handler.PlatformView?.SetEnabledAppearance((bool)param!);
         }
 
-        public CellBaseHandler(): base(BasePropertyMapper)
+        public CellBaseHandler(): base(BasePropertyMapper, BaseCommandMapper)
         {
         }
 

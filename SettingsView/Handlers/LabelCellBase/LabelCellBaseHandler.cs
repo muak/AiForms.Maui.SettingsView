@@ -5,7 +5,7 @@ namespace AiForms.Settings.Handlers
     {
         public static CommandMapper<LabelCell, LabelCellBaseHandler<TvirtualCell, TnativeCell>> LabelCommandMapper = new(BaseCommandMapper);
 
-        public LabelCellBaseHandler(): base(LabelMapper)
+        public LabelCellBaseHandler(): base(LabelMapper, LabelCommandMapper)
         {
         }
 

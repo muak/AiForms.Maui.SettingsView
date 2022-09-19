@@ -5,7 +5,7 @@ public partial class RadioCellHandler
 {
     public static CommandMapper<RadioCell, RadioCellHandler> RadioCommandMapper = new(BaseCommandMapper);
 
-    public RadioCellHandler() : base(RadioMapper)
+    public RadioCellHandler() : base(RadioMapper, RadioCommandMapper)
     {
     }
 

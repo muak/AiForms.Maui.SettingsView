@@ -5,7 +5,7 @@ public partial class CustomCellHandler
 {
     public static CommandMapper<CustomCell, CustomCellHandler> CustomCommandMapper = new(BaseCommandMapper);
 
-    public CustomCellHandler() : base(CustomMapper)
+    public CustomCellHandler() : base(CustomMapper, CustomCommandMapper)
     {
     }
 

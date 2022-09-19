@@ -5,7 +5,7 @@ public partial class DatePickerCellHandler
 {
     public static CommandMapper<CommandCell, CommandCellHandler> DatePickerCommandMapper = new(LabelCommandMapper);
 
-    public DatePickerCellHandler() : base(DatePickerMapper)
+    public DatePickerCellHandler() : base(DatePickerMapper, DatePickerCommandMapper)
     {
     }
 

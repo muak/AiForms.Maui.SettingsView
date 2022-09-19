@@ -5,7 +5,7 @@ public partial class TextPickerCellHandler
 {
     public static CommandMapper<TextPickerCell, TextPickerCellHandler> TextPickerCommandMapper = new(LabelCommandMapper);
 
-    public TextPickerCellHandler() : base(TextPickerMapper)
+    public TextPickerCellHandler() : base(TextPickerMapper, TextPickerCommandMapper)
     {
     }
 

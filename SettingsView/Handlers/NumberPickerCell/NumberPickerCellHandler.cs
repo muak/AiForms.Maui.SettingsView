@@ -5,7 +5,7 @@ public partial class NumberPickerCellHandler
 {
     public static CommandMapper<NumberPickerCell, NumberPickerCellHandler> NumberPickerCommandMapper = new(LabelCommandMapper);
 
-    public NumberPickerCellHandler() : base(NumberPickerMapper)
+    public NumberPickerCellHandler() : base(NumberPickerMapper, NumberPickerCommandMapper)
     {
     }
 

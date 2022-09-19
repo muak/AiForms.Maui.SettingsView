@@ -473,12 +473,12 @@ public class CellBaseView : UITableViewCell
     }
 
     internal void UpdateIcon()
-    {
+    {        
         if (IconView is null)
             return; // for HotReload
 
         _imageLoader?.Reset();
-
+       
         UpdateIconSize();
 
         if (IconView.Image != null)
@@ -492,9 +492,9 @@ public class CellBaseView : UITableViewCell
             //hide IconView because UIStackView Distribution won't work when a image isn't set.
             IconView.Hidden = false;
 
-            _imageLoader = new ImageSourcePartLoader(Cell.Handler, () => Cell, OnSetImageSource);
-            _imageLoader.UpdateImageSourceAsync();         
-        }
+        _imageLoader = new ImageSourcePartLoader(Cell.Handler, () => Cell, OnSetImageSource);
+        _imageLoader.UpdateImageSourceAsync();                 
+    }
         else
         {
             IconView.Hidden = true;

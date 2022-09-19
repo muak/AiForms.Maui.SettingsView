@@ -3,7 +3,7 @@ namespace AiForms.Settings.Handlers;
 
 public partial class LabelCellHandler
 {
-    public LabelCellHandler() : base(LabelMapper)
+    public LabelCellHandler() : base(LabelMapper, LabelCommandMapper)
     {
     }
 
