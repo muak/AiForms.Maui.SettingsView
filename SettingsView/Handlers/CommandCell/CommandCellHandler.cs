@@ -5,7 +5,7 @@ public partial class CommandCellHandler
 {
     public static CommandMapper<CommandCell, CommandCellHandler> CommandCommandMapper = new(LabelCommandMapper);
 
-    public CommandCellHandler() : base(CommandMapper)
+    public CommandCellHandler() : base(CommandMapper, CommandCommandMapper)
     {
     }
 

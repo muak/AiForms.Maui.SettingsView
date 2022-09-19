@@ -5,7 +5,7 @@ public partial class ButtonCellHandler
 {
     public static CommandMapper<ButtonCell, ButtonCellHandler> ButtonCommandMapper = new(BaseCommandMapper);  
 
-    public ButtonCellHandler() : base(ButtonMapper)
+    public ButtonCellHandler() : base(ButtonMapper, ButtonCommandMapper)
     {
     }
 

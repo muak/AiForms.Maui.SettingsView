@@ -5,7 +5,7 @@ public partial class EntryCellHandler
 {
     public static CommandMapper<EntryCell, EntryCellHandler> EntryCommandMapper = new(BaseCommandMapper);
 
-    public EntryCellHandler() : base(EntryMapper)
+    public EntryCellHandler() : base(EntryMapper, EntryCommandMapper)
     {
     }
 

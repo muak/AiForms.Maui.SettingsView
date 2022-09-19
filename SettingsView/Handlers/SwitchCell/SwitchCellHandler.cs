@@ -5,7 +5,7 @@ public partial class SwitchCellHandler
 {
     public static CommandMapper<SwitchCell, SwitchCellHandler> SwitchCommandMapper = new(BaseCommandMapper);
 
-    public SwitchCellHandler() : base(SwitchMapper)
+    public SwitchCellHandler() : base(SwitchMapper,SwitchCommandMapper)
     {
     }
 

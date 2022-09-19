@@ -5,7 +5,7 @@ public partial class CheckboxCellHandler
 {
     public static CommandMapper<CheckboxCell, CheckboxCellHandler> CheckboxCommandMapper = new(BaseCommandMapper);
 
-    public CheckboxCellHandler() : base(CheckboxMapper)
+    public CheckboxCellHandler() : base(CheckboxMapper, CheckboxCommandMapper)
     {
     }
 

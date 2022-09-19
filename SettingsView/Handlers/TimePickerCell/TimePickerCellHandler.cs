@@ -5,7 +5,7 @@ public partial class TimePickerCellHandler
 {
     public static CommandMapper<TimePickerCell, TimePickerCellHandler> TimePickerCommandMapper = new(LabelCommandMapper);
 
-    public TimePickerCellHandler() : base(TimePickerMapper)
+    public TimePickerCellHandler() : base(TimePickerMapper, TimePickerCommandMapper)
     {
     }
 

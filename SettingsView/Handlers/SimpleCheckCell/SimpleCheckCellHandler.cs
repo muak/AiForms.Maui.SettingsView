@@ -13,7 +13,7 @@ public partial class SimpleCheckCellHandler
 
     public static CommandMapper<SimpleCheckCell, SimpleCheckCellHandler> SimpleCheckCommandMapper = new(BaseCommandMapper);
 
-    public SimpleCheckCellHandler() : base(SimpleCheckMapper)
+    public SimpleCheckCellHandler() : base(SimpleCheckMapper, SimpleCheckCommandMapper)
     {
     }
 
