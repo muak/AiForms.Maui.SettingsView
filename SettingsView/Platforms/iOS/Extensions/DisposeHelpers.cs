@@ -5,10 +5,9 @@ namespace AiForms.Settings.Platforms.iOS;
 
 public static class DisposeHelpers
 {
-    public static Type ModalWrapper = typeof(Platform).Assembly.GetType("Microsoft.Maui.Controls.Platform.ModalWrapper");
-    public static MethodInfo ModalWrapperDispose = ModalWrapper.GetMethod("Dispose");
-    public static MethodInfo ElementDescendants = typeof(Element).GetMethod("Descendants", System.Reflection.BindingFlags.NonPublic);
-
+    static Type ModalWrapper = typeof(Element).Assembly.GetType("Microsoft.Maui.Controls.Platform.ModalWrapper");
+    static MethodInfo ModalWrapperDispose = ModalWrapper.GetMethod("Dispose");
+    static MethodInfo ElementDescendants = typeof(Element).GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(x => x.Name == "Descendants" && !x.IsGenericMethod);
 
     public static void DisposeModalAndChildHandlers(this Microsoft.Maui.IElement view)
     {
