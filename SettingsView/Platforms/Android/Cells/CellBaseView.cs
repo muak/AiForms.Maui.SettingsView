@@ -120,7 +120,7 @@ public class CellBaseView : ARelativeLayout
     protected virtual void CreateContentView()
     {
         var layoutInflater = (LayoutInflater)_Context.GetSystemService(Context.LayoutInflaterService);
-        var contentView = layoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
+        var contentView = layoutInflater.Inflate(Resource.Layout.cellbaseview, this, true);
 
         contentView.LayoutParameters = new ViewGroup.LayoutParams(-1, -1);
 

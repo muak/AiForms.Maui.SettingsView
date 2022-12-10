@@ -164,10 +164,10 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
         switch ((ViewType)viewType)
         {
             case ViewType.TextHeader:
-                viewHolder = new HeaderViewHolder(inflater.Inflate(Resource.Layout.HeaderCell, parent, false));
+                viewHolder = new HeaderViewHolder(inflater.Inflate(Resource.Layout.headercell, parent, false));
                 break;
             case ViewType.TextFooter:
-                viewHolder = new FooterViewHolder(inflater.Inflate(Resource.Layout.FooterCell, parent, false));
+                viewHolder = new FooterViewHolder(inflater.Inflate(Resource.Layout.footercell, parent, false));
                 break;
             case ViewType.CustomHeader:
                 var hContainer = new HeaderFooterContainer(_context);
@@ -178,7 +178,7 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
                 viewHolder = new CustomFooterViewHolder(fContainer);
                 break;
             default:
-                viewHolder = new ContentBodyViewHolder(inflater.Inflate(Resource.Layout.ContentCell, parent, false));
+                viewHolder = new ContentBodyViewHolder(inflater.Inflate(Resource.Layout.contentcell, parent, false));
                 viewHolder.ItemView.SetOnClickListener(this);
                 viewHolder.ItemView.SetOnLongClickListener(this);
                 break;
