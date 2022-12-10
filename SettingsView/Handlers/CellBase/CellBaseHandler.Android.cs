@@ -10,9 +10,7 @@ using AView = Android.Views.View;
 
 namespace AiForms.Settings.Handlers
 {
-    public partial class CellBaseHandler<TvirtualCell, TnativeCell> : ElementHandler<TvirtualCell, TnativeCell>, IRegisterable
-        where TvirtualCell : CellBase
-        where TnativeCell : CellBaseView
+    public partial class CellBaseHandler<TvirtualCell, TnativeCell> 
     {
         public static IPropertyMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>> BasePropertyMapper =
             new PropertyMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>>(ElementMapper)

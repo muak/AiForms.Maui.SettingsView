@@ -20,7 +20,11 @@ Add platform MacCatalyst
         <tags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>        
     </metadata>
-    <files>        
+    <files>
+        <!-- NET6 -->
+        <file src="artifacts/net6.0/SettingsView.dll" target="lib/net6.0" />
+        <file src="artifacts/net6.0/SettingsView.xml" target="lib/net6.0" />
+        <file src="artifacts/net6.0/SettingsView.pdb" target="lib/net6.0" />
         <!-- Android -->
         <file src="artifacts/net6.0-android/SettingsView.dll" target="lib/net6.0-android27.0" />
         <file src="artifacts/net6.0-android/SettingsView.xml" target="lib/net6.0-android27.0" />
