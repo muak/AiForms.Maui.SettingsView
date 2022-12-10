@@ -8,15 +8,18 @@ using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 #if IOS || MACCATALYST
 using CellBaseView = AiForms.Settings.Platforms.iOS.CellBaseView;
-#elif ANDROID
+#elif __ANDROID__
 using CellBaseView = AiForms.Settings.Platforms.Droid.CellBaseView;
-#else
-using CellBaseView = System.Object;
+#elif NET6_0_OR_GREATER
+using CellBaseView = AiForms.Settings.Handlers.CellBaseView;
 #endif
+
 
 namespace AiForms.Settings.Handlers
 {
-    public partial class CellBaseHandler<TvirtualCell, TnativeCell>
+    public partial class CellBaseHandler<TvirtualCell, TnativeCell> : ElementHandler<TvirtualCell, TnativeCell>, IRegisterable
+        where TvirtualCell : CellBase
+        where TnativeCell : CellBaseView
     {
         public static CommandMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>> BaseCommandMapper = new CommandMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>>
         {
@@ -75,7 +78,7 @@ namespace AiForms.Settings.Handlers
                     virtualCell.Section.PropertyChanged -= nativeCell.SectionPropertyChanged;
                 }
             }
-        }          
+        }
     }
 }
 
