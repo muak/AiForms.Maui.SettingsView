@@ -15,20 +15,24 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-Preview version.
+Add platform MacCatalyst
         </releaseNotes>
         <tags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>        
     </metadata>
     <files>        
         <!-- Android -->
-        <file src="artifacts/net6.0-android/SettingsView.dll" target="lib/net6.0-android26.0" />
-        <file src="artifacts/net6.0-android/SettingsView.xml" target="lib/net6.0-android26.0" />
-        <file src="artifacts/net6.0-android/SettingsView.pdb" target="lib/net6.0-android26.0" />
-		<file src="artifacts/net6.0-android/SettingsView.aar" target="lib/net6.0-android26.0" />
+        <file src="artifacts/net6.0-android/SettingsView.dll" target="lib/net6.0-android27.0" />
+        <file src="artifacts/net6.0-android/SettingsView.xml" target="lib/net6.0-android27.0" />
+        <file src="artifacts/net6.0-android/SettingsView.pdb" target="lib/net6.0-android27.0" />
+		<file src="artifacts/net6.0-android/SettingsView.aar" target="lib/net6.0-android27.0" />
         <!-- iOS -->
-        <file src="artifacts/net6.0-ios/SettingsView.dll" target="lib/net6.0-ios13.0" />
-        <file src="artifacts/net6.0-ios/SettingsView.xml" target="lib/net6.0-ios13.0" />
-        <file src="artifacts/net6.0-ios/SettingsView.pdb" target="lib/net6.0-ios13.0" />
+        <file src="artifacts/net6.0-ios/SettingsView.dll" target="lib/net6.0-ios14.2" />
+        <file src="artifacts/net6.0-ios/SettingsView.xml" target="lib/net6.0-ios14.2" />
+        <file src="artifacts/net6.0-ios/SettingsView.pdb" target="lib/net6.0-ios14.2" />
+        <!-- MacCatalyst -->
+        <file src="artifacts/net6.0-maccatalyst/SettingsView.dll" target="lib/net6.0-maccatalyst14.2" />
+        <file src="artifacts/net6.0-maccatalyst/SettingsView.xml" target="lib/net6.0-maccatalyst14.2" />
+        <file src="artifacts/net6.0-maccatalyst/SettingsView.pdb" target="lib/net6.0-maccatalyst14.2" />
     </files>
 </package>

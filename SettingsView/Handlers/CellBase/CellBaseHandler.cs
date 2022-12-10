@@ -6,7 +6,7 @@ using AiForms.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-#if IOS
+#if IOS || MACCATALYST
 using CellBaseView = AiForms.Settings.Platforms.iOS.CellBaseView;
 #elif ANDROID
 using CellBaseView = AiForms.Settings.Platforms.Droid.CellBaseView;

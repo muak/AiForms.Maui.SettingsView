@@ -1,18 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
+		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
 		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
+		<SingleProject>false</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">27.0</SupportedOSPlatformVersion>
 		<RootNamespace>AiForms.Settings</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
-	  <EnableCodeSigning>false</EnableCodeSigning>
+	  <EnableCodeSigning>False</EnableCodeSigning>
+	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 	  <WarningLevel>4</WarningLevel>
@@ -28,24 +30,24 @@
 	  <EnableCodeSigning>false</EnableCodeSigning>
 	</PropertyGroup>
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) != true">
-	  <Compile Remove="**\**\*.Android.cs" />
+		<Compile Remove="**\**\*.Android.cs" />
 	  <None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	  <Compile Remove="**\Android\**\*.cs" />
+		<Compile Remove="**\Android\**\*.cs" />
 	  <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) != true AND $(TargetFramework.StartsWith('net6.0-maccatalyst')) != true">
-	  <Compile Remove="**\**\*.iOS.cs" />
+		<Compile Remove="**\**\*.iOS.cs" />
 	  <None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	  <Compile Remove="**\iOS\**\*.cs" />
+		<Compile Remove="**\iOS\**\*.cs" />
 	  <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) == true">
-		<AndroidResource Include="**\Resources\**\*.axml" Generator="MSBuild:UpdateGeneratedFiles" />
-		<AndroidResource Include="**\Resources\**\*.xml" Generator="MSBuild:UpdateGeneratedFiles" />
-		<AndroidResource Include="**\Resources\**\*.png" Generator="MSBuild:UpdateGeneratedFiles" />
-	  </ItemGroup>
+	  <AndroidResource Include="**\Resources\**\*.axml" Generator="MSBuild:UpdateGeneratedFiles" />
+	  <AndroidResource Include="**\Resources\**\*.xml" Generator="MSBuild:UpdateGeneratedFiles" />
+      <AndroidResource Include="**\Resources\**\*.png" Generator="MSBuild:UpdateGeneratedFiles" />  
+	</ItemGroup>
 
 	
 	<ItemGroup>

@@ -483,7 +483,7 @@ public class CellBase: Element, IImageSourcePart
     // But we'll do that in a different smaller more targeted PR
     internal Android.Views.View ConvertView { get; set; }
 
-#elif IOS
+#elif IOS || MACCATALYST
 	internal UIKit.UITableViewCell ReusableCell { get; set; }
 	internal UIKit.UITableView TableView { get; set; }
 #endif
