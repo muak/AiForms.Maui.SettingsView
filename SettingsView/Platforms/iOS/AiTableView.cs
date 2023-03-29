@@ -113,6 +113,7 @@ public class AiTableView: UITableView, IUITableViewDragDelegate, IUITableViewDro
                 BeginUpdates();
                 ReloadSections(NSIndexSet.FromIndex(e.OldStartingIndex), UITableViewRowAnimation.Automatic);
                 EndUpdates();
+
                 break;
 
             case NotifyCollectionChangedAction.Move:
@@ -202,7 +203,7 @@ public class AiTableView: UITableView, IUITableViewDragDelegate, IUITableViewDro
                 ReloadData();
                 return;
         }
-    }
+    }   
 
     internal void UpdateSectionVisible(Section section)
     {
@@ -218,6 +219,15 @@ public class AiTableView: UITableView, IUITableViewDragDelegate, IUITableViewDro
         var rowIndex = section.IndexOf(cell);
         BeginUpdates();
         ReloadRows(GetPaths(secIndex, rowIndex, 1), UITableViewRowAnimation.Automatic);
+        EndUpdates();
+    }
+
+    internal void ReloadCell(CellBase cell)
+    {
+        var secIndex = _model.GetSectionIndex(cell.Section);
+        var rowIndex = cell.Section.IndexOf(cell);
+        BeginUpdates();
+        ReloadRows(GetPaths(secIndex, rowIndex, 1), UITableViewRowAnimation.None);
         EndUpdates();
     }
 

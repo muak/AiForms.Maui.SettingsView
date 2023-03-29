@@ -101,10 +101,30 @@
 	  <None Remove="Handlers\SimpleCheckCell\" />
 	  <None Remove="Pages\" />
 	  <None Remove="Handlers\RadioCell\RadioCellHandler.Net.c" />
+	  <None Remove="Platforms\Android\Resources\layout\headercell.axml" />
+	  <None Remove="Platforms\Android\Resources\layout\footercell.axml" />
+	  <None Remove="Platforms\Android\Resources\layout\cellbaseview.axml" />
+	  <None Remove="Platforms\Android\Resources\layout\contentcell.axml" />
+	  <None Remove="Platforms\Android\Resources\drawable\divider.xml" />
+	  <None Remove="Platforms\Android\Resources\drawable\ic_navigate_next.xml" />
+	  <None Remove="Platforms\Android\Resources\values\Strings.xml" />
+	  <None Remove="Platforms\Android\Resources\values\styles.xml" />
+	  <None Remove="Platforms\Android\Resources\values\attrs.xml" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Update="Pages\PickerPage.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
+	</ItemGroup>
+	<ItemGroup>
+	  <AndroidResource Include="Platforms\Android\Resources\layout\headercell.axml" />
+	  <AndroidResource Include="Platforms\Android\Resources\layout\footercell.axml" />
+	  <AndroidResource Include="Platforms\Android\Resources\layout\cellbaseview.axml" />
+	  <AndroidResource Include="Platforms\Android\Resources\layout\contentcell.axml" />
+	  <AndroidResource Include="Platforms\Android\Resources\drawable\divider.xml" />
+	  <AndroidResource Include="Platforms\Android\Resources\drawable\ic_navigate_next.xml" />
+	  <AndroidResource Include="Platforms\Android\Resources\values\Strings.xml" />
+	  <AndroidResource Include="Platforms\Android\Resources\values\styles.xml" />
+	  <AndroidResource Include="Platforms\Android\Resources\values\attrs.xml" />
 	</ItemGroup>
 </Project>

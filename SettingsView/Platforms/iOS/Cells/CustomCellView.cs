@@ -62,7 +62,7 @@ public class CustomCellView: CellBaseView
             return; // for HotReload;
 
         _coreView.CustomCell = CustomCell;
-        _coreView.UpdateCell(CustomCell.Content, tableView);
+        _coreView.UpdateCell(CustomCell.Content, tableView);        
     }
 
 

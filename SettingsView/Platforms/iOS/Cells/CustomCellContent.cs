@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using AiForms.Settings.Extensions;
-using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Platform;
 using UIKit;
 
@@ -11,7 +14,7 @@ namespace AiForms.Settings.Platforms.iOS;
 [Foundation.Preserve(AllMembers = true)]
 public class CustomCellContent: UIView
 {
-    WeakReference<IPlatformViewHandler> _handlerRef;
+    static MethodInfo ElementDescendantsInfo = typeof(Element).GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(x => x.Name == "Descendants" && !x.IsGenericMethod);
     bool _disposed;
     NSLayoutConstraint _heightConstraint;
     View _virtualCell;
@@ -20,6 +23,7 @@ public class CustomCellContent: UIView
     double _lastMeasureWidth = -9999d;
     double _lastMeasureHeight = -9999d;
     IMauiContext _mauiContext => _virtualCell.FindMauiContext();
+    UITableView _tableView;
 
     public CustomCellContent()
     {
@@ -45,14 +49,15 @@ public class CustomCellContent: UIView
             _heightConstraint?.Dispose();
             _heightConstraint = null;
 
-            IPlatformViewHandler handler = null;
-            if (_handlerRef != null && _handlerRef.TryGetTarget(out handler) && handler.VirtualView != null)
+
+            if(_virtualCell.Handler is IPlatformViewHandler handler)
             {
                 handler.VirtualView.DisposeModalAndChildHandlers();
-                _handlerRef = null;
+                handler?.DisconnectHandler();
             }
-            handler?.DisconnectHandler();
+            
             _virtualCell = null;
+            _tableView = null;
         }
 
         _disposed = true;
@@ -60,10 +65,7 @@ public class CustomCellContent: UIView
         base.Dispose(disposing);
     }
 
-    private void OnMeasureInvalidated(object sender, EventArgs e)
-    {
-        SetNeedsLayout();
-    }
+    
 
     public virtual void UpdateNativeCell()
     {
@@ -83,111 +85,189 @@ public class CustomCellContent: UIView
         UserInteractionEnabled = _virtualCell.IsEnabled;
     }
 
-    public virtual void UpdateCell(View cell, UITableView tableView)
+    public virtual void UpdateCell(View newCell, UITableView tableView)
     {
-        if (_virtualCell == cell && !CustomCell.IsForceLayout)
-        {
-            return;
-        }
+        _tableView = tableView;       
 
         var oldCell = _virtualCell;
+        // If oldCell and newCell are the same
+        if (oldCell == newCell)
+        {            
+            if (!CustomCell.IsForceLayout)
+            {
+                // do nothing.
+                return;
+            }
+            CustomCell.IsForceLayout = false;
+        }
+
 
         if (oldCell != null)
         {
-            oldCell.Handler?.DisconnectHandler();
             oldCell.PropertyChanged -= CellPropertyChanged;
             oldCell.MeasureInvalidated -= OnMeasureInvalidated;
+            // Delete previous child element
+            foreach (var subView in Subviews)
+            {
+                subView.RemoveFromSuperview();
+            }
+            oldCell.MeasureInvalidated -= OnMeasureInvalidated;
+            foreach (var child in CustomCellContent.ElementDescendants(oldCell))
+            {
+                child.MeasureInvalidated -= OnMeasureInvalidated;
+            }
         }
 
-        _virtualCell = cell;
-        _virtualCell.PropertyChanged += CellPropertyChanged;
-
         IPlatformViewHandler handler;
-        if (_handlerRef == null || !_handlerRef.TryGetTarget(out handler))
+        if (newCell.Handler != null)
         {
-            handler = GetNewHandler();
+            // TODO:
+            // Currently, the performance is not good because the number of
+            // NativieView is kept as many as the number of Cells. To improve this,
+            // it is necessary to virtualize the Content part of CustomCell as well.
+            // This can probably be achieved by replacing the Handler and
+            // resetting the VirtualView.
+
+            // If it has already been generated, use it as is.
+            handler = newCell.Handler as IPlatformViewHandler;
+            // If the incoming Cell belongs to another parent, peel it off.
+            handler.PlatformView?.RemoveFromSuperview();            
         }
         else
         {
-            if (CustomCell.IsForceLayout)
-            {
-                handler.PlatformView.RemoveFromSuperview();
-                handler.DisposeHandlersAndChildren();                
-                handler = GetNewHandler();
-                CustomCell.IsForceLayout = false;
-            }
-
-            var viewHandlerType = _mauiContext.Handlers.GetHandlerType(_virtualCell.GetType());
-            var reflectableType = handler as System.Reflection.IReflectableType;
-            var handlerType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : (handler != null ? handler.GetType() : typeof(System.Object));
-
-            if (handlerType == viewHandlerType)
-            {
-                handler.SetVirtualView(this._virtualCell);
-            }
-            else
-            {
-                //when cells are getting reused the element could be already set to another cell
-                //so we should dispose based on the renderer and not the renderer.Element
-                handler.DisposeHandlersAndChildren();
-                handler = GetNewHandler();
-            }
+            // If Handler is not generated, generate it.            
+            handler = newCell.ToHandler(newCell.FindMauiContext());
         }
 
-        _virtualCell.MeasureInvalidated += OnMeasureInvalidated;
+        _virtualCell = newCell;
+        _virtualCell.PropertyChanged += CellPropertyChanged;
+        
+        var viewHandlerType = _mauiContext.Handlers.GetHandlerType(_virtualCell.GetType());
+        var reflectableType = handler as System.Reflection.IReflectableType;
+        var handlerType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : (handler != null ? handler.GetType() : typeof(System.Object));
+
+        if (handlerType == viewHandlerType)
+        {
+            handler.SetVirtualView(this._virtualCell);
+        }
+        else
+        {
+            //when cells are getting reused the element could be already set to another cell
+            //so we should dispose based on the renderer and not the renderer.Element
+            handler.DisposeHandlersAndChildren();
+            handler = _virtualCell.ToHandler(_virtualCell.FindMauiContext());
+        }
+
 
         if (!CustomCell.IsMeasureOnce || tableView.Frame.Width != _lastFrameWidth)
         {
             _lastFrameWidth = tableView.Frame.Width;
             var height = double.PositiveInfinity;
-            var width = tableView.Frame.Width - (CustomCell.UseFullSize ? 0 : 32); // CellBaseView layout margin
-            var result = handler.VirtualView.Measure(tableView.Frame.Width, height);
-            _lastMeasureWidth = result.Width;
+
+            var accessoryWidth = CustomCell.ShowArrowIndicator ? 27 : 0;
+            var width = tableView.Frame.Width - (CustomCell.UseFullSize ? accessoryWidth : 32); // CellBaseView layout margin
+            var result = _virtualCell.Measure(tableView.Frame.Width, height,MeasureFlags.IncludeMargins);
+            _lastMeasureWidth = result.Request.Width;
             if (_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
             {
                 _lastMeasureWidth = width;
             }
-            _lastMeasureHeight = result.Height;
-
-            if (_heightConstraint != null)
-            {
-                _heightConstraint.Active = false;
-                _heightConstraint?.Dispose();
-            }
-
-            _heightConstraint = handler.PlatformView.HeightAnchor.ConstraintEqualTo((NFloat)_lastMeasureHeight);
-            _heightConstraint.Priority = 999f;
-            _heightConstraint.Active = true;
-
-            handler.PlatformView.UpdateConstraintsIfNeeded();
+            _lastMeasureHeight = result.Request.Height;
         }
 
-        //Layout.LayoutChildIntoBoundingRegion(_virtualCell, new Rectangle(0, 0, _lastMeasureWidth, _lastMeasureHeight));
+        // Add PlatformView as a child
+        ArrangeSubView(handler);
 
         UpdateNativeCell();
+
+        SetNeedsLayout();
+
+        _virtualCell.MeasureInvalidated += OnMeasureInvalidated;
+        foreach (var child in CustomCellContent.ElementDescendants(_virtualCell))
+        {
+            // Also detects changes in the size of descendant elements
+            child.MeasureInvalidated += OnMeasureInvalidated;
+        }
+    }    
+
+    private void OnMeasureInvalidated(object sender, EventArgs e)
+    {
+        if(_tableView != null)
+        {
+            ForceLayout(_tableView, _virtualCell.Handler as IPlatformViewHandler);            
+        }
     }
 
-
-    protected virtual IPlatformViewHandler GetNewHandler()
+    void ForceLayout(UITableView tableView, IPlatformViewHandler handler)
     {
-        if(_virtualCell == null)
+        _lastFrameWidth = tableView.Frame.Width;
+        var height = double.PositiveInfinity;
+
+        var accessoryWidth = CustomCell.ShowArrowIndicator ? 27 : 0;
+        var width = tableView.Frame.Width - (CustomCell.UseFullSize ? accessoryWidth : 32); // CellBaseView layout margin
+        var result = _virtualCell.Measure(tableView.Frame.Width, height, MeasureFlags.IncludeMargins);
+        _lastMeasureWidth = result.Request.Width;
+        if (_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
         {
-            throw new InvalidOperationException("CustomCell must have a view");
+            _lastMeasureWidth = width;
+        }
+        _lastMeasureHeight = result.Request.Height;
+
+        if (_heightConstraint != null)
+        {
+            _heightConstraint.Active = false;
+            _heightConstraint.Priority = 1f;
+            _heightConstraint?.Dispose();
         }
 
-        var newHandler = _virtualCell.ToHandler(_virtualCell.FindMauiContext());
-        _handlerRef = new WeakReference<IPlatformViewHandler>(newHandler);
-        AddSubview(newHandler.PlatformView);
+        var native = handler.PlatformView;
 
-        var native = newHandler.PlatformView;
+        _heightConstraint = native.HeightAnchor.ConstraintEqualTo((NFloat)_lastMeasureHeight);
+        _heightConstraint.Priority = 999f;
+        _heightConstraint.Active = true;
+
+        _virtualCell.Arrange(new Rect(0, 0, _lastMeasureWidth, _lastMeasureHeight));
+
+        native.SetNeedsUpdateConstraints();
+        native.UpdateConstraintsIfNeeded();
+        SetNeedsLayout();
+
+        tableView.BeginUpdates();
+        tableView.EndUpdates();
+    }
+
+    void ArrangeSubView(IPlatformViewHandler handler)
+    {
+        var native = handler.PlatformView;
+        AddSubview(native);
+        
         native.TranslatesAutoresizingMaskIntoConstraints = false;
+
+        if (_heightConstraint != null)
+        {
+            _heightConstraint.Active = false;
+            _heightConstraint.Priority = 1f;            
+            _heightConstraint?.Dispose();
+            native.SetNeedsUpdateConstraints();
+            native.UpdateConstraintsIfNeeded();
+        }
+
+        _heightConstraint = native.HeightAnchor.ConstraintEqualTo((NFloat)_lastMeasureHeight);
+        _heightConstraint.Priority = 999f;
+        _heightConstraint.Active = true;        
 
         native.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
         native.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
         native.BottomAnchor.ConstraintEqualTo(BottomAnchor).Active = true;
         native.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
 
-        return newHandler;
+        native.SetNeedsUpdateConstraints();
+        native.UpdateConstraintsIfNeeded();
+    }
+
+    static IEnumerable<VisualElement> ElementDescendants(Element element)
+    {
+        return (ElementDescendantsInfo.Invoke(element, new object[] { }) as IEnumerable<Element>).OfType<VisualElement>();
     }
 }
 

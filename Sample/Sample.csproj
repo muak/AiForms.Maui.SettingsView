@@ -33,13 +33,10 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 		<CodesignKey>iPhone Developer</CodesignKey>
-		<EnableCodeSigning>False</EnableCodeSigning>
 		<MtouchLink>None</MtouchLink>
 		<CreatePackage>false</CreatePackage>
-		<CodesignProvision>WildcardDev</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
-	  <EnableCodeSigning>False</EnableCodeSigning>
 	  <CodesignKey>iPhone Developer</CodesignKey>
 	  <MtouchDebug>true</MtouchDebug>
 	  <!--<CodesignProvision>自動</CodesignProvision>-->
