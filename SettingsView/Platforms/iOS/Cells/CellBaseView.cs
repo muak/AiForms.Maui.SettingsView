@@ -343,6 +343,15 @@ public class CellBaseView : UITableViewCell
         DescriptionLabel.Text = Cell.Description;
         //layout break because of StackView spacing.DescriptionLabel hidden to fix it. 
         DescriptionLabel.Hidden = string.IsNullOrEmpty(DescriptionLabel.Text);
+
+        if (CellParent.HasUnevenRows)
+        {
+            if (CellParent.Handler.PlatformView is AiTableView tv)
+            {                
+                tv.BeginUpdates();
+                tv.EndUpdates();                
+            }
+        }       
     }
 
     internal void UpdateDescriptionFont()

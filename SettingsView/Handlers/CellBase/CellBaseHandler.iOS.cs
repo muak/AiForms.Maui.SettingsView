@@ -66,6 +66,16 @@ namespace AiForms.Settings.Handlers
             return GetCell(VirtualView, reusableCell, tv);
         }
 
+        protected override void DisconnectHandler(TnativeCell platformView)
+        {
+            base.DisconnectHandler(platformView);
+        }
+
+        protected override void ConnectHandler(TnativeCell platformView)
+        {
+            base.ConnectHandler(platformView);
+        }
+
         /// <summary>
         /// Gets the cell.
         /// </summary>

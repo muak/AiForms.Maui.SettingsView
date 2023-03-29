@@ -178,7 +178,7 @@ public partial class SettingsView : TableView
     {
         if (e.NewItems != null)
         {
-            foreach(var cell in e.NewItems.Cast<Cell>())
+            foreach(var cell in e.NewItems.Cast<CellBase>())
             {
                 cell.Parent = this;
             }            

@@ -62,23 +62,27 @@ public class SettingsTableSource : UITableViewSource
     /// <param name="indexPath">Index path.</param>
     public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
     {
-        //get forms cell
+        //get Maui cell
         var cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
 
         var id = cell.GetType().FullName;
-        //get recycle cell
+        //get native recycle cell
         var reusableCell = tableView.DequeueReusableCell(id);
 
-        cell.Handler?.DisconnectHandler();
         if(cell.Handler != null)
         {
             _cellHandlers.Remove(cell.Handler);
+            // disconnect old nativeview;
+            cell.Handler.DisconnectHandler();
+            cell.Handler = null;
         }
         
         cell.ReusableCell = reusableCell;
         cell.TableView = tableView;
 
+        // connect the next cell to the reusableNativeView or a new nativeView
         var handler = cell.ToHandler(cell.FindMauiContext());
+
         _cellHandlers.Add(handler);
 
         var platformCell = handler.PlatformView as CellBaseView;
