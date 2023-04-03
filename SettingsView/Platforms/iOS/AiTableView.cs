@@ -63,7 +63,7 @@ public class AiTableView: UITableView, IUITableViewDragDelegate, IUITableViewDro
             _settingsView = null;
         }
         base.Dispose(disposing);
-    }
+    }   
 
     void DisposeSubviews(UIView view)
     {

@@ -103,7 +103,7 @@ public class SettingsTableSource : UITableViewSource
         }
 
         return platformCell;           
-    }
+    }    
 
     /// <summary>
     /// Gets the height for row.

@@ -22,37 +22,44 @@ public partial class EntryCellHandler : CellBaseHandler<EntryCell, EntryCellView
 
     private static void MapValueText(EntryCellHandler handler, EntryCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateValueText();
     }    
 
     private static void MapValueTextFont(EntryCellHandler handler, EntryCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateValueTextFont();
         handler.PlatformView.UpdateLayout();
     }
 
     private static void MapValueTextColor(EntryCellHandler handler, EntryCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateValueTextColor();
     }
 
     private static void MapKeyboard(EntryCellHandler handler, EntryCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateKeyboard();
     }
 
     private static void MapPlaceholder(EntryCellHandler handler, EntryCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdatePlaceholder();
     }    
 
     private static void MapTextAlignment(EntryCellHandler handler, EntryCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateTextAlignment();
     }
 
     private static void MapIsPassword(EntryCellHandler handler, EntryCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateIsPassword();
     }
 }
