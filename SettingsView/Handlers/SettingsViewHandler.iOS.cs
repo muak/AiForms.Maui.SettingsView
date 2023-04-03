@@ -84,6 +84,7 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         _insetTracker?.Dispose();
         _insetTracker = null;
 
+        _tableview?.Dispose();
         _tableview = null;
 
         base.DisconnectHandler(platformView);
