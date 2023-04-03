@@ -60,8 +60,6 @@ namespace AiForms.Settings.Handlers
         {
             var reusableCell = VirtualView.ReusableCell;
             var tv = VirtualView.TableView;
-            VirtualView.ReusableCell = null;
-            VirtualView.TableView = null;
 
             return GetCell(VirtualView, reusableCell, tv);
         }

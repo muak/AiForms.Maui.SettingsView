@@ -577,6 +577,7 @@ public class CellBaseView : UITableViewCell
 
             if(_cell != null)
             {
+                CellParent.PropertyChanged -= ParentPropertyChanged;
                 _cell.PropertyChanged -= CellPropertyChanged;
                 if (_cell.Section != null)
                 {
@@ -588,11 +589,6 @@ public class CellBaseView : UITableViewCell
                 //CellRenderer.SetRealCell(_cell, null);
                 _cell = null;
             }
-           
-            CellParent.PropertyChanged -= ParentPropertyChanged;
-
-            
-
 
             SelectedBackgroundView?.Dispose();
             SelectedBackgroundView = null;

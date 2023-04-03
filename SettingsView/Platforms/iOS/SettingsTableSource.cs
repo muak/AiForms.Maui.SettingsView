@@ -385,6 +385,16 @@ public class SettingsTableSource : UITableViewSource
     protected override void Dispose(bool disposing)
     {
         if (!_disposed){
+
+            foreach(var section in _settingsView.Root)
+            {
+                foreach(var cell in section)
+                {
+                    cell.ReusableCell = null;
+                    cell.TableView = null;
+                }
+            }
+
             foreach(var handler in _cellHandlers)
             {
                 handler.DisconnectHandler();
