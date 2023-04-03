@@ -88,8 +88,10 @@ internal class FormsViewContainer : FrameLayout
             return;
         }
 
-        var measure = _viewHandler.MeasureVirtualView(width, heightMeasureSpec);
-        int height = (int)measure.Height;
+        var size = _viewHandler.VirtualView.Measure(width, double.PositiveInfinity);
+        // This way can't measure correctly.
+        //var measure = _viewHandler.MeasureVirtualView(width, heightMeasureSpec);
+        int height = (int)Context.ToPixels(size.Height);
 
         SetMeasuredDimension(width, height);
         _heightCache = height;
