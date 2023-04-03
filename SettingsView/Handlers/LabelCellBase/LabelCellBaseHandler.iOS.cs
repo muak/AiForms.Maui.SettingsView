@@ -18,11 +18,13 @@ public partial class LabelCellBaseHandler<TvirtualCell, TnativeCell>
 
     private static void MapValueTextColor(LabelCellBaseHandler<TvirtualCell, TnativeCell> handler, LabelCell cell)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateValueTextColor();
     }
 
     private static void MapValueText(LabelCellBaseHandler<TvirtualCell, TnativeCell> handler, LabelCell cell)
     {
+        if (handler.IsDisconnect) return;
         switch (cell)
         {
             // disabled ValueTextMapper if cell is PickerCell.
@@ -38,6 +40,7 @@ public partial class LabelCellBaseHandler<TvirtualCell, TnativeCell>
 
     private static void MapValueTextFont(LabelCellBaseHandler<TvirtualCell, TnativeCell> handler, LabelCell cell)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateValueTextFont();
         handler.PlatformView.UpdateLayout();
     }

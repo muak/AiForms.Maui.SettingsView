@@ -12,6 +12,7 @@ public partial class SimpleCheckCellHandler : CellBaseHandler<SimpleCheckCell, S
 
     private static void MapChecked(SimpleCheckCellHandler handler, SimpleCheckCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateChecked();
     }
 }

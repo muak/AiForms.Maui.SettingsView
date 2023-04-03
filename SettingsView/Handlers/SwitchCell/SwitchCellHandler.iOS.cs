@@ -14,11 +14,13 @@ public partial class SwitchCellHandler : CellBaseHandler<SwitchCell, SwitchCellV
 
     private static void MapAccentColor(SwitchCellHandler handler, SwitchCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateAccentColor();
     }
 
     private static void MapOn(SwitchCellHandler handler, SwitchCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateOn();
     }
 }

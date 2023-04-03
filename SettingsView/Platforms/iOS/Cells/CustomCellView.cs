@@ -59,7 +59,13 @@ public class CustomCellView: CellBaseView
     internal virtual void UpdateContent(UITableView tableView)
     {
         if (_coreView is null)
+        {
             return; // for HotReload;
+        }
+        if(tableView is null)
+        {
+            return;
+        }
 
         _coreView.CustomCell = CustomCell;
         _coreView.UpdateCell(CustomCell.Content, tableView);        

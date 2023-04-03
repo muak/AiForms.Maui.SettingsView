@@ -15,12 +15,14 @@ public partial class ButtonCellHandler : CellBaseHandler<ButtonCell, ButtonCellV
 
     private static void MapTitleAlignment(ButtonCellHandler handler, ButtonCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateTitleAlignment();
     }
 
-    private static void MapCommand(ButtonCellHandler handoer, ButtonCell arg2)
+    private static void MapCommand(ButtonCellHandler handler, ButtonCell arg2)
     {
-        handoer.PlatformView.UpdateCommand();
+        if (handler.IsDisconnect) return;
+        handler.PlatformView.UpdateCommand();
     }
 }
 

@@ -13,6 +13,7 @@ public partial class RadioCellHandler : CellBaseHandler<RadioCell, RadioCellView
 
     private static void MapAccentColor(RadioCellHandler handler, RadioCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateAccentColor();
     }
 }

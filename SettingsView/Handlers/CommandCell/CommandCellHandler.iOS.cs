@@ -14,6 +14,7 @@ public partial class CommandCellHandler: LabelCellBaseHandler<CommandCell, Comma
 
     private static void MapCommand(CommandCellHandler handler, CommandCell cell)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateCommand();
     }
 }

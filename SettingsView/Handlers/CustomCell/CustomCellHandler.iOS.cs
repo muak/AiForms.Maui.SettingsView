@@ -14,6 +14,7 @@ public partial class CustomCellHandler : CellBaseHandler<CustomCell, CustomCellV
 
     private static void MapCommand(CustomCellHandler handler, CustomCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateCommand();
     }
 }

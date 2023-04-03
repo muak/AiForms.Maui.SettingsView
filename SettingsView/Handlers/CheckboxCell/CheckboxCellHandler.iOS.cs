@@ -14,11 +14,13 @@ public partial class CheckboxCellHandler : CellBaseHandler<CheckboxCell, Checkbo
 
     private static void MapAccentColor(CheckboxCellHandler handler, CheckboxCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateAccentColor();
     }
 
     private static void MapChecked(CheckboxCellHandler handler, CheckboxCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateChecked();
     }
 }
