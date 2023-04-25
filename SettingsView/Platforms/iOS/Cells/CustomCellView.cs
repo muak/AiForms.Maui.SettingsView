@@ -22,7 +22,8 @@ public class CustomCellView: CellBaseView
     public override void UpdateConstraints()
     {
         base.UpdateConstraints();
-        LayoutIfNeeded(); // let the layout immediately reflect when update constraints.
+        // It works fine even if disable this code.
+        //LayoutIfNeeded(); // let the layout immediately reflect when update constraints.
     }
 
     protected override void SetUpContentView()

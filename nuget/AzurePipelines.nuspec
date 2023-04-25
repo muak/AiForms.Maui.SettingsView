@@ -15,7 +15,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-Add platform MacCatalyst
+bug fixes
         </releaseNotes>
         <tags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>        

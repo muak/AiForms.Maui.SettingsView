@@ -347,9 +347,13 @@ public class CellBaseView : UITableViewCell
         if (CellParent.HasUnevenRows)
         {
             if (CellParent.Handler.PlatformView is AiTableView tv)
-            {                
-                tv.BeginUpdates();
-                tv.EndUpdates();                
+            {
+                // TODO: The following code is needed to dynamically change the cell height
+                // according to the contents of the Description, but it is commented out
+                // because it causes scrolling problems.
+                // The workaround is probably to do it at the timing of PropertyChanged.
+                //tv.BeginUpdates();
+                //tv.EndUpdates();                
             }
         }       
     }
@@ -542,25 +546,6 @@ public class CellBaseView : UITableViewCell
     {
         if (TitleLabel is null)
             return; // For HotReload
-
-        //UpdateBackgroundColor();
-        //UpdateTitleText();
-        //UpdateTitleColor();
-        //UpdateTitleFont();
-        //UpdateDescriptionText();
-        //UpdateDescriptionColor();
-        //UpdateDescriptionFont();
-        //UpdateHintText();
-        //UpdateHintTextColor();
-        //UpdateHintFont();
-
-        ////UpdateIcon();
-        //UpdateIconRadius();
-
-        //UpdateIsEnabled();
-        //UpdateIsVisible();
-
-        //SetNeedsLayout();
     }
 
     /// <summary>

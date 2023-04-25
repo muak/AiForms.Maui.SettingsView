@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
+using System.Threading;
 using AiForms.Settings.Extensions;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -42,6 +43,14 @@ public class CustomCellContent: UIView
             {
                 _virtualCell.PropertyChanged -= CellPropertyChanged;
                 _virtualCell.MeasureInvalidated -= OnMeasureInvalidated;
+                foreach (var child in CustomCellContent.ElementDescendants(_virtualCell))
+                {
+                    if (child is Layout layout)
+                    {
+                        layout.SizeChanged -= OnInnerLayoutSizeChanged;
+                    }
+                    child.MeasureInvalidated -= OnMeasureInvalidated;
+                }
             }
 
             CustomCell = null;
@@ -93,7 +102,7 @@ public class CustomCellContent: UIView
         // If oldCell and newCell are the same
         if (oldCell == newCell)
         {            
-            if (!CustomCell.IsForceLayout)
+            if (!CustomCell.IsForceLayout && Subviews.Any())
             {
                 // do nothing.
                 return;
@@ -104,6 +113,7 @@ public class CustomCellContent: UIView
 
         if (oldCell != null)
         {
+            _cts?.Cancel();
             oldCell.PropertyChanged -= CellPropertyChanged;
             oldCell.MeasureInvalidated -= OnMeasureInvalidated;
             // Delete previous child element
@@ -114,6 +124,10 @@ public class CustomCellContent: UIView
             oldCell.MeasureInvalidated -= OnMeasureInvalidated;
             foreach (var child in CustomCellContent.ElementDescendants(oldCell))
             {
+                if (child is Layout layout)
+                {
+                    layout.SizeChanged -= OnInnerLayoutSizeChanged;
+                }
                 child.MeasureInvalidated -= OnMeasureInvalidated;
             }
         }
@@ -180,26 +194,47 @@ public class CustomCellContent: UIView
 
         UpdateNativeCell();
 
-        SetNeedsLayout();
+        //SetNeedsLayout();
 
         _virtualCell.MeasureInvalidated += OnMeasureInvalidated;
         foreach (var child in CustomCellContent.ElementDescendants(_virtualCell))
         {
+            if(child is Layout layout)
+            {
+                // Also detects changes in the size of descendant layout(BindableLayout)
+                layout.SizeChanged += OnInnerLayoutSizeChanged;
+            }
             // Also detects changes in the size of descendant elements
             child.MeasureInvalidated += OnMeasureInvalidated;
         }
+    }
+
+    private void OnInnerLayoutSizeChanged(object sender, EventArgs e)
+    {
+        LayoutDispacher();
     }    
 
     private void OnMeasureInvalidated(object sender, EventArgs e)
-    {
-        if(_tableView != null)
-        {
-            ForceLayout(_tableView, _virtualCell.Handler as IPlatformViewHandler);            
-        }
+    {       
+        LayoutDispacher();
     }
 
-    void ForceLayout(UITableView tableView, IPlatformViewHandler handler)
+    async Task ForceLayout(CancellationToken token)
     {
+        if(_tableView == null)
+        {
+            return;
+        }
+        var tableView = _tableView;
+        var handler = _virtualCell.Handler as IPlatformViewHandler;
+
+        // Wait a little and execute layout processing only on the last event
+        await Task.Delay(100);
+        if (token.IsCancellationRequested)
+        {
+            return;
+        }
+
         _lastFrameWidth = tableView.Frame.Width;
         var height = double.PositiveInfinity;
 
@@ -229,7 +264,7 @@ public class CustomCellContent: UIView
         _virtualCell.Arrange(new Rect(0, 0, _lastMeasureWidth, _lastMeasureHeight));
 
         native.SetNeedsUpdateConstraints();
-        native.UpdateConstraintsIfNeeded();
+        //native.UpdateConstraintsIfNeeded();
         SetNeedsLayout();
 
         tableView.BeginUpdates();
@@ -248,8 +283,8 @@ public class CustomCellContent: UIView
             _heightConstraint.Active = false;
             _heightConstraint.Priority = 1f;            
             _heightConstraint?.Dispose();
-            native.SetNeedsUpdateConstraints();
-            native.UpdateConstraintsIfNeeded();
+            //native.SetNeedsUpdateConstraints();
+            //native.UpdateConstraintsIfNeeded();
         }
 
         _heightConstraint = native.HeightAnchor.ConstraintEqualTo((NFloat)_lastMeasureHeight);
@@ -261,8 +296,16 @@ public class CustomCellContent: UIView
         native.BottomAnchor.ConstraintEqualTo(BottomAnchor).Active = true;
         native.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
 
-        native.SetNeedsUpdateConstraints();
-        native.UpdateConstraintsIfNeeded();
+        //native.SetNeedsUpdateConstraints();
+        //native.UpdateConstraintsIfNeeded();
+    }
+
+    CancellationTokenSource _cts = new CancellationTokenSource();
+    void LayoutDispacher()
+    {
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        _ = ForceLayout(_cts.Token);
     }
 
     static IEnumerable<VisualElement> ElementDescendants(Element element)

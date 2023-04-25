@@ -52,7 +52,8 @@ namespace AiForms.Settings.Handlers
             if (parentElement != null)
             {
                 parentElement.PropertyChanged += nativeCell.ParentPropertyChanged;
-                var section = parentElement.Model.GetSection(SettingsModel.GetPath(virtualCell).Item1);
+
+                var section = parentElement.Model.GetSectionFromCell(virtualCell);
                 if (section != null)
                 {
                     virtualCell.Section = section;

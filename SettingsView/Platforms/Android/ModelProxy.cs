@@ -138,6 +138,7 @@ public class ModelProxy:List<RowInfo>,IDisposable
                 Cell = cell,
                 ViewType = (ViewType)ViewTypes[cell.GetType()],
             };
+
             this.Insert(i + 1 + startIndex, rowInfo);
         }
 
