@@ -99,7 +99,7 @@ public class SettingsTableSource : UITableViewSource
         // Because the layer was hidden we need to layout the cell by hand
         if (cellWithContent != null)
         {
-            cellWithContent.LayoutSubviews();
+            //cellWithContent.LayoutSubviews();
         }
 
         return platformCell;           

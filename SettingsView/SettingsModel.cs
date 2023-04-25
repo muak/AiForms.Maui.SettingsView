@@ -174,7 +174,7 @@ public class SettingsModel
     }
 
 
-    static void SetPath(CellBase item, Tuple<int, int> index)
+    internal static void SetPath(CellBase item, Tuple<int, int> index)
     {
         if (item == null)
             return;

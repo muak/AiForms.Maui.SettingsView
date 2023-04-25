@@ -485,6 +485,7 @@ public class CellBase: Element, IImageSourcePart
 
 #elif IOS || MACCATALYST
 	internal UIKit.UITableViewCell ReusableCell { get; set; }
+    internal Queue<UIKit.UITableViewCell> ReusableCellQueue { get; } = new Queue<UIKit.UITableViewCell>();
 	internal UIKit.UITableView TableView { get; set; }
 #endif
 
