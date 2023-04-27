@@ -83,8 +83,8 @@ internal class HeaderFooterContainer : FrameLayout
             return;
         }
 
-        var size = _viewHandler.MeasureVirtualView(widthMeasureSpec, heightMeasureSpec);
-        int height = (int)size.Height;
+        var size = _viewHandler.VirtualView.Measure(width, double.PositiveInfinity);
+        int height = (int)Context.ToPixels(size.Height);
 
         SetMeasuredDimension(width, height);
     }
@@ -172,10 +172,18 @@ internal class HeaderFooterContainer : FrameLayout
     protected virtual void CreateNewHandler(View view)
     {
         _contentView = view;
+
+        _contentView.MeasureInvalidated += _contentView_MeasureInvalidated;
+
         var platformView = _contentView.ToPlatform(view.FindMauiContext());
         _viewHandler = (IPlatformViewHandler)_contentView.Handler;
         AddView(platformView);
         UpdateNativeCell();
+    }
+
+    private void _contentView_MeasureInvalidated(object sender, EventArgs e)
+    {
+        ;
     }
 
     public override void AddView(AView child)
