@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using AiForms.Settings.Extensions;
+using CoreGraphics;
+using Foundation;
 using Microsoft.Maui.Platform;
+using ObjCRuntime;
 using SpriteKit;
 using UIKit;
 
@@ -9,14 +12,54 @@ namespace AiForms.Settings.Platforms.iOS;
 
 public class CustomHeaderView : CustomHeaderFooterView
 {
-    public CustomHeaderView(IntPtr handle) : base(handle)
+    public CustomHeaderView()
+    {
+    }    
+
+    public CustomHeaderView(NSCoder coder) : base(coder)
+    {
+    }
+
+    public CustomHeaderView(CGRect frame) : base(frame)
+    {
+    }
+
+    public CustomHeaderView(NSString reuseIdentifier) : base(reuseIdentifier)
+    {
+    }
+
+    protected CustomHeaderView(NSObjectFlag t) : base(t)
+    {
+    }
+
+    protected internal CustomHeaderView(NativeHandle handle) : base(handle)
     {
     }
 }
 
 public class CustomFooterView : CustomHeaderFooterView
 {
-    public CustomFooterView(IntPtr handle) : base(handle)
+    public CustomFooterView()
+    {
+    }    
+
+    public CustomFooterView(NSString reuseIdentifier) : base(reuseIdentifier)
+    {
+    }
+
+    public CustomFooterView(NSCoder coder) : base(coder)
+    {
+    }
+
+    public CustomFooterView(CGRect frame) : base(frame)
+    {
+    }
+
+    protected CustomFooterView(NSObjectFlag t) : base(t)
+    {
+    }
+
+    protected internal CustomFooterView(NativeHandle handle) : base(handle)
     {
     }
 }
@@ -27,9 +70,29 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
     bool _disposed;
     NSLayoutConstraint _heightConstraint;
     View _virtualCell;
-    IMauiContext _mauiContext => _virtualCell.FindMauiContext();
+    IMauiContext _mauiContext => _virtualCell.FindMauiContext();    
 
-    public CustomHeaderFooterView(IntPtr handle):base(handle)
+    public CustomHeaderFooterView()
+    {
+    }
+
+    public CustomHeaderFooterView(NSCoder coder) : base(coder)
+    {
+    }
+
+    protected CustomHeaderFooterView(NSObjectFlag t) : base(t)
+    {
+    }
+
+    protected internal CustomHeaderFooterView(NativeHandle handle) : base(handle)
+    {
+    }
+
+    public CustomHeaderFooterView(CGRect frame) : base(frame)
+    {
+    }
+
+    public CustomHeaderFooterView(NSString reuseIdentifier) : base(reuseIdentifier)
     {
     }
 

@@ -15,28 +15,29 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-bug fixes
+- Update .NET 7.0
+- Fix PickerCell SingleSelectMode not working.
         </releaseNotes>
         <tags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>        
     </metadata>
     <files>
-        <!-- NET6 -->
-        <file src="artifacts/net6.0/SettingsView.dll" target="lib/net6.0" />
-        <file src="artifacts/net6.0/SettingsView.xml" target="lib/net6.0" />
-        <file src="artifacts/net6.0/SettingsView.pdb" target="lib/net6.0" />
+        <!-- NET7.0 -->
+        <file src="artifacts/net7.0/SettingsView.dll" target="lib/net7.0" />
+        <file src="artifacts/net7.0/SettingsView.xml" target="lib/net7.0" />
+        <file src="artifacts/net7.0/SettingsView.pdb" target="lib/net7.0" />
         <!-- Android -->
-        <file src="artifacts/net6.0-android/SettingsView.dll" target="lib/net6.0-android27.0" />
-        <file src="artifacts/net6.0-android/SettingsView.xml" target="lib/net6.0-android27.0" />
-        <file src="artifacts/net6.0-android/SettingsView.pdb" target="lib/net6.0-android27.0" />
-		<file src="artifacts/net6.0-android/SettingsView.aar" target="lib/net6.0-android27.0" />
+        <file src="artifacts/net7.0-android/SettingsView.dll" target="lib/net7.0-android27.0" />
+        <file src="artifacts/net7.0-android/SettingsView.xml" target="lib/net7.0-android27.0" />
+        <file src="artifacts/net7.0-android/SettingsView.pdb" target="lib/net7.0-android27.0" />
+		<file src="artifacts/net7.0-android/SettingsView.aar" target="lib/net7.0-android27.0" />
         <!-- iOS -->
-        <file src="artifacts/net6.0-ios/SettingsView.dll" target="lib/net6.0-ios14.2" />
-        <file src="artifacts/net6.0-ios/SettingsView.xml" target="lib/net6.0-ios14.2" />
-        <file src="artifacts/net6.0-ios/SettingsView.pdb" target="lib/net6.0-ios14.2" />
+        <file src="artifacts/net7.0-ios/SettingsView.dll" target="lib/net7.0-ios14.2" />
+        <file src="artifacts/net7.0-ios/SettingsView.xml" target="lib/net7.0-ios14.2" />
+        <file src="artifacts/net7.0-ios/SettingsView.pdb" target="lib/net7.0-ios14.2" />
         <!-- MacCatalyst -->
-        <file src="artifacts/net6.0-maccatalyst/SettingsView.dll" target="lib/net6.0-maccatalyst14.2" />
-        <file src="artifacts/net6.0-maccatalyst/SettingsView.xml" target="lib/net6.0-maccatalyst14.2" />
-        <file src="artifacts/net6.0-maccatalyst/SettingsView.pdb" target="lib/net6.0-maccatalyst14.2" />
+        <file src="artifacts/net7.0-maccatalyst/SettingsView.dll" target="lib/net7.0-maccatalyst14.2" />
+        <file src="artifacts/net7.0-maccatalyst/SettingsView.xml" target="lib/net7.0-maccatalyst14.2" />
+        <file src="artifacts/net7.0-maccatalyst/SettingsView.pdb" target="lib/net7.0-maccatalyst14.2" />
     </files>
 </package>

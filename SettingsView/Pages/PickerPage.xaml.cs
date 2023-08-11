@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui;
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace AiForms.Settings.Pages;
@@ -24,7 +25,7 @@ public partial class PickerPage : ContentPage
 
         foreach (var item in _pickerCell.ItemsSource)
         {
-            var isSelected = _pickerCell.SelectedItems.IndexOf(item) >= 0;
+            var isSelected = _pickerCell.SelectedItems.IndexOf(item) >= 0;           
             var displayValue = new DisplayValue($"{_pickerCell.DisplayValue(item)}", $"{_pickerCell.SubDisplayValue(item)}", isSelected, item);
             ItemsSource.Add(displayValue);
 
@@ -102,6 +103,15 @@ public partial class PickerPage : ContentPage
         {
             settingsView.CellBackgroundColor = _parent.CellBackgroundColor;
         }
+
+        if(_pickerCell.SelectedItems == null)
+        {
+            _pickerCell.SelectedItems = new ArrayList();
+            if (_pickerCell.SelectedItem != null)
+            {
+                _pickerCell.SelectedItems.Add(_pickerCell.SelectedItem);
+            }
+        }
     }
 
     protected override void OnDisappearing()
@@ -153,6 +163,7 @@ public partial class PickerPage : ContentPage
 
         item.IsSelected = true;
 
+        _selectedCache.Clear();
         _selectedCache.Add(item);
     }
 

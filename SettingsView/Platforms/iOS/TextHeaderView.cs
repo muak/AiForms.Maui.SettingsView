@@ -2,6 +2,8 @@
 using UIKit;
 using System.Collections.Generic;
 using CoreGraphics;
+using Foundation;
+using ObjCRuntime;
 
 namespace AiForms.Settings.Platforms.iOS;
 
@@ -10,11 +12,22 @@ public class TextHeaderView : UITableViewHeaderFooterView
     public PaddingLabel Label { get; set; }
     List<NSLayoutConstraint> _constraints = new List<NSLayoutConstraint>();
     LayoutAlignment _curAlignment;
-    bool _isInitialized;
+    bool _isInitialized;    
 
-    public TextHeaderView(IntPtr handle): base(handle) 
+    public TextHeaderView()
     {
+    }
 
+    public TextHeaderView(NSCoder coder) : base(coder)
+    {
+    }
+
+    protected TextHeaderView(NSObjectFlag t) : base(t)
+    {
+    }
+
+    protected internal TextHeaderView(NativeHandle handle) : base(handle)
+    {
         Label = new PaddingLabel();
         Label.Lines = 0;
         Label.LineBreakMode = UILineBreakMode.CharacterWrap;
@@ -31,11 +44,18 @@ public class TextHeaderView : UITableViewHeaderFooterView
             c.Priority = 999f; // fix warning-log:Unable to simultaneously satisfy constraints.
             c.Active = true;
         });
-        
+
 
         this.BackgroundView = new UIView();
     }
 
+    public TextHeaderView(CGRect frame) : base(frame)
+    {
+    }
+
+    public TextHeaderView(NSString reuseIdentifier) : base(reuseIdentifier)
+    {
+    }
 
     public void SetVerticalAlignment(LayoutAlignment align)
     {
