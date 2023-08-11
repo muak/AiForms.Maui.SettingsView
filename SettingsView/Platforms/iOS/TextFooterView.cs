@@ -1,6 +1,9 @@
 ﻿using System;
 using UIKit;
 using System.Collections.Generic;
+using Foundation;
+using ObjCRuntime;
+using CoreGraphics;
 
 namespace AiForms.Settings.Platforms.iOS;
 
@@ -9,7 +12,19 @@ public class TextFooterView : UITableViewHeaderFooterView
     public PaddingLabel Label { get; set; }
     List<NSLayoutConstraint> _constraints = new List<NSLayoutConstraint>();
 
-    public TextFooterView(IntPtr handle):base(handle)
+    public TextFooterView()
+    {
+    }
+
+    public TextFooterView(NSCoder coder) : base(coder)
+    {
+    }
+
+    protected TextFooterView(NSObjectFlag t) : base(t)
+    {
+    }
+
+    protected internal TextFooterView(NativeHandle handle) : base(handle)
     {
         Label = new PaddingLabel();
         Label.Lines = 0;
@@ -29,6 +44,14 @@ public class TextFooterView : UITableViewHeaderFooterView
         });
 
         this.BackgroundView = new UIView();
+    }
+
+    public TextFooterView(CGRect frame) : base(frame)
+    {
+    }
+
+    public TextFooterView(NSString reuseIdentifier) : base(reuseIdentifier)
+    {
     }
 
     protected override void Dispose(bool disposing)
