@@ -121,7 +121,7 @@ public class CustomCellContent: UIView
             {
                 subView.RemoveFromSuperview();
             }
-            oldCell.MeasureInvalidated -= OnMeasureInvalidated;
+
             foreach (var child in CustomCellContent.ElementDescendants(oldCell))
             {
                 if (child is Layout layout)

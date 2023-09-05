@@ -23,6 +23,7 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<MyNavigationPage>();
                     containerRegistry.RegisterForNavigation<MainPage, MainViewModel>();
                     containerRegistry.RegisterForNavigation<ContentPage>();
+                    containerRegistry.RegisterForNavigation<ListPage, ListViewModel>();
                 })
                 .OnAppStart(navigationService =>
                 {

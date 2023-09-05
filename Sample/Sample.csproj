@@ -46,6 +46,9 @@
 	  <CodesignKey>Mac Developer</CodesignKey>
 	  <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>	  	  	  	  	  
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -70,6 +73,7 @@
 	  <None Remove="Views\Cells\" />
 	  <None Remove="Resources\.DS_Store" />
 	  <None Remove="AiForms.Maui.SettingsView" />
+	  <None Remove="Resources\Images\ic_close.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
@@ -100,5 +104,8 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\SettingsView\SettingsView.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="Resources\Images\ic_close.svg" />
 	</ItemGroup>
 </Project>
