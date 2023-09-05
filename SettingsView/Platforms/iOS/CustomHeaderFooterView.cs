@@ -66,7 +66,6 @@ public class CustomFooterView : CustomHeaderFooterView
 
 public class CustomHeaderFooterView:UITableViewHeaderFooterView
 {
-    WeakReference<IPlatformViewHandler> _handlerRef;
     bool _disposed;
     NSLayoutConstraint _heightConstraint;
     View _virtualCell;
@@ -109,17 +108,12 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             {
                 _virtualCell.PropertyChanged -= CellPropertyChanged;
                 _virtualCell.MeasureInvalidated -= OnMeasureInvalidated;
+                _virtualCell.DisposeModalAndChildHandlers();
             }
 
             _heightConstraint?.Dispose();
             _heightConstraint = null;
-
-            IPlatformViewHandler handler;
-            if (_handlerRef != null && _handlerRef.TryGetTarget(out handler) && handler.VirtualView != null)
-            {
-                handler.VirtualView.DisposeModalAndChildHandlers();
-                _handlerRef = null;
-            }        
+     
             _virtualCell = null;
         }
 
@@ -146,9 +140,9 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         UserInteractionEnabled = _virtualCell.IsEnabled;
     }       
       
-    public virtual void UpdateCell(View cell,UITableView tableView)
+    public virtual void UpdateCell(View newCell,UITableView tableView)
     {
-        if(_virtualCell == cell)
+        if (_virtualCell == newCell)
         {
             return;
         }
@@ -160,37 +154,54 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             oldCell.Handler?.DisconnectHandler();
             oldCell.PropertyChanged -= CellPropertyChanged;
             oldCell.MeasureInvalidated -= OnMeasureInvalidated;
+            // Delete previous child element
+            foreach (var subView in ContentView.Subviews)
+            {
+                subView.RemoveFromSuperview();
+            }
         }
 
-        _virtualCell = cell;
+        _virtualCell = newCell;
         _virtualCell.PropertyChanged += CellPropertyChanged;
-                   
+
         IPlatformViewHandler handler;
-        if (_handlerRef == null || !_handlerRef.TryGetTarget(out handler))
+        if (newCell.Handler != null)
         {
-            handler = GetNewHandler();
+            // TODO:
+            // Currently, the performance is not good because the number of
+            // NativieView is kept as many as the number of Cells. To improve this,
+            // it is necessary to virtualize the Content part of CustomCell as well.
+            // This can probably be achieved by replacing the Handler and
+            // resetting the VirtualView.
+
+            // If it has already been generated, use it as is.
+            handler = newCell.Handler as IPlatformViewHandler;
+            // If the incoming Cell belongs to another parent, peel it off.
+            handler.PlatformView?.RemoveFromSuperview();
         }
         else
         {
-            var viewHandlerType = _mauiContext.Handlers.GetHandlerType(_virtualCell.GetType());
-            var reflectableType = handler as System.Reflection.IReflectableType;
-            var handlerType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : (handler != null ? handler.GetType() : typeof(System.Object));
+            // If Handler is not generated, generate it.            
+            handler = GetNewHandler();
+        }        
 
-            if (handlerType == viewHandlerType)
-            {
-                handler.SetVirtualView(this._virtualCell);
-            }                
-            else
-            {
-                //when cells are getting reused the element could be already set to another cell
-                //so we should dispose based on the renderer and not the renderer.Element
-                handler.DisposeHandlersAndChildren();
-                handler = GetNewHandler();
-            }           
+        var viewHandlerType = _mauiContext.Handlers.GetHandlerType(_virtualCell.GetType());
+        var reflectableType = handler as System.Reflection.IReflectableType;
+        var handlerType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : (handler != null ? handler.GetType() : typeof(System.Object));
+
+        if (handlerType == viewHandlerType)
+        {
+            handler.SetVirtualView(_virtualCell);
         }
+        else
+        {
+            //when cells are getting reused the element could be already set to another cell
+            //so we should dispose based on the renderer and not the renderer.Element
+            handler.DisposeHandlersAndChildren();
+            handler = GetNewHandler();
+        }        
 
-        _virtualCell.MeasureInvalidated += OnMeasureInvalidated;
-        
+        _virtualCell.MeasureInvalidated += OnMeasureInvalidated;        
 
         var height = double.PositiveInfinity;
         var result = handler.VirtualView.Measure(tableView.Frame.Width, height);
@@ -232,7 +243,6 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         }
 
         var newHandler = _virtualCell.ToHandler(_virtualCell.FindMauiContext());
-        _handlerRef = new WeakReference<IPlatformViewHandler>(newHandler);
         ContentView.AddSubview(newHandler.PlatformView);
 
         var native = newHandler.PlatformView;

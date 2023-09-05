@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    x:Class="Sample.Views.ListPage"
+    Title="ListPage">
+
+    <sv:SettingsView ItemsSource="{Binding ItemsSource}">
+        <sv:SettingsView.ItemTemplate>
+            <DataTemplate>
+                <sv:Section>
+                    <sv:Section.HeaderView>
+                        <Grid>
+                            <!--TODO:Image修正-->
+                            <ImageButton Source="ic_close"
+                                        WidthRequest="30" HeightRequest="30"
+                                        VerticalOptions="Center" HorizontalOptions="End"
+                                        Padding="0" />                           
+                        </Grid>
+                    </sv:Section.HeaderView>
+                        
+                    <sv:LabelCell Title="{Binding}" />
+                </sv:Section>
+            </DataTemplate>
+        </sv:SettingsView.ItemTemplate>     
+
+    </sv:SettingsView>
+   
+</ContentPage>
