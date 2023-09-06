@@ -31,7 +31,7 @@ public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListe
         _switch = new SwitchCompat(context);
 
         _switch.SetOnCheckedChangeListener(this);
-        _switch.Gravity = Android.Views.GravityFlags.Right;
+        _switch.Gravity = Android.Views.GravityFlags.Right | GravityFlags.CenterVertical;
 
         var switchParam = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WrapContent,
