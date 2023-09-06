@@ -80,21 +80,22 @@ internal class FormsViewContainer : FrameLayout
 
     protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        int width = MeasureSpec.GetSize(widthMeasureSpec);
+        int pxWidth = MeasureSpec.GetSize(widthMeasureSpec);
 
         if (IsMeasureOnce && _heightCache > 0)
         {
-            SetMeasuredDimension(width, _heightCache);
+            SetMeasuredDimension(pxWidth, _heightCache);
             return;
         }
 
-        var size = _viewHandler.VirtualView.Measure(width, double.PositiveInfinity);
+        var dpWidth = Context.FromPixels(pxWidth);
+        var size = _viewHandler.VirtualView.Measure(dpWidth, double.PositiveInfinity);
         // This way can't measure correctly.
         //var measure = _viewHandler.MeasureVirtualView(width, heightMeasureSpec);
-        int height = (int)Context.ToPixels(size.Height);
+        int pxHeight = (int)Context.ToPixels(size.Height);
 
-        SetMeasuredDimension(width, height);
-        _heightCache = height;
+        SetMeasuredDimension(pxWidth, pxHeight);
+        _heightCache = pxHeight;
     }
 
     public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
