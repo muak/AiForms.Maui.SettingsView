@@ -71,22 +71,23 @@ internal class HeaderFooterContainer : FrameLayout
 
     protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        int width = MeasureSpec.GetSize(widthMeasureSpec);
+        int pxWidth = MeasureSpec.GetSize(widthMeasureSpec);
         if (_viewHandler == null)
         {
-            SetMeasuredDimension(width, 0);
+            SetMeasuredDimension(pxWidth, 0);
             return;
         }
         if(ViewHolder.RowInfo.ViewType == ViewType.CustomFooter && !ViewHolder.RowInfo.Section.FooterVisible)
         {
-            SetMeasuredDimension(width, 0);
+            SetMeasuredDimension(pxWidth, 0);
             return;
         }
 
-        var size = _viewHandler.VirtualView.Measure(width, double.PositiveInfinity);
-        int height = (int)Context.ToPixels(size.Height);
+        var dpWidth = Context.FromPixels(pxWidth);
+        var size = _viewHandler.VirtualView.Measure(dpWidth, double.PositiveInfinity);
+        int pxHeight = (int)Context.ToPixels(size.Height);
 
-        SetMeasuredDimension(width, height);
+        SetMeasuredDimension(pxWidth, pxHeight);
     }
 
     public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)

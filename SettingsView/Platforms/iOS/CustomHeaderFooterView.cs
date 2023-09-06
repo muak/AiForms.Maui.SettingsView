@@ -204,13 +204,13 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         _virtualCell.MeasureInvalidated += OnMeasureInvalidated;        
 
         var height = double.PositiveInfinity;
-        var result = handler.VirtualView.Measure(tableView.Frame.Width, height);
-        var finalW = result.Width;
+        var result = _virtualCell.Measure(tableView.Frame.Width, height,MeasureFlags.IncludeMargins);
+        var finalW = result.Request.Width;
         if(_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
         {
             finalW = tableView.Frame.Width;
         }
-        var finalH = (float)result.Height;           
+        var finalH = (float)result.Request.Height;           
 
         UpdateNativeCell();
 

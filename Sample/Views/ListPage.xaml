@@ -12,7 +12,6 @@
                 <sv:Section>
                     <sv:Section.HeaderView>
                         <Grid>
-                            <!--TODO:Image修正-->
                             <ImageButton Source="ic_close"
                                         WidthRequest="30" HeightRequest="30"
                                         VerticalOptions="Center" HorizontalOptions="End"

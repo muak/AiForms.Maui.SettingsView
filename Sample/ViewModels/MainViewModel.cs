@@ -45,9 +45,10 @@ namespace Sample.ViewModels
             });
 
             ToProfileCommand.Subscribe(async _ => {
-                
+
                 //Description.Value += "01234567890";
-                await navigationService.NavigateAsync("ListPage");
+                //await navigationService.NavigateAsync("ListPage");
+                await navigationService.NavigateAsync("CustomHeaderPage");
             });
 
             AddContentCommand.Subscribe(_ =>
