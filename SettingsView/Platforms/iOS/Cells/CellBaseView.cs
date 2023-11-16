@@ -21,7 +21,7 @@ namespace AiForms.Settings.Platforms.iOS;
 /// Cell base view.
 /// </summary>
 [Foundation.Preserve(AllMembers = true)]
-public class CellBaseView : UITableViewCell
+public class CellBaseView : UITableViewCell, IImageSourcePartSetter
 {
     /// <summary>
     /// Gets the hint label.
@@ -82,6 +82,9 @@ public class CellBaseView : UITableViewCell
     /// </summary>
     /// <value>The content stack.</value>
     protected UIStackView ContentStack { get; private set; }
+
+    IElementHandler IImageSourcePartSetter.Handler => Cell.Handler;
+    IImageSourcePart IImageSourcePartSetter.ImageSourcePart => Cell;
 
     protected UIStackView StackH;
     protected UIStackView StackV;
@@ -505,18 +508,18 @@ public class CellBaseView : UITableViewCell
             //hide IconView because UIStackView Distribution won't work when a image isn't set.
             IconView.Hidden = false;
 
-        _imageLoader = new ImageSourcePartLoader(Cell.Handler, () => Cell, OnSetImageSource);
-        _imageLoader.UpdateImageSourceAsync();                 
-    }
+            _imageLoader = new ImageSourcePartLoader(this);
+            _imageLoader.UpdateImageSourceAsync();                 
+        }
         else
         {
             IconView.Hidden = true;
         }
     }
 
-    private void OnSetImageSource(UIImage image)
+    void IImageSourcePartSetter.SetImageSource(UIImage platformImage)
     {
-        IconView.Image = image;
+        IconView.Image = platformImage;
         SetNeedsLayout();
     }
 
@@ -754,5 +757,6 @@ public class CellBaseView : UITableViewCell
         }
     }
 
+    
 }
 

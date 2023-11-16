@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<UseMaui>true</UseMaui>
 		<SingleProject>false</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -9,9 +9,23 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">27.0</SupportedOSPlatformVersion>
 		<RootNamespace>AiForms.Settings</RootNamespace>
+
+		<PackageId>AiForms.Maui.SettingsView</PackageId>
+		<Authors>kamu</Authors>
+		<Company>kamu</Company>
+		<Product>SettingsView for .NET MAUI</Product>
+		<PackageProjectUrl>https://github.com/muak/AiForms.Maui.SettingsView</PackageProjectUrl>
+		<PackageLicenseUrl>https://github.com/muak/AiForms.Maui.SettingsView/blob/master/LICENSE.txt</PackageLicenseUrl>
+		<PackageIconUrl>https://raw.githubusercontent.com/muak/AiForms.Maui.SettingsView/master/images/icon.png</PackageIconUrl>
+		<Description>This is a flexible TableView specialized in settings for Android / iOS. 
+There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell,CustomCell)</Description>
+		<PackageReleaseNotes>
+			Supported .NET8
+        </PackageReleaseNotes>
+		<PackageTags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</PackageTags>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 	  <EnableCodeSigning>False</EnableCodeSigning>
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
@@ -24,7 +38,7 @@
 	  <DebugType>pdbonly</DebugType>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 	  <DebugSymbols>true</DebugSymbols>
 	  <EnableCodeSigning>false</EnableCodeSigning>
 	</PropertyGroup>
@@ -42,11 +56,11 @@
 		<None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
     </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
 		<Compile Include="**\**\*.Net.cs" />		
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) == true">
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) == true">
 		<Compile Include="**\**\*.Android.cs" />
 		<Compile Include="**\Android\**\*.cs" />
 		<AndroidResource Include="**\Resources\**\*.axml" Generator="MSBuild:UpdateGeneratedFiles" />
@@ -54,7 +68,7 @@
 		<AndroidResource Include="**\Resources\**\*.png" Generator="MSBuild:UpdateGeneratedFiles" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) == true OR $(TargetFramework.StartsWith('net7.0-maccatalyst')) == true">
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) == true OR $(TargetFramework.StartsWith('net8.0-maccatalyst')) == true">
 		<Compile Include="**\**\*.iOS.cs" />		
 		<Compile Include="**\iOS\**\*.cs" />		
 	</ItemGroup>
@@ -125,5 +139,8 @@
 	  <AndroidResource Include="Platforms\Android\Resources\values\Strings.xml" />
 	  <AndroidResource Include="Platforms\Android\Resources\values\styles.xml" />
 	  <AndroidResource Include="Platforms\Android\Resources\values\attrs.xml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
 	</ItemGroup>
 </Project>
