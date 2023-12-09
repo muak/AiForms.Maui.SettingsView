@@ -76,7 +76,7 @@ public static MauiApp CreateMauiApp()
 <ContentPage 
 	xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+	xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
 	x:Class="Sample.Views.SettingsViewPage">
     
 <sv:SettingsView HasUnevenRows="true">
@@ -113,7 +113,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 ```xml
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
              x:Class="Sample.App">
     <Application.Resources>
         <ResourceDictionary>
