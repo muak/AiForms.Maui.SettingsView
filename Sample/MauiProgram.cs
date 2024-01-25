@@ -25,13 +25,14 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<ContentPage>();
                     containerRegistry.RegisterForNavigation<ListPage, ListViewModel>();
                     containerRegistry.RegisterForNavigation<CustomHeaderPage, CustomHeaderViewModel>();
+                    containerRegistry.RegisterForNavigation<TapSurveyPage, TapSurveyViewModel>();
                 })
-                .OnAppStart(navigationService =>
+                .OnAppStart(async(container, navigation) =>
                 {
-                    navigationService.CreateBuilder()
+                    await navigation.CreateBuilder()
                     .AddSegment(nameof(MyNavigationPage))
                     .AddSegment<MainViewModel>()
-                    .Navigate();
+                    .NavigateAsync();
                 })
                 .OnInitialized(container =>
                 {
@@ -46,21 +47,7 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
-
-        ViewModelLocationProvider2.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
-        {              
-            // Hoge     -> HogeViewModel
-            // HogePage -> HogeViewModel
-            // HogeView -> HogeViewModel
-            var viewName = viewType.FullName;
-            viewName = viewName.Replace(".Views.", ".ViewModels.");
-            viewName = viewName.EndsWith("Page") ? viewName.Replace("Page", "") : viewName;
-            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-            var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
-            var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
-            return Type.GetType(viewModelName);
-        });
+            });        
 
         return builder.Build();
     }

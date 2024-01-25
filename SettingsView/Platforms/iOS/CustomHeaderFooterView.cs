@@ -142,6 +142,11 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
       
     public virtual void UpdateCell(View newCell,UITableView tableView)
     {
+        // Workaround GestureRecognizer bug
+        // TODO: if fix this issue, remove the following code.
+        // https://github.com/dotnet/maui/issues/17948
+        newCell.Parent = Application.Current.MainPage;
+
         if (_virtualCell == newCell)
         {
             return;

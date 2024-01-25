@@ -138,6 +138,11 @@ internal class FormsViewContainer : FrameLayout
 
     public void UpdateCell(View view)
     {
+        // Workaround GestureRecognizer bug
+        // TODO: if fix this issue, remove the following code.
+        // https://github.com/dotnet/maui/issues/17948
+        view.Parent = Application.Current.MainPage;
+
         if (_contentView == view && !CustomCell.IsForceLayout)
         {
             return;

@@ -21,7 +21,7 @@ namespace AiForms.Settings.Platforms.Droid;
 /// Cell base view.
 /// </summary>
 [Android.Runtime.Preserve(AllMembers = true)]
-public class CellBaseView : ARelativeLayout
+public class CellBaseView : ARelativeLayout, IImageSourcePartSetter
 {
     CellBase _cell;
     public CellBase Cell
@@ -82,6 +82,10 @@ public class CellBaseView : ARelativeLayout
     /// </summary>
     /// <value>The hint label.</value>
     public TextView HintLabel { get; private set; }
+
+    IElementHandler IImageSourcePartSetter.Handler => Cell.Handler;
+
+    IImageSourcePart IImageSourcePartSetter.ImageSourcePart => Cell;
 
     protected Lazy<IFontManager> _fontManager;
     ImageSourcePartLoader _imageLoader;
@@ -554,18 +558,18 @@ public class CellBaseView : ARelativeLayout
         {
             IconView.Visibility = ViewStates.Visible;
 
-            _imageLoader = new ImageSourcePartLoader(Cell.Handler, () => Cell, OnSetImageSource);
+            _imageLoader = new ImageSourcePartLoader(this);
             _imageLoader?.UpdateImageSourceAsync();
         }
         else
         {
             IconView.Visibility = ViewStates.Gone;
         }
-    }    
+    }
 
-    private void OnSetImageSource(Drawable drawable)
+    void IImageSourcePartSetter.SetImageSource(Drawable platformImage)
     {
-        IconView?.SetImageDrawable(drawable);
+        IconView?.SetImageDrawable(platformImage);
     }
 
     Bitmap CreateRoundImage(Bitmap image)
@@ -653,9 +657,6 @@ public class CellBaseView : ARelativeLayout
             Background = null;
         }
         base.Dispose(disposing);
-    }
-
-
-
+    }    
 }
 

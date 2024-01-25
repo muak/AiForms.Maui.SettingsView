@@ -966,7 +966,7 @@ public partial class SettingsView
         }
         catch (Exception e)
         {
-            throw e;
+            throw;
         }
 
 

@@ -48,7 +48,7 @@ namespace Sample.ViewModels
 
                 //Description.Value += "01234567890";
                 //await navigationService.NavigateAsync("ListPage");
-                await navigationService.NavigateAsync("CustomHeaderPage");
+                await navigationService.NavigateAsync("TapSurveyPage");
             });
 
             AddContentCommand.Subscribe(_ =>

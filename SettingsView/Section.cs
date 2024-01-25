@@ -413,7 +413,7 @@ public class Section: SectionBase
         }
         catch (Exception e)
         {
-            throw e;
+            throw;
         }
 
         var oldObservableCollection = oldValue as INotifyCollectionChanged;
