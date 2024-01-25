@@ -8,40 +8,66 @@
     Title="HeaderSurveyPage"
     x:DataType="vm:HeaderSurveyViewModel">
 
-    <sv:SettingsView>
+    <sv:SettingsView HasUnevenRows="True">
 
         <sv:Section>
-            <sv:Section.HeaderView>
-                <CheckBox IsChecked="{Binding IsShow.Value}" />
+            <sv:Section.HeaderView>                
+                <StackLayout Orientation="Horizontal" Spacing="0" Grid.Row="1">
+                    <CheckBox IsChecked="{Binding IsShow.Value}" 
+                                VerticalOptions="Center" WidthRequest="36"/>
+                    <Label Text="Agree"
+                            TextColor="Black"
+                            FontSize="16"
+                            VerticalOptions="Center" />
+                </StackLayout>
             </sv:Section.HeaderView>
         </sv:Section>
 
-        <sv:Section IsVisible="{Binding IsShow.Value}">
-            <sv:Section.HeaderView>
-                <HorizontalStackLayout>
-                    <BoxView WidthRequest="30" HeightRequest="30" Color="Bisque" />
-                    <Label Text="Header" />
-                </HorizontalStackLayout>
-            </sv:Section.HeaderView>
-            <sv:Section.FooterView>
-                <Label Text="Footer" />
-            </sv:Section.FooterView>
-            <sv:LabelCell Title="Hoge" ValueText="Abc" />
-            <sv:EntryCell Title="Input" />
-        </sv:Section>
+        <sv:Section IsVisible="{Binding IsShow.Value}">               
 
-        <sv:Section IsVisible="{Binding IsShow.Value}">
             <sv:Section.HeaderView>
                 <HorizontalStackLayout>
                     <BoxView WidthRequest="30" HeightRequest="30" Color="Red" />
                     <Label Text="Header" />
                 </HorizontalStackLayout>
             </sv:Section.HeaderView>
+
+            <sv:PickerCell  />
+
+        </sv:Section>
+        
+
+        <sv:Section IsVisible="{Binding IsShow.Value}">
+            
+            <sv:Section.HeaderView>
+                <HorizontalStackLayout>
+                    <BoxView WidthRequest="30" HeightRequest="30" Color="Bisque" />
+                    <Label Text="Header" />
+                </HorizontalStackLayout>
+            </sv:Section.HeaderView>
+
             <sv:Section.FooterView>
-                <Label Text="Footer" />
+                <ContentView>
+                    <Button 
+                            Text="Submit"                                
+                            Margin="32,32,32,8"
+                            />
+                </ContentView>
             </sv:Section.FooterView>
-            <sv:LabelCell Title="Fuga" ValueText="Xyz" />
-            <sv:EntryCell Title="Input" />
+
+           <sv:CustomCell IsMeasureOnce="False" IsSelectable="False"
+                            ShowArrowIndicator="False" UseFullSize="True"
+                            >
+                <Grid Padding="16,8,24,8">
+                    <Editor
+                        AutoSize="TextChanges"
+                        MinimumHeightRequest="80"
+                        MaxLength="300"
+                        Placeholder="Input your text"
+                         />
+                </Grid>
+            </sv:CustomCell>
+
         </sv:Section>
 
     </sv:SettingsView>
