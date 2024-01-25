@@ -158,7 +158,8 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
 
         if(oldCell != null)
         {
-            oldCell.Handler?.DisconnectHandler();
+            // Do not disconnect the Handler here as it may not redraw.
+            //oldCell.Handler?.DisconnectHandler();
             oldCell.PropertyChanged -= CellPropertyChanged;
             oldCell.MeasureInvalidated -= OnMeasureInvalidated;
             // Delete previous child element
@@ -185,7 +186,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             handler = newCell.Handler as IPlatformViewHandler;
             // If the incoming Cell belongs to another parent, peel it off.
             handler.PlatformView?.RemoveFromSuperview();
-            ArrangeSubView(handler);
+            ArrangeSubView(handler);            
         }
         else
         {
@@ -200,6 +201,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         if (handlerType == viewHandlerType)
         {
             handler.SetVirtualView(_virtualCell);
+            System.Diagnostics.Debug.WriteLine("SetVirtualCell");
         }
         else
         {
@@ -207,6 +209,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             //so we should dispose based on the renderer and not the renderer.Element
             handler.DisposeHandlersAndChildren();
             handler = GetNewHandler();
+            System.Diagnostics.Debug.WriteLine("Already set another cell");
         }        
 
         _virtualCell.MeasureInvalidated += OnMeasureInvalidated;        
@@ -230,10 +233,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
 
         _heightConstraint = handler.PlatformView.HeightAnchor.ConstraintEqualTo(finalH);
         _heightConstraint.Priority = 999f;
-        _heightConstraint.Active = true;           
-
-        // TODO: 不要になったかも。
-        // Layout.LayoutChildIntoBoundingRegion(_virtualCell, new Rectangle(0, 0, finalW, finalH));
+        _heightConstraint.Active = true;
 
         handler.PlatformView.UpdateConstraintsIfNeeded();
     }
