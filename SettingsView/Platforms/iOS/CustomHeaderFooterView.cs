@@ -3,6 +3,7 @@ using System.ComponentModel;
 using AiForms.Settings.Extensions;
 using CoreGraphics;
 using Foundation;
+using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using ObjCRuntime;
 using SpriteKit;
@@ -145,6 +146,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         // Workaround GestureRecognizer bug
         // TODO: if fix this issue, remove the following code.
         // https://github.com/dotnet/maui/issues/17948
+        // https://github.com/dotnet/maui/issues/1718
         newCell.Parent = Application.Current.MainPage;
 
         if (_virtualCell == newCell)
@@ -183,6 +185,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             handler = newCell.Handler as IPlatformViewHandler;
             // If the incoming Cell belongs to another parent, peel it off.
             handler.PlatformView?.RemoveFromSuperview();
+            ArrangeSubView(handler);
         }
         else
         {
@@ -248,16 +251,22 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         }
 
         var newHandler = _virtualCell.ToHandler(_virtualCell.FindMauiContext());
-        ContentView.AddSubview(newHandler.PlatformView);
 
-        var native = newHandler.PlatformView;
+        ArrangeSubView(newHandler);
+
+        return newHandler;
+    }
+
+    protected virtual void ArrangeSubView(IPlatformViewHandler handler)
+    {
+        ContentView.AddSubview(handler.PlatformView);
+
+        var native = handler.PlatformView;
         native.TranslatesAutoresizingMaskIntoConstraints = false;
 
         native.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor).Active = true;
         native.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor).Active = true;
         native.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
         native.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
-
-        return newHandler;
     }
 }

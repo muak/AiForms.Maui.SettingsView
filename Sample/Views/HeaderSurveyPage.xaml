@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    xmlns:vm="clr-namespace:Sample.ViewModels"
+    x:Class="Sample.Views.HeaderSurveyPage"
+    Title="HeaderSurveyPage"
+    x:DataType="vm:HeaderSurveyViewModel">
+
+    <sv:SettingsView>
+
+        <sv:Section>
+            <sv:Section.HeaderView>
+                <CheckBox IsChecked="{Binding IsShow.Value}" />
+            </sv:Section.HeaderView>
+        </sv:Section>
+
+        <sv:Section IsVisible="{Binding IsShow.Value}">
+            <sv:Section.HeaderView>
+                <HorizontalStackLayout>
+                    <BoxView WidthRequest="30" HeightRequest="30" Color="Bisque" />
+                    <Label Text="Header" />
+                </HorizontalStackLayout>
+            </sv:Section.HeaderView>
+            <sv:Section.FooterView>
+                <Label Text="Footer" />
+            </sv:Section.FooterView>
+            <sv:LabelCell Title="Hoge" ValueText="Abc" />
+            <sv:EntryCell Title="Input" />
+        </sv:Section>
+
+        <sv:Section IsVisible="{Binding IsShow.Value}">
+            <sv:Section.HeaderView>
+                <HorizontalStackLayout>
+                    <BoxView WidthRequest="30" HeightRequest="30" Color="Red" />
+                    <Label Text="Header" />
+                </HorizontalStackLayout>
+            </sv:Section.HeaderView>
+            <sv:Section.FooterView>
+                <Label Text="Footer" />
+            </sv:Section.FooterView>
+            <sv:LabelCell Title="Fuga" ValueText="Xyz" />
+            <sv:EntryCell Title="Input" />
+        </sv:Section>
+
+    </sv:SettingsView>
+
+</ContentPage>

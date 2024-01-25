@@ -26,6 +26,7 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<ListPage, ListViewModel>();
                     containerRegistry.RegisterForNavigation<CustomHeaderPage, CustomHeaderViewModel>();
                     containerRegistry.RegisterForNavigation<TapSurveyPage, TapSurveyViewModel>();
+                    containerRegistry.RegisterForNavigation<HeaderSurveyPage, HeaderSurveyViewModel>();
                 })
                 .OnAppStart(async(container, navigation) =>
                 {

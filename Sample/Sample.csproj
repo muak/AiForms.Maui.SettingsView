@@ -78,7 +78,8 @@
 	<ItemGroup>
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="9.0.271-pre" />
 	  <PackageReference Include="ReactiveProperty" Version="9.3.4" />
-	  <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.6" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.6" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Views\" />
