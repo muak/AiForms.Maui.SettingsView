@@ -157,6 +157,7 @@ public class CustomCellContent: UIView
             // Workaround GestureRecognizer bug
             // TODO: if fix this issue, remove the following code.
             // https://github.com/dotnet/maui/issues/17948
+            // https://github.com/dotnet/maui/issues/1718
             newCell.Parent = Application.Current.MainPage;
 
             // If Handler is not generated, generate it.            

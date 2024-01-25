@@ -20,7 +20,7 @@
 		<Description>This is a flexible TableView specialized in settings for Android / iOS. 
 There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell,CustomCell)</Description>
 		<PackageReleaseNotes>
-			Fix TapGestureRecognizer issue
+			Fix iOS Header/FooterView issue
         </PackageReleaseNotes>
 		<PackageTags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</PackageTags>
 	</PropertyGroup>
@@ -141,6 +141,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 	  <AndroidResource Include="Platforms\Android\Resources\values\attrs.xml" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.6" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.6" />
 	</ItemGroup>
 </Project>
