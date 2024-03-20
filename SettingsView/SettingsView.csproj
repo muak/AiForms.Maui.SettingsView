@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<UseMaui>true</UseMaui>
+		<MauiVersion>8.0.7</MauiVersion>
 		<SingleProject>false</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
@@ -43,105 +44,46 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 	  <EnableCodeSigning>false</EnableCodeSigning>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Compile Remove="**\**\*.Net.cs" />
-		<None Include="**\**\*.Net.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	<!-- Android -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
 		<Compile Remove="**\**\*.Android.cs" />
 		<None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\Android\**\*.cs" />
-		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
+	</ItemGroup>
+
+	<!-- iOS / Mac -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true AND $(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">
 		<Compile Remove="**\**\*.iOS.cs" />
 		<None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\iOS\**\*.cs" />
 		<None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
-    </ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<Compile Include="**\**\*.Net.cs" />		
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) == true">
-		<Compile Include="**\**\*.Android.cs" />
-		<Compile Include="**\Android\**\*.cs" />
-		<AndroidResource Include="**\Resources\**\*.axml" Generator="MSBuild:UpdateGeneratedFiles" />
-		<AndroidResource Include="**\Resources\**\*.xml" Generator="MSBuild:UpdateGeneratedFiles" />
-		<AndroidResource Include="**\Resources\**\*.png" Generator="MSBuild:UpdateGeneratedFiles" />
-	</ItemGroup>
+	<!-- NET -->
+	<ItemGroup Condition="'$(TargetFramework)' != 'net8.0'">
+		<Compile Remove="**\**\*.Net.cs" />
+		<None Include="**\**\*.Net.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>	
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) == true OR $(TargetFramework.StartsWith('net8.0-maccatalyst')) == true">
-		<Compile Include="**\**\*.iOS.cs" />		
-		<Compile Include="**\iOS\**\*.cs" />		
-	</ItemGroup>
+	<ItemGroup>
+		<AndroidResource Include="**\Resources\**\*.axml" />
+		<AndroidResource Include="**\Resources\**\*.xml" />
+		<AndroidResource Include="**\Resources\**\*.png" />
+    </ItemGroup>	
 
-	
 	<ItemGroup>
 	  <Folder Include="Cells\" />
+	  <Folder Include="Extensions\" />
 	  <Folder Include="Handlers\" />
+	  <Folder Include="Pages\" />
+	  <Folder Include="Platforms\" />
 	  <Folder Include="Platforms\Android\" />
 	  <Folder Include="Platforms\iOS\" />
-	  <Folder Include="Platforms\iOS\Extensions\" />
-	  <Folder Include="Handlers\CellBase\" />
-	  <Folder Include="Platforms\Android\Resources\" />
-	  <Folder Include="Platforms\Android\Extensions\" />
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Handlers\LabelCell\" />
-	  <Folder Include="Platforms\iOS\Cells\" />
-	  <Folder Include="Platforms\Android\Cells\" />
-	  <Folder Include="Handlers\CommandCell\" />
-	  <Folder Include="Handlers\Template\" />
-	  <Folder Include="Handlers\ButtonCell\" />
-	  <Folder Include="Handlers\CheckboxCell\" />
-	  <Folder Include="Handlers\DatePickerCell\" />
-	  <Folder Include="Handlers\EntryCell\" />
-	  <Folder Include="Handlers\NumberPickerCell\" />
-	  <Folder Include="Handlers\RadioCell\" />
-	  <Folder Include="Handlers\SwitchCell\" />
-	  <Folder Include="Handlers\TextPickerCell\" />
-	  <Folder Include="Handlers\TimePickerCell\" />
-	  <Folder Include="Handlers\LabelCellBase\" />
-	  <Folder Include="Handlers\CustomCell\" />
-	  <Folder Include="Handlers\SimpleCheckCell\" />
-	  <Folder Include="Pages\" />
-	</ItemGroup>	
-	<ItemGroup>
-	  <None Remove="Handlers\NumberPickerCell\" />
-	  <None Remove="Handlers\RadioCell\" />
-	  <None Remove="Handlers\SwitchCell\" />
-	  <None Remove="Handlers\TextPickerCell\" />
-	  <None Remove="Handlers\TimePickerCell\" />
-	  <None Remove="Handlers\LabelCellBase\" />
-	  <None Remove="Handlers\CustomCell\" />
-	  <None Remove="Handlers\SimpleCheckCell\" />
-	  <None Remove="Pages\" />
-	  <None Remove="Handlers\RadioCell\RadioCellHandler.Net.c" />
-	  <None Remove="Platforms\Android\Resources\layout\headercell.axml" />
-	  <None Remove="Platforms\Android\Resources\layout\footercell.axml" />
-	  <None Remove="Platforms\Android\Resources\layout\cellbaseview.axml" />
-	  <None Remove="Platforms\Android\Resources\layout\contentcell.axml" />
-	  <None Remove="Platforms\Android\Resources\drawable\divider.xml" />
-	  <None Remove="Platforms\Android\Resources\drawable\ic_navigate_next.xml" />
-	  <None Remove="Platforms\Android\Resources\values\Strings.xml" />
-	  <None Remove="Platforms\Android\Resources\values\styles.xml" />
-	  <None Remove="Platforms\Android\Resources\values\attrs.xml" />
 	</ItemGroup>
+
 	<ItemGroup>
-	  <MauiXaml Update="Pages\PickerPage.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	</ItemGroup>
-	<ItemGroup>
-	  <AndroidResource Include="Platforms\Android\Resources\layout\headercell.axml" />
-	  <AndroidResource Include="Platforms\Android\Resources\layout\footercell.axml" />
-	  <AndroidResource Include="Platforms\Android\Resources\layout\cellbaseview.axml" />
-	  <AndroidResource Include="Platforms\Android\Resources\layout\contentcell.axml" />
-	  <AndroidResource Include="Platforms\Android\Resources\drawable\divider.xml" />
-	  <AndroidResource Include="Platforms\Android\Resources\drawable\ic_navigate_next.xml" />
-	  <AndroidResource Include="Platforms\Android\Resources\values\Strings.xml" />
-	  <AndroidResource Include="Platforms\Android\Resources\values\styles.xml" />
-	  <AndroidResource Include="Platforms\Android\Resources\values\attrs.xml" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.6" />
-	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.6" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
 </Project>

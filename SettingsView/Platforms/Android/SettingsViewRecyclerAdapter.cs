@@ -9,7 +9,7 @@ using AndroidX.RecyclerView.Widget;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
 using AView = Android.Views.View;
-using Resource = global::AiForms.Settings.Resource;
+//using Resource = AiForms.Settings.Resource;
 using View = Microsoft.Maui.Controls.View;
 
 namespace AiForms.Settings.Platforms.Droid;

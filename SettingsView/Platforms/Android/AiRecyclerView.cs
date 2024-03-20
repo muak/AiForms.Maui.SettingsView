@@ -10,7 +10,6 @@ using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Platform;
 using View = Microsoft.Maui.Controls.View;
 using AView = Android.Views.View;
-using static System.Collections.Specialized.BitVector32;
 
 namespace AiForms.Settings.Platforms.Droid;
 
