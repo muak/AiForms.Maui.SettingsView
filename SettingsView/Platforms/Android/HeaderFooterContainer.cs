@@ -194,6 +194,7 @@ internal class HeaderFooterContainer : FrameLayout
 
     public override void AddView(AView child)
     {
+        child.RemoveFromParent();
         base.AddView(child);
 
         _currentView = child;
