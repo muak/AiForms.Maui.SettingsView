@@ -42,19 +42,8 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         VirtualView.SectionCollectionChanged += OnSectionCollectionChanged;
         VirtualView.SectionPropertyChanged += OnSectionPropertyChanged;
         VirtualView.CellPropertyChanged += OnCellPropertyChanged;
-
-        Element elm = VirtualView;
-        while (elm != null)
-        {
-            elm = elm.Parent;
-            if (elm is Page)
-            {
-                break;
-            }
-        }
-
-        _parentPage = elm as Page;
-        _parentPage.Appearing += ParentPageAppearing;
+        
+        VirtualView.ParentChanged +=  ParentChanged;
 
         _insetTracker = new KeyboardInsetTracker(_tableview, () => PlatformView.Window, insets => PlatformView.ContentInset = PlatformView.ScrollIndicatorInsets = insets, point =>
         {
@@ -66,6 +55,23 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         _contentSizeObserver = _tableview.AddObserver("contentSize", NSKeyValueObservingOptions.New, OnContentSizeChanged);
 
         return _tableview;
+    }
+    
+    void ParentChanged(object sender, EventArgs e)
+    {
+         Element elm = VirtualView;
+
+         while (elm != null)
+         {
+             elm = elm.Parent;
+             if (elm is Page)
+             {
+                 break;
+             }
+         }
+         _parentPage = elm as Page;
+         _parentPage.Appearing += ParentPageAppearing;
+         VirtualView.ParentChanged -=  ParentChanged;
     }
 
     protected override void DisconnectHandler(AiTableView platformView)
