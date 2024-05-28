@@ -80,10 +80,14 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 	  <Folder Include="Platforms\" />
 	  <Folder Include="Platforms\Android\" />
 	  <Folder Include="Platforms\iOS\" />
+	  <Folder Include="Handlers\EntryCellBase\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Handlers\EntryCellBase\" />
 	</ItemGroup>
 </Project>
