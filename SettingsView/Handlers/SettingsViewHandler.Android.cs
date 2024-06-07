@@ -1,4 +1,5 @@
 ﻿using System;
+using AiForms.Settings.Extensions;
 using AiForms.Settings.Platforms.Droid;
 using Android.Views;
 using AndroidX.RecyclerView.Widget;
@@ -26,6 +27,23 @@ public partial class SettingsViewHandler : ViewHandler<SettingsView, AiRecyclerV
     protected override AiRecyclerView CreatePlatformView()
     {        
         return new AiRecyclerView(Context, VirtualView);
+    }
+
+    protected override void ConnectHandler(AiRecyclerView platformView)
+    {
+        base.ConnectHandler(platformView);
+
+        if (SettingsViewConfiguration.ShouldAutoDisconnect)
+        {
+            VirtualView.AddCleanUpEvent();
+        }
+    }
+
+    protected override void DisconnectHandler(AiRecyclerView platformView)
+    {
+        base.DisconnectHandler(platformView);
+
+        platformView.Dispose();
     }
 
     private static void MapSeparatorColor(SettingsViewHandler handler, SettingsView sv)

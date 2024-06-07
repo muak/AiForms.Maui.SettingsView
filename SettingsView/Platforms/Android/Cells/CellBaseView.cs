@@ -611,7 +611,12 @@ public class CellBaseView : ARelativeLayout, IImageSourcePartSetter
             _imageLoader?.Reset();
             _imageLoader = null;
 
-            if(_cell != null)
+            if (CellParent != null)
+            {
+                CellParent.PropertyChanged -= ParentPropertyChanged;
+            }
+
+            if (_cell != null)
             {
                 _cell.PropertyChanged -= CellPropertyChanged;
                 if (_cell.Section != null)
@@ -622,11 +627,8 @@ public class CellBaseView : ARelativeLayout, IImageSourcePartSetter
 
                 //CellRenderer.SetRealCell(_cell, null);
                 _cell = null;
-            }
-            
-            CellParent.PropertyChanged -= ParentPropertyChanged;
+            }           
                        
-
             HintLabel?.Dispose();
             HintLabel = null;
             TitleLabel?.Dispose();

@@ -9,6 +9,7 @@ using UIKit;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Platform;
 using MobileCoreServices;
+using AiForms.Settings.Extensions;
 
 namespace AiForms.Settings.Handlers;
 
@@ -42,8 +43,6 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         VirtualView.SectionCollectionChanged += OnSectionCollectionChanged;
         VirtualView.SectionPropertyChanged += OnSectionPropertyChanged;
         VirtualView.CellPropertyChanged += OnCellPropertyChanged;
-        
-        VirtualView.ParentChanged +=  ParentChanged;
 
         _insetTracker = new KeyboardInsetTracker(_tableview, () => PlatformView.Window, insets => PlatformView.ContentInset = PlatformView.ScrollIndicatorInsets = insets, point =>
         {
@@ -55,31 +54,36 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         _contentSizeObserver = _tableview.AddObserver("contentSize", NSKeyValueObservingOptions.New, OnContentSizeChanged);
 
         return _tableview;
-    }
-    
-    void ParentChanged(object sender, EventArgs e)
-    {
-         Element elm = VirtualView;
+    }   
 
-         while (elm != null)
-         {
-             elm = elm.Parent;
-             if (elm is Page)
-             {
-                 break;
-             }
-         }
-         _parentPage = elm as Page;
-         _parentPage.Appearing += ParentPageAppearing;
-         VirtualView.ParentChanged -=  ParentChanged;
+    protected override void ConnectHandler(AiTableView platformView)
+    {
+        base.ConnectHandler(platformView);
+
+        foreach (var el in VirtualView.GetParentsPath())
+        {
+            if (el is Page page)
+            {
+                _parentPage = page;
+                _parentPage.Appearing += ParentPageAppearing;
+            }
+        }
+
+        if (SettingsViewConfiguration.ShouldAutoDisconnect)
+        {
+            VirtualView.AddCleanUpEvent();
+        }
     }
 
     protected override void DisconnectHandler(AiTableView platformView)
     {
-        _parentPage.Appearing -= ParentPageAppearing;
-        _parentPage = null;
+        if (_parentPage is not null)
+        {
+            _parentPage.Appearing -= ParentPageAppearing;
+            _parentPage = null;
+        }
 
-        _contentSizeObserver.Dispose();
+        _contentSizeObserver?.Dispose();
         _contentSizeObserver = null;
 
         VirtualView.CollectionChanged -= OnCollectionChanged;
