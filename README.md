@@ -60,13 +60,39 @@ public static MauiApp CreateMauiApp()
 {
     var builder = MauiApp.CreateBuilder();
     builder
-        .UseMauiApp<App>()                    
+        .UseMauiApp<App>()   
+        .UseSettingsView() // write this
+    ...
+}
+```
+
+OR
+
+```cs
+public static MauiApp CreateMauiApp()
+{
+    var builder = MauiApp.CreateBuilder();
+    builder
+        .UseMauiApp<App>()   
         .ConfigureMauiHandlers(handlers =>
         {
             handlers.AddSettingsViewHandler(); // write this
         });
     ...
 }
+```
+
+## Options
+
+MAUI has a fatal flaw in that the DisconnectHandler of the control is not automatically called.  
+(https://github.com/dotnet/maui/issues/18366)  
+SettingsView has an option to call DisconnectHandler on PageUnload to clean up.  
+To enable this, do the following.
+
+```cs
+...
+.UseSettingsView(true)
+...
 ```
 
 ## How to write with xaml
