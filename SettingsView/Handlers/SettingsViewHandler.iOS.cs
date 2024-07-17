@@ -107,6 +107,11 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
 
     void ParentPageAppearing(object sender, EventArgs e)
     {
+        if(_tableview is null)
+        {
+            return;
+        }
+
         if(_tableview.IndexPathForSelectedRow != null)
         {
             _tableview.DeselectRow(_tableview.IndexPathForSelectedRow, true);
