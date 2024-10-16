@@ -46,7 +46,7 @@
 	  <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-	  <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>	  	  	  	  	  
+	  <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>	  	  	  	  	  
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using AiForms.Settings.Extensions;
+using CoreGraphics;
 using Foundation;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
@@ -222,6 +224,29 @@ public class EntryCellView : CellBaseView
         ValueField.SecureTextEntry = _EntryCell.IsPassword;
     }
 
+    internal void UpdateShowDoneButton()
+    {
+        if (_EntryCell.ShowDoneButtonOnIOS)
+        {
+            var toolbar = new UIToolbar(new CGRect(0.0f, 0.0f, 50.0f, 44.0f));
+            toolbar.BackgroundColor = UIColor.LightGray;
+            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate
+            {
+                ValueField.ResignFirstResponder();
+            });
+
+            toolbar.Items = new UIBarButtonItem[] {
+                new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace),
+                doneButton
+            };
+
+            ValueField.InputAccessoryView = toolbar;
+        }
+        else
+        {
+            ValueField.InputAccessoryView = null;
+        }
+    }
 
     void _textField_EditingChanged(object sender, EventArgs e)
     {
