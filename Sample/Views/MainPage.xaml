@@ -97,7 +97,7 @@
         </sv:Section>
 
         <sv:Section Title="Input" IsVisible="{Binding InputSectionVisible.Value}">
-            <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" TextAlignment="End" HintText="{Binding InputError.Value}" Keyboard="Default" />
+            <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" TextAlignment="End" HintText="{Binding InputError.Value}" Keyboard="Default" ShowDoneButtonOnIOS="True" />
         </sv:Section>
 
         <sv:Section>

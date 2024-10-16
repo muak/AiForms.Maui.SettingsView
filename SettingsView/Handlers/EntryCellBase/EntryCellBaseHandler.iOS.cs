@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using AiForms.Settings.Platforms.iOS;
 
 namespace AiForms.Settings.Handlers;
@@ -18,7 +19,14 @@ public partial class EntryCellBaseHandler<TvirtualCell, TnativeCell>
             [nameof(EntryCell.PlaceholderColor)] = MapPlaceholder,
             [nameof(EntryCell.TextAlignment)] = MapTextAlignment,
             [nameof(EntryCell.IsPassword)] = MapIsPassword,
+            [nameof(EntryCell.ShowDoneButtonOnIOSProperty)] = MapShowDoneButtonOnIOS,
         };
+
+    private static void MapShowDoneButtonOnIOS(EntryCellBaseHandler<TvirtualCell, TnativeCell> handler, EntryCell arg2)
+    {
+        if (handler.IsDisconnect) return;
+        handler.PlatformView.UpdateShowDoneButton();
+    }
 
     private static void MapValueText(EntryCellBaseHandler<TvirtualCell, TnativeCell> handler, EntryCell arg2)
     {
