@@ -4,7 +4,7 @@
 		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<UseMaui>true</UseMaui>
 		<MauiVersion>8.0.7</MauiVersion>
-		<SingleProject>false</SingleProject>
+		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.2</SupportedOSPlatformVersion>
@@ -64,30 +64,12 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 	<ItemGroup Condition="'$(TargetFramework)' != 'net8.0'">
 		<Compile Remove="**\**\*.Net.cs" />
 		<None Include="**\**\*.Net.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	</ItemGroup>	
-
-	<ItemGroup>
-		<AndroidResource Include="**\Resources\**\*.axml" />
-		<AndroidResource Include="**\Resources\**\*.xml" />
-		<AndroidResource Include="**\Resources\**\*.png" />
-    </ItemGroup>	
-
-	<ItemGroup>
-	  <Folder Include="Cells\" />
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Handlers\" />
-	  <Folder Include="Pages\" />
-	  <Folder Include="Platforms\" />
-	  <Folder Include="Platforms\Android\" />
-	  <Folder Include="Platforms\iOS\" />
-	  <Folder Include="Handlers\EntryCellBase\" />
 	</ItemGroup>
+	
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="Handlers\EntryCellBase\" />
-	</ItemGroup>
+
 </Project>
