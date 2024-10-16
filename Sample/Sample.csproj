@@ -5,7 +5,7 @@
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Sample</RootNamespace>
 		<UseMaui>true</UseMaui>
-		<MauiVersion>8.0.7</MauiVersion>
+		<MauiVersion>8.0.80</MauiVersion>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
@@ -27,11 +27,9 @@
 
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>10.0</LangVersion>
+		<AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
 	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<LangVersion>10.0</LangVersion>
-	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 		<CodesignKey>iPhone Developer</CodesignKey>
 		<MtouchLink>None</MtouchLink>
@@ -64,51 +62,15 @@
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Prism.DryIoc.Maui" />
-	  <None Remove="Views\" />
-	  <None Remove="ViewModels\" />
-	  <None Remove="Platforms\Android\Resources\layout\" />
-	  <None Remove="ReactiveProperty" />
-	  <None Remove="Views\Cells\" />
-	  <None Remove="Resources\.DS_Store" />
-	  <None Remove="AiForms.Maui.SettingsView" />
-	  <None Remove="Resources\Images\ic_close.svg" />
-	</ItemGroup>
+	
 	<ItemGroup>
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="9.0.271-pre" />
 	  <PackageReference Include="ReactiveProperty" Version="9.3.4" />
 	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Views\" />
-	  <Folder Include="ViewModels\" />
-	  <Folder Include="Platforms\Android\Resources\layout\" />
-	  <Folder Include="Views\Cells\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <MauiXaml Condition=" '$(EnableDefaultXamlItems)' == 'true' " Update="Views\MainPage.xaml">
-	    <SubType>Designer</SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\MyCellA.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\MyCellB.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\MyCellC.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\SliderCell.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\SettingsView\SettingsView.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <BundleResource Include="Resources\Images\ic_close.svg" />
 	</ItemGroup>
 </Project>
