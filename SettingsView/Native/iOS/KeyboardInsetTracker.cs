@@ -21,11 +21,6 @@ internal class KeyboardInsetTracker : IDisposable
     bool _disposed;
 
     RectangleF _lastKeyboardRect;
-    ShellScrollViewTracker _shellScrollViewTracker;
-
-    //public KeyboardInsetTracker(UIView targetView, Func<UIWindow> fetchWindow, Action<UIEdgeInsets> setInsetAction) : this(targetView, fetchWindow, setInsetAction, null)
-    //{
-    //}
 
     public KeyboardInsetTracker(UIView targetView, Func<UIWindow> fetchWindow, Action<UIEdgeInsets> setInsetAction, Action<PointF> setContentOffset, IPlatformViewHandler renderer)
     {
@@ -35,10 +30,6 @@ internal class KeyboardInsetTracker : IDisposable
         _setInsetAction = setInsetAction;
         KeyboardObserver.KeyboardWillShow += OnKeyboardShown;
         KeyboardObserver.KeyboardWillHide += OnKeyboardHidden;
-        //if (renderer != null)
-        //{
-        //    _shellScrollViewTracker = new ShellScrollViewTracker(renderer);
-        //}
     }
 
     public void Dispose()
@@ -49,8 +40,6 @@ internal class KeyboardInsetTracker : IDisposable
 
         KeyboardObserver.KeyboardWillShow -= OnKeyboardShown;
         KeyboardObserver.KeyboardWillHide -= OnKeyboardHidden;
-        //_shellScrollViewTracker?.Dispose();
-        //_shellScrollViewTracker = null;
     }
 
     //This method allows us to update the insets if the Frame changes
@@ -95,14 +84,8 @@ internal class KeyboardInsetTracker : IDisposable
         }
     }
 
-    public void OnLayoutSubviews() => _shellScrollViewTracker?.OnLayoutSubviews();
-
     void OnKeyboardHidden(object sender, UIKeyboardEventArgs args)
     {
-        //if (_shellScrollViewTracker == null || !_shellScrollViewTracker.Reset())
-        //{
-        //    _setInsetAction(new UIEdgeInsets(0, 0, 0, 0));
-        //}
         _setInsetAction(new UIEdgeInsets(0, 0, 0, 0));
         _lastKeyboardRect = RectangleF.Empty;
     }
