@@ -70,6 +70,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
     bool _disposed;
     NSLayoutConstraint _heightConstraint;
     View _virtualCell;
+    UITableView _tableView;
     IMauiContext _mauiContext => _virtualCell.FindMauiContext();    
 
     public CustomHeaderFooterView()
@@ -109,6 +110,14 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             {
                 _virtualCell.PropertyChanged -= CellPropertyChanged;
                 _virtualCell.MeasureInvalidated -= OnMeasureInvalidated;
+                foreach (var child in CustomCellContent.ElementDescendants(_virtualCell))
+                {
+                    if (child is Layout layout)
+                    {
+                        layout.SizeChanged -= OnInnerLayoutSizeChanged;
+                    }
+                    child.MeasureInvalidated -= OnMeasureInvalidated;
+                }
                 _virtualCell.DisposeModalAndChildHandlers();
             }
 
@@ -116,6 +125,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             _heightConstraint = null;
      
             _virtualCell = null;
+            _tableView = null;
         }
 
         _disposed = true;
@@ -147,8 +157,10 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         // TODO: if fix this issue, remove the following code.
         // https://github.com/dotnet/maui/issues/17948
         // https://github.com/dotnet/maui/issues/1718
-        newCell.Parent = Application.Current.MainPage;
+        // newCell.Parent = Application.Current.MainPage;
 
+        _tableView = tableView; 
+        
         if (_virtualCell == newCell)
         {
             return;
@@ -166,6 +178,15 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             foreach (var subView in ContentView.Subviews)
             {
                 subView.RemoveFromSuperview();
+            }
+            
+            foreach (var child in CustomCellContent.ElementDescendants(oldCell))
+            {
+                if (child is Layout layout)
+                {
+                    layout.SizeChanged -= OnInnerLayoutSizeChanged;
+                }
+                child.MeasureInvalidated -= OnMeasureInvalidated;
             }
         }
 
@@ -210,9 +231,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             handler.DisposeHandlersAndChildren();
             handler = GetNewHandler();
             System.Diagnostics.Debug.WriteLine("Already set another cell");
-        }        
-
-        _virtualCell.MeasureInvalidated += OnMeasureInvalidated;        
+        }       
 
         var height = double.PositiveInfinity;
         var result = _virtualCell.Measure(tableView.Frame.Width, height,MeasureFlags.IncludeMargins);
@@ -236,11 +255,28 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         _heightConstraint.Active = true;
 
         handler.PlatformView.UpdateConstraintsIfNeeded();
+        
+        _virtualCell.MeasureInvalidated += OnMeasureInvalidated;  
+        foreach (var child in CustomCellContent.ElementDescendants(_virtualCell))
+        {
+            if(child is Layout layout)
+            {
+                // Also detects changes in the size of descendant layout(BindableLayout)
+                layout.SizeChanged += OnInnerLayoutSizeChanged;
+            }
+            // Also detects changes in the size of descendant elements
+            child.MeasureInvalidated += OnMeasureInvalidated;
+        }
     }
 
+    private void OnInnerLayoutSizeChanged(object sender, EventArgs e)
+    {
+        LayoutDispacher();
+    }  
+    
     private void OnMeasureInvalidated(object sender, EventArgs e)
     {
-        SetNeedsLayout();
+        LayoutDispacher();
     }
 
     protected virtual IPlatformViewHandler GetNewHandler()
@@ -269,4 +305,57 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         native.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
         native.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
     }
+    
+    async Task ForceLayout(CancellationToken token)
+    {
+        if(_tableView == null)
+        {
+            return;
+        }
+        var tableView = _tableView;
+        var handler = _virtualCell.Handler as IPlatformViewHandler;
+
+        // Wait a little and execute layout processing only on the last event
+        await Task.Delay(100);
+        if (token.IsCancellationRequested)
+        {
+            return;
+        }
+        
+        var height = double.PositiveInfinity;
+        
+        var result = _virtualCell.Measure(tableView.Frame.Width, height, MeasureFlags.IncludeMargins);
+        var finalW = result.Request.Width;
+        if (_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
+        {
+            finalW = tableView.Frame.Width;
+        }
+        var finalH = (float)result.Request.Height;
+
+        if (_heightConstraint != null)
+        {
+            _heightConstraint.Active = false;
+            _heightConstraint?.Dispose();
+        }
+        
+        var native = handler!.PlatformView!;
+        
+        _heightConstraint = native.HeightAnchor.ConstraintEqualTo(finalH);
+        _heightConstraint.Priority = 999f;
+        _heightConstraint.Active = true;
+
+        _virtualCell.Arrange(new Rect(0, 0, finalW, finalH));
+
+        tableView.BeginUpdates();
+        tableView.EndUpdates();
+    }  
+    
+    CancellationTokenSource _cts = new CancellationTokenSource();
+    void LayoutDispacher()
+    {
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        _ = ForceLayout(_cts.Token);
+    }
+    
 }

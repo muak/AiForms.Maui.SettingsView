@@ -99,7 +99,7 @@ public class CustomCellContent: UIView
         // Workaround GestureRecognizer bug
         // TODO: if fix this issue, remove the following code.
         // https://github.com/dotnet/maui/issues/17948
-        newCell.Parent = Application.Current.MainPage;
+        // newCell.Parent = Application.Current.MainPage;
 
         _tableView = tableView;       
 
@@ -158,7 +158,7 @@ public class CustomCellContent: UIView
             // TODO: if fix this issue, remove the following code.
             // https://github.com/dotnet/maui/issues/17948
             // https://github.com/dotnet/maui/issues/1718
-            newCell.Parent = Application.Current.MainPage;
+            // newCell.Parent = Application.Current.MainPage;
 
             // If Handler is not generated, generate it.            
             handler = newCell.ToHandler(newCell.FindMauiContext());
@@ -319,7 +319,7 @@ public class CustomCellContent: UIView
         _ = ForceLayout(_cts.Token);
     }
 
-    static IEnumerable<VisualElement> ElementDescendants(Element element)
+    internal static IEnumerable<VisualElement> ElementDescendants(Element element)
     {
         return (ElementDescendantsInfo.Invoke(element, new object[] { }) as IEnumerable<Element>).OfType<VisualElement>();
     }
