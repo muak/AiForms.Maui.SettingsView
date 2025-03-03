@@ -16,21 +16,25 @@ public partial class TextPickerCellHandler : LabelCellBaseHandler<TextPickerCell
 
     private static void MapItems(TextPickerCellHandler handler, TextPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateItems();
     }
 
     private static void MapSelectedItem(TextPickerCellHandler handler, TextPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateSelectedItem();
     }
 
     private static void MapPickerTitle(TextPickerCellHandler handler, TextPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateTitle();
     }
 
     private static void MapSelectedCommand(TextPickerCellHandler handler, TextPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateCommand();
     }
 }

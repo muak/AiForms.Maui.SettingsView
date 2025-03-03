@@ -60,7 +60,20 @@ public static MauiApp CreateMauiApp()
 {
     var builder = MauiApp.CreateBuilder();
     builder
-        .UseMauiApp<App>()                    
+        .UseMauiApp<App>()   
+        .UseSettingsView() // write this
+    ...
+}
+```
+
+OR
+
+```cs
+public static MauiApp CreateMauiApp()
+{
+    var builder = MauiApp.CreateBuilder();
+    builder
+        .UseMauiApp<App>()   
         .ConfigureMauiHandlers(handlers =>
         {
             handlers.AddSettingsViewHandler(); // write this
@@ -69,13 +82,26 @@ public static MauiApp CreateMauiApp()
 }
 ```
 
+## Options
+
+MAUI has a fatal flaw in that the DisconnectHandler of the control is not automatically called.  
+(https://github.com/dotnet/maui/issues/18366)  
+SettingsView has an option to call DisconnectHandler on PageUnload to clean up.  
+To enable this, do the following.
+
+```cs
+...
+.UseSettingsView(true)
+...
+```
+
 ## How to write with xaml
 
 ```xml
 <ContentPage 
 	xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+	xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
 	x:Class="Sample.Views.SettingsViewPage">
     
 <sv:SettingsView HasUnevenRows="true">
@@ -113,7 +139,7 @@ For example...
 ```xml
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
              x:Class="Sample.App">
     <Application.Resources>
         <ResourceDictionary>

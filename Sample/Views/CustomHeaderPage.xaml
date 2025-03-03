@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    x:Class="Sample.Views.CustomHeaderPage"
+    Title="CustomHeaderPage">
+    <Grid RowDefinitions="*,Auto" BackgroundColor="LightGray">
+        <sv:SettingsView HeaderBackgroundColor="LightGray" Grid.Row="0">
+            <sv:Section>
+                <sv:Section.HeaderView>
+                   <Grid RowDefinitions="Auto,Auto" Padding="16,8,16,8">
+                        <Border Grid.Row="0"
+                            Stroke="Red"
+                            StrokeThickness="{OnPlatform iOS=3,Android=1}"
+                            Padding="8" BackgroundColor="#FFDDDD"                                   
+                            Margin="0,8,0,8" StrokeShape="RoundRectangle 16">
+                        
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto">
+
+                                <Image Grid.Column="0"
+                                        Source="dotnet_bot"
+                                        WidthRequest="30" HeightRequest="30"
+                                        VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding Description.Value}"
+                                        TextColor="Black"
+                                        FontSize="18"
+                                        LineBreakMode="WordWrap"
+                                        />
+                                <Image Grid.Column="2" Source="ic_close"
+                                        WidthRequest="12" HeightRequest="12"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                        <StackLayout Orientation="Horizontal" Spacing="0" Grid.Row="1"
+                                     >
+
+                            <CheckBox IsChecked="{Binding IsAgree.Value}" Color="Orange"
+                                        VerticalOptions="Center" WidthRequest="36" x:Name="agreeCheckbox" />
+                            <Label Text="I Agree"
+                                    TextColor="Black"
+                                    FontSize="18"
+                                    VerticalOptions="Center" />
+                        </StackLayout>
+                    </Grid>
+                
+                </sv:Section.HeaderView>                
+            </sv:Section>
+
+            <sv:Section Title="TitleA">
+                <sv:LabelCell Title="Label" />
+            </sv:Section>
+
+            <sv:Section Title="TitleB">
+                <sv:LabelCell Title="Label" />
+            </sv:Section>
+
+        </sv:SettingsView>
+
+        <Button Grid.Row="1" Text="Button" Margin="32,16,32,16" />
+    </Grid>
+</ContentPage>

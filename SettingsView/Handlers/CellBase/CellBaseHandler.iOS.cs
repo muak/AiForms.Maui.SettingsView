@@ -10,9 +10,7 @@ using UIKit;
 namespace AiForms.Settings.Handlers
 {
     [Foundation.Preserve(AllMembers = true)]
-    public partial class CellBaseHandler<TvirtualCell, TnativeCell> : ElementHandler<TvirtualCell, TnativeCell>, IRegisterable
-        where TvirtualCell : CellBase
-        where TnativeCell : CellBaseView
+    public partial class CellBaseHandler<TvirtualCell, TnativeCell> 
     {
         public static IPropertyMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>> BasePropertyMapper =
             new PropertyMapper<CellBase, CellBaseHandler<TvirtualCell, TnativeCell>>(ElementMapper)
@@ -62,11 +60,23 @@ namespace AiForms.Settings.Handlers
         {
             var reusableCell = VirtualView.ReusableCell;
             var tv = VirtualView.TableView;
-            VirtualView.ReusableCell = null;
-            VirtualView.TableView = null;
 
             return GetCell(VirtualView, reusableCell, tv);
         }
+
+        protected override void DisconnectHandler(TnativeCell platformView)
+        {
+            base.DisconnectHandler(platformView);
+            IsDisconnect = true;
+        }
+
+        protected override void ConnectHandler(TnativeCell platformView)
+        {
+            base.ConnectHandler(platformView);
+            IsDisconnect = false;            
+        }
+
+        public bool IsDisconnect { get; private set; }
 
         /// <summary>
         /// Gets the cell.
@@ -96,16 +106,21 @@ namespace AiForms.Settings.Handlers
 
         private static void MapTitleText(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            ((CellBaseView?)handler.PlatformView)?.UpdateTitleText();
+            if (handler.IsDisconnect) return;
+            var nativeView = handler.PlatformView as CellBaseView;
+            nativeView?.UpdateTitleText();
         }
 
         private static void MapTitleColor(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            ((CellBaseView?)handler.PlatformView)?.UpdateTitleColor();
+            if (handler.IsDisconnect) return;
+            var nativeView = handler.PlatformView as CellBaseView;
+            nativeView?.UpdateTitleColor();
         }
 
         private static void MapTitleFont(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateTitleFont();
             nativeView?.UpdateLayout();
@@ -113,6 +128,7 @@ namespace AiForms.Settings.Handlers
 
         private static void MapDescriptionText(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateDescriptionText();
             nativeView?.UpdateLayout();
@@ -120,11 +136,14 @@ namespace AiForms.Settings.Handlers
 
         private static void MapDescriptionColor(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            ((CellBaseView?)handler.PlatformView)?.UpdateDescriptionColor();
+            if (handler.IsDisconnect) return;
+            var nativeView = handler.PlatformView as CellBaseView;
+            nativeView?.UpdateDescriptionColor();
         }
 
         private static void MapDescriptionFont(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateDescriptionFont();
             nativeView?.UpdateLayout();
@@ -132,6 +151,7 @@ namespace AiForms.Settings.Handlers
 
         private static void MapHintText(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeCell = handler.PlatformView as CellBaseView;
             nativeCell?.UpdateHintText();
             nativeCell?.UpdateLayout();
@@ -139,11 +159,14 @@ namespace AiForms.Settings.Handlers
 
         private static void MapHintTextColor(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            ((CellBaseView?)handler.PlatformView)?.UpdateHintTextColor();
+            if (handler.IsDisconnect) return;
+            var nativeView = handler.PlatformView as CellBaseView;
+            nativeView?.UpdateHintTextColor();
         }
 
         private static void MapHintFont(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateHintFont();
             nativeView?.UpdateLayout();
@@ -151,6 +174,7 @@ namespace AiForms.Settings.Handlers
 
         private static void MapIconRadius(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateIconRadius();
             nativeView?.UpdateLayout();
@@ -158,6 +182,7 @@ namespace AiForms.Settings.Handlers
 
         private static void MapIconSize(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateIconSize();
             nativeView?.UpdateLayout();
@@ -165,23 +190,30 @@ namespace AiForms.Settings.Handlers
 
         private static void MapIconSource(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
+            if (handler.IsDisconnect) return;
             var nativeView = handler.PlatformView as CellBaseView;
             nativeView?.UpdateIcon();
         }
 
         private static void MapIsVisible(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            ((CellBaseView?)handler.PlatformView)?.UpdateIsVisible();
+            if (handler.IsDisconnect) return;
+            var nativeView = handler.PlatformView as CellBaseView;
+            nativeView?.UpdateIsVisible();
         }
 
         private static void MapIsEnabled(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            ((CellBaseView?)handler.PlatformView)?.UpdateIsEnabled();
+            if (handler.IsDisconnect) return;
+            var nativeView = handler.PlatformView as CellBaseView;
+            nativeView?.UpdateIsEnabled();
         }
 
         private static void MapBackgroundColor(CellBaseHandler<TvirtualCell, TnativeCell> handler, CellBase cell)
         {
-            ((CellBaseView?)handler.PlatformView)?.UpdateBackgroundColor();
+            if (handler.IsDisconnect) return;
+            var nativeView = handler.PlatformView as CellBaseView;
+            nativeView?.UpdateBackgroundColor();
         }
     }
 }

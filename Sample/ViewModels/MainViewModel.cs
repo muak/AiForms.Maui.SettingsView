@@ -14,9 +14,13 @@ namespace Sample.ViewModels
         public ReadOnlyReactiveProperty<string> InputError { get; }
 
         public ReactiveProperty<bool> InputSectionVisible { get; } = new ReactiveProperty<bool>(true);
+        public ReactivePropertySlim<string> Content { get; } = new ReactivePropertySlim<string>("");
+        public ReactivePropertySlim<string> Description { get; } = new ReactivePropertySlim<string>("");
 
         public ReactiveCommand ToProfileCommand { get; set; } = new ReactiveCommand();
         public AsyncReactiveCommand SectionToggleCommand { get; set; }
+        public ReactiveCommand ClearContentCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand AddContentCommand { get; } = new ReactiveCommand();
 
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<Person> SelectedItems { get; } = new ObservableCollection<Person>();
@@ -41,7 +45,22 @@ namespace Sample.ViewModels
             });
 
             ToProfileCommand.Subscribe(async _ => {
-                await navigationService.NavigateAsync("ContentPage");
+
+                //Description.Value += "01234567890";
+                //await navigationService.NavigateAsync("ListPage");
+                //await navigationService.NavigateAsync("TapSurveyPage");
+                // await navigationService.NavigateAsync("HeaderSurveyPage");
+                await navigationService.NavigateAsync("DynamicHeaderSizePage");
+            });
+
+            AddContentCommand.Subscribe(_ =>
+            {
+                Content.Value += "A\n";
+            });
+
+            ClearContentCommand.Subscribe(_ =>
+            {
+                Content.Value = "";
             });
 
             foreach (var item in languages)

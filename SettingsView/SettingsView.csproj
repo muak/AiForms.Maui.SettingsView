@@ -1,18 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
+		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<UseMaui>true</UseMaui>
+		<MauiVersion>8.0.7</MauiVersion>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
-
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">27.0</SupportedOSPlatformVersion>
 		<RootNamespace>AiForms.Settings</RootNamespace>
+
+		<PackageId>AiForms.Maui.SettingsView</PackageId>
+		<Authors>kamu</Authors>
+		<Company>kamu</Company>
+		<Product>SettingsView for .NET MAUI</Product>
+		<PackageProjectUrl>https://github.com/muak/AiForms.Maui.SettingsView</PackageProjectUrl>
+		<PackageLicenseUrl>https://github.com/muak/AiForms.Maui.SettingsView/blob/master/LICENSE.txt</PackageLicenseUrl>
+		<PackageIconUrl>https://raw.githubusercontent.com/muak/AiForms.Maui.SettingsView/master/images/icon.png</PackageIconUrl>
+		<Description>This is a flexible TableView specialized in settings for Android / iOS. 
+There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell,CustomCell)</Description>
+		<PackageReleaseNotes>
+			iOS Header/FooterView dynamic height support
+        </PackageReleaseNotes>
+		<PackageTags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</PackageTags>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
-	  <EnableCodeSigning>false</EnableCodeSigning>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+	  <EnableCodeSigning>False</EnableCodeSigning>
+	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 	  <WarningLevel>4</WarningLevel>
@@ -23,74 +39,37 @@
 	  <DebugType>pdbonly</DebugType>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 	  <DebugSymbols>true</DebugSymbols>
 	  <EnableCodeSigning>false</EnableCodeSigning>
 	</PropertyGroup>
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) != true">
-	  <Compile Remove="**\**\*.Android.cs" />
-	  <None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	  <Compile Remove="**\Android\**\*.cs" />
-	  <None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
+
+	<!-- Android -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
+		<Compile Remove="**\**\*.Android.cs" />
+		<None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\Android\**\*.cs" />
+		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) != true AND $(TargetFramework.StartsWith('net6.0-maccatalyst')) != true">
-	  <Compile Remove="**\**\*.iOS.cs" />
-	  <None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	  <Compile Remove="**\iOS\**\*.cs" />
-	  <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
+	<!-- iOS / Mac -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true AND $(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">
+		<Compile Remove="**\**\*.iOS.cs" />
+		<None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\iOS\**\*.cs" />
+		<None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) == true">
-		<AndroidResource Include="**\Resources\**\*.axml" Generator="MSBuild:UpdateGeneratedFiles" />
-		<AndroidResource Include="**\Resources\**\*.xml" Generator="MSBuild:UpdateGeneratedFiles" />
-		<AndroidResource Include="**\Resources\**\*.png" Generator="MSBuild:UpdateGeneratedFiles" />
-	  </ItemGroup>
-
+	<!-- NET -->
+	<ItemGroup Condition="'$(TargetFramework)' != 'net8.0'">
+		<Compile Remove="**\**\*.Net.cs" />
+		<None Include="**\**\*.Net.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
 	
+
 	<ItemGroup>
-	  <Folder Include="Cells\" />
-	  <Folder Include="Handlers\" />
-	  <Folder Include="Platforms\Android\" />
-	  <Folder Include="Platforms\iOS\" />
-	  <Folder Include="Platforms\iOS\Extensions\" />
-	  <Folder Include="Handlers\CellBase\" />
-	  <Folder Include="Platforms\Android\Resources\" />
-	  <Folder Include="Platforms\Android\Extensions\" />
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Handlers\LabelCell\" />
-	  <Folder Include="Platforms\iOS\Cells\" />
-	  <Folder Include="Platforms\Android\Cells\" />
-	  <Folder Include="Handlers\CommandCell\" />
-	  <Folder Include="Handlers\Template\" />
-	  <Folder Include="Handlers\ButtonCell\" />
-	  <Folder Include="Handlers\CheckboxCell\" />
-	  <Folder Include="Handlers\DatePickerCell\" />
-	  <Folder Include="Handlers\EntryCell\" />
-	  <Folder Include="Handlers\NumberPickerCell\" />
-	  <Folder Include="Handlers\RadioCell\" />
-	  <Folder Include="Handlers\SwitchCell\" />
-	  <Folder Include="Handlers\TextPickerCell\" />
-	  <Folder Include="Handlers\TimePickerCell\" />
-	  <Folder Include="Handlers\LabelCellBase\" />
-	  <Folder Include="Handlers\CustomCell\" />
-	  <Folder Include="Handlers\SimpleCheckCell\" />
-	  <Folder Include="Pages\" />
-	</ItemGroup>	
-	<ItemGroup>
-	  <None Remove="Handlers\NumberPickerCell\" />
-	  <None Remove="Handlers\RadioCell\" />
-	  <None Remove="Handlers\SwitchCell\" />
-	  <None Remove="Handlers\TextPickerCell\" />
-	  <None Remove="Handlers\TimePickerCell\" />
-	  <None Remove="Handlers\LabelCellBase\" />
-	  <None Remove="Handlers\CustomCell\" />
-	  <None Remove="Handlers\SimpleCheckCell\" />
-	  <None Remove="Pages\" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
-	<ItemGroup>
-	  <MauiXaml Update="Pages\PickerPage.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	</ItemGroup>
+
 </Project>

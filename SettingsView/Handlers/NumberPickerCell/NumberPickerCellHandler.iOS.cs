@@ -17,21 +17,25 @@ public partial class NumberPickerCellHandler : LabelCellBaseHandler<NumberPicker
 
     private static void MapNumberList(NumberPickerCellHandler handler, NumberPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateNumberList();
     }
 
     private static void MapNumber(NumberPickerCellHandler handler, NumberPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateNumber();
     }
 
     private static void MapPickerTitle(NumberPickerCellHandler handler, NumberPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateTitle();
     }
 
     private static void MapSelectedCommand(NumberPickerCellHandler handler, NumberPickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateCommand();
     }
 }

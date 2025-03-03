@@ -302,7 +302,20 @@ public class EntryCell:CellBase,IEntryCellController
         set { SetValue(IsPasswordProperty, value); }
     }
 
+    public static BindableProperty ShowDoneButtonOnIOSProperty =
+        BindableProperty.Create(
+            nameof(ShowDoneButtonOnIOS),
+            typeof(bool),
+            typeof(EntryCell),
+            default(bool),
+            defaultBindingMode: BindingMode.OneWay
+        );
 
+    public bool ShowDoneButtonOnIOS
+    {
+        get { return (bool)GetValue(ShowDoneButtonOnIOSProperty); }
+        set { SetValue(ShowDoneButtonOnIOSProperty, value); }
+    }
 
     internal event EventHandler Focused;
     /// <summary>

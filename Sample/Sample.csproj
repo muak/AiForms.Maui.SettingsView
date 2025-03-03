@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Sample</RootNamespace>
 		<UseMaui>true</UseMaui>
+		<MauiVersion>8.0.93</MauiVersion>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
@@ -19,24 +20,33 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">27.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>10.0</LangVersion>
+		<AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
 	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<LangVersion>10.0</LangVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 		<CodesignKey>iPhone Developer</CodesignKey>
-		<EnableCodeSigning>false</EnableCodeSigning>
 		<MtouchLink>None</MtouchLink>
+		<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
-	  <EnableCodeSigning>false</EnableCodeSigning>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+	  <CodesignKey>iPhone Developer</CodesignKey>
+	  <MtouchDebug>true</MtouchDebug>
+	  <!--<CodesignProvision>自動</CodesignProvision>-->
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
+	  <CodesignKey>Mac Developer</CodesignKey>
+	  <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>	  	  	  	  	  
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -52,44 +62,14 @@
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
-	  <None Remove="Prism.DryIoc.Maui" />
-	  <None Remove="Views\" />
-	  <None Remove="ViewModels\" />
-	  <None Remove="Platforms\Android\Resources\layout\" />
-	  <None Remove="ReactiveProperty" />
-	  <None Remove="Views\Cells\" />
-	  <None Remove="Resources\.DS_Store" />
-	  <None Remove="AiForms.Maui.SettingsView" />
+	  <PackageReference Include="Prism.DryIoc.Maui" Version="9.0.271-pre" />
+	  <PackageReference Include="ReactiveProperty" Version="9.3.4" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
-	  <PackageReference Include="ReactiveProperty" Version="8.1.2" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Views\" />
-	  <Folder Include="ViewModels\" />
-	  <Folder Include="Platforms\Android\Resources\layout\" />
-	  <Folder Include="Views\Cells\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <MauiXaml Condition=" '$(EnableDefaultXamlItems)' == 'true' " Update="Views\MainPage.xaml">
-	    <SubType>Designer</SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\MyCellA.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\MyCellB.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\MyCellC.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Cells\SliderCell.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\SettingsView\SettingsView.csproj" />
 	</ItemGroup>

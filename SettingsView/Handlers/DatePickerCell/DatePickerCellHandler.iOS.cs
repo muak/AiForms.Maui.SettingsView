@@ -17,21 +17,25 @@ public partial class DatePickerCellHandler : LabelCellBaseHandler<DatePickerCell
 
     private static void MapDate(DatePickerCellHandler handler, DatePickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateDate();
     }
 
     private static void MapMaximumDate(DatePickerCellHandler handler, DatePickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateMaximumDate();
     }
 
     private static void MapMinimumDate(DatePickerCellHandler handler, DatePickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateMinimumDate();
     }
 
     private static void MapTodayText(DatePickerCellHandler handler, DatePickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateTodayText();
     }
 }

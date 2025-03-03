@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    xmlns:vm="clr-namespace:Sample.ViewModels"
+    x:Class="Sample.Views.DynamicHeaderSizePage"
+    x:DataType="vm:DynamicHeaderSizeViewModel"
+    BackgroundColor="#F2EFE6">
+
+    <sv:SettingsView HasUnevenRows="True">
+        
+        <sv:Section Title="Section">
+            <sv:LabelCell Title="Hoge" />
+        </sv:Section>
+        
+        <sv:Section Title="DynamicSection">
+            <sv:Section.FooterView>
+                <VerticalStackLayout Spacing="4"
+                                     BindableLayout.ItemsSource="{Binding Items}">
+                    <BindableLayout.EmptyView>
+                        
+                        <ActivityIndicator
+                            WidthRequest="24" HeightRequest="24"
+                            IsRunning="True"
+                            Color="Red"
+                            />
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:SampleHeaderModel">
+                            <Border Stroke="Gray" StrokeThickness="1"
+                                    BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 16"
+                                    Margin="16" Padding="12">
+                            <VerticalStackLayout>
+                                <Label
+                                    Text="{Binding HeaderTitle}"
+                                    FontSize="24"
+                                    FontAttributes="Bold"
+                                    />
+                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding DataList}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:SampleDataModel">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <Label
+                                                    Grid.Column="0"
+                                                    Text="{Binding Title}"
+                                                    VerticalOptions="Center"
+                                                    />
+                                                <Label
+                                                    Grid.Column="1"
+                                                    Text="{Binding Data}"
+                                                    VerticalOptions="Center"
+                                                    />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </sv:Section.FooterView>
+        </sv:Section>
+        
+        <sv:Section Title="Section">
+            <sv:LabelCell Title="A" />
+            <sv:LabelCell Title="B" />
+            <sv:LabelCell Title="C" />
+            <sv:LabelCell Title="D" />
+        </sv:Section>
+        
+    </sv:SettingsView>
+</ContentPage>

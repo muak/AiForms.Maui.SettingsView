@@ -9,6 +9,7 @@ using UIKit;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Platform;
 using MobileCoreServices;
+using AiForms.Settings.Extensions;
 
 namespace AiForms.Settings.Handlers;
 
@@ -43,19 +44,6 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         VirtualView.SectionPropertyChanged += OnSectionPropertyChanged;
         VirtualView.CellPropertyChanged += OnCellPropertyChanged;
 
-        Element elm = VirtualView;
-        while (elm != null)
-        {
-            elm = elm.Parent;
-            if (elm is Page)
-            {
-                break;
-            }
-        }
-
-        _parentPage = elm as Page;
-        _parentPage.Appearing += ParentPageAppearing;
-
         _insetTracker = new KeyboardInsetTracker(_tableview, () => PlatformView.Window, insets => PlatformView.ContentInset = PlatformView.ScrollIndicatorInsets = insets, point =>
         {
             var offset = PlatformView.ContentOffset;
@@ -66,14 +54,36 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         _contentSizeObserver = _tableview.AddObserver("contentSize", NSKeyValueObservingOptions.New, OnContentSizeChanged);
 
         return _tableview;
+    }   
+
+    protected override void ConnectHandler(AiTableView platformView)
+    {
+        base.ConnectHandler(platformView);
+
+        foreach (var el in VirtualView.GetParentsPath())
+        {
+            if (el is Page page)
+            {
+                _parentPage = page;
+                _parentPage.Appearing += ParentPageAppearing;
+            }
+        }
+
+        if (SettingsViewConfiguration.ShouldAutoDisconnect)
+        {
+            VirtualView.AddCleanUpEvent();
+        }
     }
 
     protected override void DisconnectHandler(AiTableView platformView)
     {
-        _parentPage.Appearing -= ParentPageAppearing;
-        _parentPage = null;
+        if (_parentPage is not null)
+        {
+            _parentPage.Appearing -= ParentPageAppearing;
+            _parentPage = null;
+        }
 
-        _contentSizeObserver.Dispose();
+        _contentSizeObserver?.Dispose();
         _contentSizeObserver = null;
 
         VirtualView.CollectionChanged -= OnCollectionChanged;
@@ -84,6 +94,7 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
         _insetTracker?.Dispose();
         _insetTracker = null;
 
+        _tableview?.Dispose();
         _tableview = null;
 
         base.DisconnectHandler(platformView);
@@ -96,6 +107,11 @@ public partial class SettingsViewHandler: ViewHandler<SettingsView, AiTableView>
 
     void ParentPageAppearing(object sender, EventArgs e)
     {
+        if(_tableview is null)
+        {
+            return;
+        }
+
         if(_tableview.IndexPathForSelectedRow != null)
         {
             _tableview.DeselectRow(_tableview.IndexPathForSelectedRow, true);

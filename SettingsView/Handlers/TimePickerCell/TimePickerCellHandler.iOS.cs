@@ -15,11 +15,13 @@ public partial class TimePickerCellHandler : LabelCellBaseHandler<TimePickerCell
 
     private static void MapTime(TimePickerCellHandler handler, TimePickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdateTime();
     }
 
     private static void MapPickerTitle(TimePickerCellHandler handler, TimePickerCell arg2)
     {
+        if (handler.IsDisconnect) return;
         handler.PlatformView.UpdatePickerTitle();
     }
 }

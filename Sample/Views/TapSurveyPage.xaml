@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+             x:Class="Sample.Views.TapSurveyPage"
+             Title="TapSurveyPage">
+    <sv:SettingsView>
+
+        <sv:Section>
+            <sv:Section.HeaderView>
+                <HorizontalStackLayout>
+                    <Label Text="Header" HeightRequest="44">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_3" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </sv:Section.HeaderView>
+
+            <sv:Section.FooterView>
+                <HorizontalStackLayout>
+                    <Label Text="Footer" HeightRequest="44">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </sv:Section.FooterView>
+
+            <sv:CustomCell IsSelectable="True">
+
+                <Grid ColumnDefinitions="*,*,*">
+                    <StackLayout Grid.Column="0">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        </StackLayout.GestureRecognizers>
+                        <Image />
+                        <Label Text="A"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image />
+                        <Label Text="B"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" />
+                        </StackLayout.GestureRecognizers>
+                        <Image />
+                        <Label Text="C"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Grid>
+
+            </sv:CustomCell>
+
+        </sv:Section>
+
+    </sv:SettingsView>
+</ContentPage>

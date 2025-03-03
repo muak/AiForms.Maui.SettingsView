@@ -9,9 +9,10 @@
   <style name="settingsViewTheme">
     <item name="settingsViewStyle">@style/settingsViewScrollBars</item>
   </style>
-
-  <style name="datePickerDialogSpinnerTheme" parent="Theme.AppCompat.DayNight.Dialog">
+  
+  <style name="datePickerDialogSpinnerTheme">
     <item name="android:datePickerStyle">@style/datePickerSpinnerStyle</item>
+    <item name="android:windowIsFloating">true</item>
   </style>
 
    <style name="datePickerSpinnerStyle" parent="android:Widget.Material.DatePicker" >

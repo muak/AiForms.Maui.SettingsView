@@ -47,20 +47,30 @@
             <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
         </Style>
     </ContentPage.Resources>
-
-<sv:SettingsView HasUnevenRows="True" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"                   ShowArrowIndicatorForAndroid="True" 
+    <Grid RowDefinitions="*,Auto,Auto,Auto">
+    <sv:SettingsView Grid.Row="0" HasUnevenRows="True" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"                   ShowArrowIndicatorForAndroid="True" 
         >
      
 		<sv:Section FooterText="This is a footer. optionaly you can write here.">
             
             <sv:CommandCell IconSource="dotnet_bot" IconSize="60,60" IconRadius="30" Title="Xam Xamarin" Height="80"
-                Description="hoge@fuga.com" Command="{Binding ToProfileCommand}" KeepSelectedUntilBack="true"
+                Description="hoge@fuga.com" Command="{Binding ToProfileCommand}" KeepSelectedUntilBack="False"
                 IgnoreUseDescriptionAsValue="true" 
             />
 		</sv:Section>
 
+        <sv:Section Title="Test">
+            <sv:CustomCell x:Name="testCell">
+                <Grid Padding="16" x:Name="grid">
+                    <Label Text="{Binding Content.Value}" LineBreakMode="CharacterWrap" x:Name="innerLabel" />
+                </Grid>
+            </sv:CustomCell>
+            <!--<sv:ButtonCell Title="Add" Command="{Binding AddContentCommand}" />
+            <sv:ButtonCell Title="Clear" Command="{Binding ClearContentCommand}" />-->
+        </sv:Section>
+
         <sv:Section Title="LabelCell">
-            <sv:LabelCell Title="Storage" IconSource="dotnet_bot" ValueText="3,065MB" />
+            <sv:LabelCell Title="Storage" IconSource="dotnet_bot" ValueText="3,065MB" Description="{Binding Description.Value}" />
         </sv:Section>
 
         <sv:Section Title="CheckableCell">
@@ -77,7 +87,7 @@
         <sv:Section Title="Picker 4 Brothers">
             <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" Unit="px" PickerTitle="Select number" />
             <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
-            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/11/10" MaximumDate="2025/12/31" TodayText="Today's date" />
+            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/11/10" MaximumDate="2025/12/31" TodayText="Today's date" IsAndroidSpinnerStyle="True" />
             <sv:TextPickerCell Title="TextPicker" Items="{Binding TextItems}" SelectedItem="{Binding SelectedText.Value}" IsCircularPicker="False" />
         </sv:Section>  
         
@@ -87,7 +97,7 @@
         </sv:Section>
 
         <sv:Section Title="Input" IsVisible="{Binding InputSectionVisible.Value}">
-            <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" TextAlignment="End" HintText="{Binding InputError.Value}" Keyboard="Default" />
+            <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" TextAlignment="End" HintText="{Binding InputError.Value}" Keyboard="Default" ShowDoneButtonOnIOS="True" />
         </sv:Section>
 
         <sv:Section>
@@ -107,6 +117,9 @@
             <sv:ButtonCell Title="Toggle Section" TitleColor="{StaticResource TitleTextColor}" TitleAlignment="Center" Command="{Binding SectionToggleCommand}" />
         </sv:Section>
 	</sv:SettingsView>
- 
+        <Button Grid.Row="1" Text="Add" Command="{Binding AddContentCommand}" />
+        <Button Grid.Row="2" Text="Clear" Command="{Binding ClearContentCommand}" />
+        <Button Grid.Row="3" Text="Reload" Clicked="Button_Clicked" />
+    </Grid>
 </ContentPage>
 

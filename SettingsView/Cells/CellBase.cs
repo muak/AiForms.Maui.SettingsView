@@ -14,24 +14,7 @@ public class CellBase: Element, IImageSourcePart
     {
         if (Tapped != null)
             Tapped(this, EventArgs.Empty);
-    }
-
-    public virtual void Reload()
-    {
-        if (Section == null)
-        {
-            return;
-        }
-        var index = Section.IndexOf(this);
-        if (index < 0)
-        {
-            return;
-        }
-
-        // raise replase event manually.
-        var temp = Section[index];
-        Section[index] = temp;
-    }    
+    }       
 
     /// <summary>
     /// The title property.
@@ -477,14 +460,32 @@ public class CellBase: Element, IImageSourcePart
         Handler?.Invoke(nameof(SetEnabledAppearance));
     }
 
+    public virtual void Reload()
+    {
+        if (Section == null)
+        {
+            return;
+        }
+        var index = Section.IndexOf(this);
+        if (index < 0)
+        {
+            return;
+        }
+
+        // raise replase event manually.
+        var temp = Section[index];
+        Section[index] = temp;
+    }
+
 #if ANDROID
     // This is used by ListView to pass data to the GetCell call
     // Ideally we can pass these as arguments to ToHandler
     // But we'll do that in a different smaller more targeted PR
     internal Android.Views.View ConvertView { get; set; }
 
-#elif IOS
+#elif IOS || MACCATALYST
 	internal UIKit.UITableViewCell ReusableCell { get; set; }
+    internal Queue<UIKit.UITableViewCell> ReusableCellQueue { get; } = new Queue<UIKit.UITableViewCell>();
 	internal UIKit.UITableView TableView { get; set; }
 #endif
 

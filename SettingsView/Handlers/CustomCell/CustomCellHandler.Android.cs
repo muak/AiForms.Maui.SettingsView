@@ -6,14 +6,14 @@ namespace AiForms.Settings.Handlers;
 
 public partial class CustomCellHandler : CellBaseHandler<CustomCell, CustomCellView>
 {
-    public static IPropertyMapper<CustomCell, CellBaseHandler<CustomCell, CustomCellView>> CustomMapper =
-        new PropertyMapper<CustomCell, CellBaseHandler<CustomCell, CustomCellView>>(BasePropertyMapper)
+    public static IPropertyMapper<CustomCell, CustomCellHandler> CustomMapper =
+        new PropertyMapper<CustomCell, CustomCellHandler>(BasePropertyMapper)
         {
             [nameof(CustomCell.Command)] = MapCommand,
             [nameof(CustomCell.CommandParameter)] = MapCommand,
         };
 
-    private static void MapCommand(CellBaseHandler<CustomCell, CustomCellView> handler, CustomCell arg2)
+    private static void MapCommand(CustomCellHandler handler, CustomCell arg2)
     {
         handler.PlatformView.UpdateCommand();
     }
