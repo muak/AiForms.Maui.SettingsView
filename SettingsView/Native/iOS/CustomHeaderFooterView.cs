@@ -234,13 +234,13 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         }       
 
         var height = double.PositiveInfinity;
-        var result = _virtualCell.Measure(tableView.Frame.Width, height,MeasureFlags.IncludeMargins);
-        var finalW = result.Request.Width;
+        var result = _virtualCell.Measure(tableView.Frame.Width, height);
+        var finalW = result.Width;
         if(_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
         {
             finalW = tableView.Frame.Width;
         }
-        var finalH = (float)result.Request.Height;           
+        var finalH = (float)result.Height;           
 
         UpdateNativeCell();
 
@@ -323,14 +323,14 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         }
         
         var height = double.PositiveInfinity;
-        
-        var result = _virtualCell.Measure(tableView.Frame.Width, height, MeasureFlags.IncludeMargins);
-        var finalW = result.Request.Width;
+
+        var result = _virtualCell.Measure(tableView.Frame.Width, height);
+        var finalW = result.Width;
         if (_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
         {
             finalW = tableView.Frame.Width;
         }
-        var finalH = (float)result.Request.Height;
+        var finalH = (float)result.Height;
 
         if (_heightConstraint != null)
         {
