@@ -191,13 +191,13 @@ public class CustomCellContent: UIView
 
             var accessoryWidth = CustomCell.ShowArrowIndicator ? 27 : 0;
             var width = tableView.Frame.Width - (CustomCell.UseFullSize ? accessoryWidth : 32); // CellBaseView layout margin
-            var result = _virtualCell.Measure(tableView.Frame.Width, height,MeasureFlags.IncludeMargins);
-            _lastMeasureWidth = result.Request.Width;
+            var result = _virtualCell.Measure(tableView.Frame.Width, height);
+            _lastMeasureWidth = result.Width;
             if (_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
             {
                 _lastMeasureWidth = width;
             }
-            _lastMeasureHeight = result.Request.Height;
+            _lastMeasureHeight = result.Height;
         }
 
         // Add PlatformView as a child
@@ -251,13 +251,13 @@ public class CustomCellContent: UIView
 
         var accessoryWidth = CustomCell.ShowArrowIndicator ? 27 : 0;
         var width = tableView.Frame.Width - (CustomCell.UseFullSize ? accessoryWidth : 32); // CellBaseView layout margin
-        var result = _virtualCell.Measure(tableView.Frame.Width, height, MeasureFlags.IncludeMargins);
-        _lastMeasureWidth = result.Request.Width;
+        var result = _virtualCell.Measure(tableView.Frame.Width, height);
+        _lastMeasureWidth = result.Width;
         if (_virtualCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
         {
             _lastMeasureWidth = width;
         }
-        _lastMeasureHeight = result.Request.Height;
+        _lastMeasureHeight = result.Height;
 
         if (_heightConstraint != null)
         {
