@@ -39,6 +39,10 @@ public class CustomCellContent: UIView
 
         if (disposing)
         {
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
+            
             if (_virtualCell != null)
             {
                 _virtualCell.PropertyChanged -= CellPropertyChanged;
@@ -232,15 +236,18 @@ public class CustomCellContent: UIView
 
     async Task ForceLayout(CancellationToken token)
     {
-        if(_tableView == null)
+        if(_tableView == null || _tableView.IsDisposed())
         {
             return;
         }
         var tableView = _tableView;
-        var handler = _virtualCell.Handler as IPlatformViewHandler;
+        if (_virtualCell?.Handler is not IPlatformViewHandler handler)
+        {
+            return;
+        }
 
         // Wait a little and execute layout processing only on the last event
-        await Task.Delay(100);
+        await Task.Delay(100, token);
         if (token.IsCancellationRequested)
         {
             return;
@@ -267,6 +274,10 @@ public class CustomCellContent: UIView
         }
 
         var native = handler.PlatformView;
+        if (native is null)
+        {
+            return;
+        }
 
         _heightConstraint = native.HeightAnchor.ConstraintEqualTo((NFloat)_lastMeasureHeight);
         _heightConstraint.Priority = 999f;
@@ -275,7 +286,6 @@ public class CustomCellContent: UIView
         _virtualCell.Arrange(new Rect(0, 0, _lastMeasureWidth, _lastMeasureHeight));
 
         native.SetNeedsUpdateConstraints();
-        //native.UpdateConstraintsIfNeeded();
         SetNeedsLayout();
 
         tableView.BeginUpdates();

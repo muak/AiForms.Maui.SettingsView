@@ -106,6 +106,9 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
 
         if (disposing)
         {
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
             if (_virtualCell != null)
             {
                 _virtualCell.PropertyChanged -= CellPropertyChanged;
@@ -153,12 +156,6 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
       
     public virtual void UpdateCell(View newCell,UITableView tableView)
     {
-        // Workaround GestureRecognizer bug
-        // TODO: if fix this issue, remove the following code.
-        // https://github.com/dotnet/maui/issues/17948
-        // https://github.com/dotnet/maui/issues/1718
-        // newCell.Parent = Application.Current.MainPage;
-
         _tableView = tableView; 
         
         if (_virtualCell == newCell)
@@ -271,12 +268,12 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
 
     private void OnInnerLayoutSizeChanged(object sender, EventArgs e)
     {
-        LayoutDispacher();
+        LayoutDispatcher();
     }  
     
     private void OnMeasureInvalidated(object sender, EventArgs e)
     {
-        LayoutDispacher();
+        LayoutDispatcher();
     }
 
     protected virtual IPlatformViewHandler GetNewHandler()
@@ -308,15 +305,18 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
     
     async Task ForceLayout(CancellationToken token)
     {
-        if(_tableView == null)
+        if(_tableView == null || _tableView.IsDisposed())
         {
             return;
         }
         var tableView = _tableView;
-        var handler = _virtualCell.Handler as IPlatformViewHandler;
+        if (_virtualCell?.Handler is not IPlatformViewHandler handler)
+        {
+            return;
+        }
 
         // Wait a little and execute layout processing only on the last event
-        await Task.Delay(100);
+        await Task.Delay(100,token);
         if (token.IsCancellationRequested)
         {
             return;
@@ -338,7 +338,11 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
             _heightConstraint?.Dispose();
         }
         
-        var native = handler!.PlatformView!;
+        var native = handler.PlatformView;
+        if (native is null)
+        {
+            return;
+        }
         
         _heightConstraint = native.HeightAnchor.ConstraintEqualTo(finalH);
         _heightConstraint.Priority = 999f;
@@ -351,7 +355,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
     }  
     
     CancellationTokenSource _cts = new CancellationTokenSource();
-    void LayoutDispacher()
+    void LayoutDispatcher()
     {
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
