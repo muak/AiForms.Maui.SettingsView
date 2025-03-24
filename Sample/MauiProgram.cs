@@ -38,7 +38,14 @@ public static class MauiProgram
                 })
                 .OnInitialized(container =>
                 {
-                    ;
+                    TaskScheduler.UnobservedTaskException += (s, e) =>
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.Exception);
+                    };
+                    AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
+                    };
                 });
             })
             .ConfigureMauiHandlers(handlers =>

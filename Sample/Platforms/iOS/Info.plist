@@ -9,8 +9,6 @@
 		<integer>1</integer>
 		<integer>2</integer>
 	</array>
-	<key>MinimumOSVersion</key>
-	<string>14.2</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>arm64</string>
