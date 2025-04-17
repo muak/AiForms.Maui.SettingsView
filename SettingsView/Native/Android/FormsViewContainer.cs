@@ -121,6 +121,7 @@ internal class FormsViewContainer : FrameLayout
         _contentView = view;
         var platformView = _contentView.ToPlatform(view.FindMauiContext());
         _viewHandler = (IPlatformViewHandler)_contentView.Handler;
+        platformView.RemoveFromParent();
         AddView(platformView);       
 
         _contentView.IsPlatformEnabled = true;

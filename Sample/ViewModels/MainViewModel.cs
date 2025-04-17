@@ -50,7 +50,8 @@ namespace Sample.ViewModels
                 //await navigationService.NavigateAsync("ListPage");
                 //await navigationService.NavigateAsync("TapSurveyPage");
                 // await navigationService.NavigateAsync("HeaderSurveyPage");
-                await navigationService.NavigateAsync("DynamicHeaderSizePage");
+                // await navigationService.NavigateAsync("DynamicHeaderSizePage");
+                await navigationService.NavigateAsync("SurveyPage");
             });
 
             AddContentCommand.Subscribe(_ =>

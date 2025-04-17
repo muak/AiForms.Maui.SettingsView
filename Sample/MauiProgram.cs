@@ -28,6 +28,7 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<TapSurveyPage, TapSurveyViewModel>();
                     containerRegistry.RegisterForNavigation<HeaderSurveyPage, HeaderSurveyViewModel>();
                     containerRegistry.RegisterForNavigation<DynamicHeaderSizePage, DynamicHeaderSizeViewModel>();
+                    containerRegistry.RegisterForNavigation<SurveyPage, SurveyViewModel>();
                 })
                 .OnAppStart(async(container, navigation) =>
                 {
