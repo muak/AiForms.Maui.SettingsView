@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    xmlns:vm="clr-namespace:Sample.ViewModels"
+    x:Class="Sample.Views.SurveyPage"
+    x:DataType="vm:SurveyViewModel">
+
+    <Grid RowDefinitions="Auto,*">
+        <sv:SettingsView Grid.Row="1">
+            
+            <sv:Section Title="A" ItemsSource="{Binding ItemsSource}" IsVisible="{Binding IsShow.Value}">
+                <sv:Section.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <sv:CommandCell 
+                            HideArrowIndicator="True"
+                            Title="{Binding .}" />
+                    </DataTemplate>
+                </sv:Section.ItemTemplate>
+            </sv:Section>
+            
+            <sv:Section Title="B" ItemsSource="{Binding ItemsSource2}">
+               <sv:Section.ItemTemplate>
+                   <DataTemplate x:DataType="x:String">
+                       <sv:CustomCell>
+                           <Grid ColumnDefinitions="*, Auto">
+                               <Label
+                                   Grid.Column="0"
+                                   Text="{Binding .}"
+                                   FontAttributes="Bold" />
+                               <ImageButton
+                                   Grid.Column="1"
+                                   Source="dotnet_bot"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                               />
+                           </Grid>
+                       </sv:CustomCell>
+                   </DataTemplate>
+               </sv:Section.ItemTemplate>
+            </sv:Section>
+            
+            
+        </sv:SettingsView>
+        
+        <Button
+            Grid.Row="0"
+            Text="Submit"
+            Command="{Binding SubmitCommand}"
+            />
+        
+    </Grid>
+    
+</ContentPage>
