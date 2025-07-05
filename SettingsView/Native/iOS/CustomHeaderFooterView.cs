@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.ComponentModel;
 using AiForms.Settings.Extensions;
 using CoreGraphics;
@@ -71,7 +72,7 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
     NSLayoutConstraint _heightConstraint;
     View _virtualCell;
     UITableView _tableView;
-    IMauiContext _mauiContext => _virtualCell.FindMauiContext();    
+    IMauiContext? _mauiContext => _virtualCell.FindMauiContext();    
 
     public CustomHeaderFooterView()
     {
@@ -210,7 +211,12 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         {
             // If Handler is not generated, generate it.            
             handler = GetNewHandler();
-        }        
+        }
+
+        if (_mauiContext == null)
+        {
+            return;
+        }
 
         var viewHandlerType = _mauiContext.Handlers.GetHandlerType(_virtualCell.GetType());
         var reflectableType = handler as System.Reflection.IReflectableType;
@@ -276,14 +282,21 @@ public class CustomHeaderFooterView:UITableViewHeaderFooterView
         LayoutDispatcher();
     }
 
-    protected virtual IPlatformViewHandler GetNewHandler()
+    protected virtual IPlatformViewHandler? GetNewHandler()
     {
         if(_virtualCell == null)
         {
-            throw new InvalidOperationException("Hearder or Footer must have a view");
+            throw new InvalidOperationException("Header or Footer must have a view");
         }
 
-        var newHandler = _virtualCell.ToHandler(_virtualCell.FindMauiContext());
+        var findMauiContext = _virtualCell.FindMauiContext();
+
+        if (findMauiContext == null)
+        {
+            return null;
+        }
+
+        var newHandler = _virtualCell.ToHandler(findMauiContext);
 
         ArrangeSubView(newHandler);
 
