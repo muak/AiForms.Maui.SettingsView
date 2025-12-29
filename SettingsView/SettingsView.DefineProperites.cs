@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AiForms.Settings.Extensions;
+using Microsoft.Maui.Controls.Internals;
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using Microsoft.Maui.Controls.Internals;
 
 namespace AiForms.Settings;
 
@@ -37,7 +38,7 @@ public partial class SettingsView
             Colors.Transparent,
             defaultBindingMode: BindingMode.OneWay
         );
-    
+
     /// <summary>
     /// A color of out of region and entire region. They contains header, footer and cell (in case android).
     /// </summary>
@@ -231,6 +232,50 @@ public partial class SettingsView
     }
 
     /// <summary>
+    /// The row height property.
+    /// </summary>
+    public static BindableProperty RowHeightProperty =
+        BindableProperty.Create(
+            nameof(RowHeight),
+            typeof(int),
+            typeof(SettingsView),
+            -1,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+    /// <summary>
+    /// The row height property.
+    /// </summary>
+    /// <value>Height of the table rows.</value>
+    public int RowHeight
+    {
+        get { return (int)GetValue(RowHeightProperty); }
+        set { SetValue(RowHeightProperty, value); }
+    }
+
+    /// <summary>
+    /// The has uneven rows property.
+    /// </summary>
+    public static BindableProperty HasUnevenRowsProperty =
+        BindableProperty.Create(
+            nameof(HasUnevenRows),
+            typeof(bool),
+            typeof(SettingsView),
+            false,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+    /// <summary>
+    /// The has uneven rows property.
+    /// </summary>
+    /// <value>If rows are uneven height.</value>
+    public bool HasUnevenRows
+    {
+        get { return (bool)GetValue(HasUnevenRowsProperty); }
+        set { SetValue(HasUnevenRowsProperty, value); }
+    }
+
+    /// <summary>
     /// The header height property.
     /// </summary>
     public static BindableProperty HeaderHeightProperty =
@@ -400,7 +445,7 @@ public partial class SettingsView
             typeof(SettingsView),
             -1.0,
             defaultBindingMode: BindingMode.OneWay,
-            defaultValueCreator: bindable => Device.GetNamedSize(NamedSize.Default, (SettingsView)bindable)
+            defaultValueCreator: bindable => (bindable as Element)?.FindMauiContext()?.Services?.GetService<IFontManager>()?.DefaultFontSize ?? 0d
         );
 
     /// <summary>
@@ -747,7 +792,7 @@ public partial class SettingsView
         set { SetValue(CellHintFontAttributesProperty, value); }
     }
 
-    //Only Android 
+    //Only Android
     /// <summary>
     /// The use description as value property.
     /// </summary>
@@ -959,7 +1004,7 @@ public partial class SettingsView
 
         IList oldValueAsEnumerable;
         IList newValueAsEnumerable;
-        try 
+        try
         {
             oldValueAsEnumerable = oldValue as IList;
             newValueAsEnumerable = newValue as IList;

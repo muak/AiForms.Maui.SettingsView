@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
-using Microsoft.Maui.Controls.Internals;
 
 namespace AiForms.Settings;
 
@@ -10,7 +7,7 @@ namespace AiForms.Settings;
 /// Settings view.
 /// </summary>
 [ContentProperty("Root")]
-public partial class SettingsView : TableView
+public partial class SettingsView : View
 {
     internal static Action _clearCache;
     /// <summary>
@@ -25,11 +22,11 @@ public partial class SettingsView : TableView
     /// Gets or sets the model.
     /// </summary>
     /// <value>The model.</value>
-    public new SettingsModel Model { get; set; }
+    public SettingsModel Model { get; set; }
     /// <summary>
     /// Occurs when model changed.
     /// </summary>
-    public new event EventHandler ModelChanged;
+    public event EventHandler ModelChanged;
     /// <summary>
     /// Occurs when collection changed.
     /// </summary>
@@ -62,7 +59,7 @@ public partial class SettingsView : TableView
     /// Gets or sets the root.
     /// </summary>
     /// <value>The root.</value>
-    public new SettingsRoot Root
+    public SettingsRoot Root
     {
         get { return _root; }
         set {
@@ -164,7 +161,7 @@ public partial class SettingsView : TableView
                         cell.BindingContext = context; // so set the original bindingcontext again.
                     }
                 }
-            }            
+            }
         }
         CollectionChanged?.Invoke(sender, e);
     }
@@ -181,12 +178,12 @@ public partial class SettingsView : TableView
             foreach(var cell in e.NewItems.Cast<CellBase>())
             {
                 cell.Parent = this;
-            }            
+            }
         }
         SectionCollectionChanged?.Invoke(sender, e);
     }
 
-    new void OnModelChanged()
+    void OnModelChanged()
     {
         if(Root == null)
         {
@@ -227,7 +224,4 @@ public partial class SettingsView : TableView
             ModelChanged(this, EventArgs.Empty);
 
     }
-
-    //make the unnecessary property existing at TableView sealed.
-    private new int Intent { get; set; }
 }
