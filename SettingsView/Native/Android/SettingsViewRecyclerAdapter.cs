@@ -30,6 +30,7 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
     SettingsView _settingsView;
     RecyclerView _recyclerView;
     ModelProxy _proxy;
+    bool _disposed;
 
     List<ViewHolder> _viewHolders = new List<ViewHolder>();
     protected Lazy<IFontManager> _fontManager;
@@ -59,6 +60,7 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
 
     void _settingsView_ModelChanged(object sender, EventArgs e)
     {
+        if (_disposed) return;
         if (_recyclerView != null)
         {
             _proxy.FillProxy();
@@ -68,6 +70,7 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
 
     void OnSectionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
+        if (_disposed) return;
         if (e.PropertyName == Section.IsVisibleProperty.PropertyName)
         {
             UpdateSectionVisible((Section)sender);
@@ -88,6 +91,7 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
 
     void OnCellPropertyChanged(object sender, CellPropertyChangedEventArgs e)
     {
+        if (_disposed) return;
         if(e.PropertyName == CellBase.IsVisibleProperty.PropertyName)
         {
             UpdateCellVisible(e.Section, (CellBase)sender);
@@ -127,7 +131,7 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
     /// Gets the item count.
     /// </summary>
     /// <value>The item count.</value>
-    public override int ItemCount => _proxy.Count;
+    public override int ItemCount => _proxy?.Count ?? 0;
 
     /// <summary>
     /// return ID (As in paticular it doesn't exist, return the position.)
@@ -320,20 +324,29 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
     /// <param name="disposing">If set to <c>true</c> disposing.</param>
     protected override void Dispose(bool disposing)
     {
+        if (_disposed) return;
+        _disposed = true;
+
         if(disposing){
-            _settingsView.ModelChanged -= _settingsView_ModelChanged;
-            _settingsView.SectionPropertyChanged -= OnSectionPropertyChanged;
-            _settingsView.CellPropertyChanged -= OnCellPropertyChanged;
+            if (_settingsView != null)
+            {
+                _settingsView.ModelChanged -= _settingsView_ModelChanged;
+                _settingsView.SectionPropertyChanged -= OnSectionPropertyChanged;
+                _settingsView.CellPropertyChanged -= OnCellPropertyChanged;
+            }
             _proxy?.Dispose();
             _proxy = null;
             _settingsView = null;
 
-            foreach (var holder in _viewHolders)
+            if (_viewHolders != null)
             {
-                holder.Dispose();
+                foreach (var holder in _viewHolders)
+                {
+                    holder.Dispose();
+                }
+                _viewHolders.Clear();
+                _viewHolders = null;
             }
-            _viewHolders.Clear();
-            _viewHolders = null;
         }
         base.Dispose(disposing);
     }
