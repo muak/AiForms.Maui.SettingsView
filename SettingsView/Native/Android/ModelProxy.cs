@@ -25,6 +25,7 @@ public class ModelProxy:List<RowInfo>,IDisposable
     SettingsRoot _root;
     SettingsViewRecyclerAdapter _adapter;
     RecyclerView _recyclerView;
+    bool _disposed;
 
     public ModelProxy(SettingsView settingsView,SettingsViewRecyclerAdapter adapter,RecyclerView recyclerView)
     {
@@ -37,12 +38,18 @@ public class ModelProxy:List<RowInfo>,IDisposable
         _root.CollectionChanged += OnRootCollectionChanged;
 
         FillProxy();
-    }       
+    }
 
     public void Dispose()
     {
-        _root.SectionCollectionChanged -= OnRootSectionCollectionChanged;
-        _root.CollectionChanged -= OnRootCollectionChanged;
+        if (_disposed) return;
+        _disposed = true;
+
+        if (_root != null)
+        {
+            _root.SectionCollectionChanged -= OnRootSectionCollectionChanged;
+            _root.CollectionChanged -= OnRootCollectionChanged;
+        }
         _model = null;
         _root = null;
         _adapter = null;
@@ -54,6 +61,8 @@ public class ModelProxy:List<RowInfo>,IDisposable
 
     void OnRootCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
+        if (_disposed) return;
+
         switch(e.Action)
         {
             case NotifyCollectionChangedAction.Add:
@@ -82,6 +91,8 @@ public class ModelProxy:List<RowInfo>,IDisposable
 
     void OnRootSectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
+        if (_disposed) return;
+
         switch(e.Action)
         {
             case NotifyCollectionChangedAction.Add:

@@ -11,15 +11,18 @@ public class SettingsViewLayoutManager:LinearLayoutManager
     SettingsView _settingsView;
     Android.Content.Context _context;
     Dictionary<Android.Views.View, int> ItemHeights = new Dictionary<Android.Views.View, int>();
+    bool _disposed;
 
     public SettingsViewLayoutManager(Android.Content.Context context,SettingsView settingsView):base(context)
     {
         _context = context;
         _settingsView = settingsView;
-    }        
+    }
 
     public override int GetDecoratedMeasuredHeight(Android.Views.View child)
     {
+        if (_disposed) return 0;
+
         var height =  base.GetDecoratedMeasuredHeight(child);
         ItemHeights[child] = height;
         return height;
@@ -27,9 +30,12 @@ public class SettingsViewLayoutManager:LinearLayoutManager
 
     protected override void Dispose(bool disposing)
     {
+        if (_disposed) return;
+        _disposed = true;
+
         if(disposing)
         {
-            ItemHeights.Clear();
+            ItemHeights?.Clear();
             ItemHeights = null;
             _context = null;
             _settingsView = null;
@@ -41,8 +47,13 @@ public class SettingsViewLayoutManager:LinearLayoutManager
     {
         base.OnLayoutCompleted(state);
 
+        if (_disposed || _settingsView == null || _context == null || ItemHeights == null)
+        {
+            return;
+        }
+
         var total = ItemHeights.Sum(x => x.Value);
 
-        _settingsView.VisibleContentHeight = _context.FromPixels(total);              
+        _settingsView.VisibleContentHeight = _context.FromPixels(total);
     }
 }

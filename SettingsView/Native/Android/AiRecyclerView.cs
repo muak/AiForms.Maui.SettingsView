@@ -86,6 +86,24 @@ public class AiRecyclerView : RecyclerView
 
         if (disposing)
         {
+            // ステップ1: RecyclerViewからコンポーネントを切り離す
+            // これにより以降のDispose中にRecyclerView経由のコールバックを防止する
+            try { SetAdapter(null); }
+            catch (ObjectDisposedException) { }
+
+            try { SetLayoutManager(null); }
+            catch (ObjectDisposedException) { }
+
+            if (_itemDecoration != null)
+            {
+                try { RemoveItemDecoration(_itemDecoration); }
+                catch (ObjectDisposedException) { }
+            }
+
+            try { _itemTouchhelper?.AttachToRecyclerView(null); }
+            catch (ObjectDisposedException) { }
+
+            // ステップ2: HeaderView/FooterViewをクリーンアップ
             if (_settingsView?.Root != null)
             {
                 foreach (var section in _settingsView.Root)
@@ -101,6 +119,7 @@ public class AiRecyclerView : RecyclerView
                 }
             }
 
+            // ステップ3: 保留中のhandlerを破棄
             if (_shouldDisposeHandlers != null)
             {
                 foreach (var handler in _shouldDisposeHandlers)
@@ -115,17 +134,20 @@ public class AiRecyclerView : RecyclerView
             }
             _shouldDisposeHandlers = null;
 
-            if (_itemDecoration != null)
-            {
-                RemoveItemDecoration(_itemDecoration);
-            }
-
+            // ステップ4: イベント購読を解除
             if (_parentPage != null)
             {
                 _parentPage.Appearing -= ParentPageAppearing;
                 _parentPage = null;
             }
 
+            if (_settingsView != null)
+            {
+                _settingsView.Root.CollectionChanged -= RootCollectionChanged;
+                _settingsView = null;
+            }
+
+            // ステップ5: 切り離し済みのコンポーネントをDispose
             _adapter?.Dispose();
             _adapter = null;
             _layoutManager?.Dispose();
@@ -139,12 +161,6 @@ public class AiRecyclerView : RecyclerView
             _itemDecoration = null;
             _divider?.Dispose();
             _divider = null;
-
-            if (_settingsView != null)
-            {
-                _settingsView.Root.CollectionChanged -= RootCollectionChanged;
-                _settingsView = null;
-            }
         }
         base.Dispose(disposing);
     }
@@ -164,6 +180,8 @@ public class AiRecyclerView : RecyclerView
 
     void RootCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
+        if (_disposed) return;
+
         if (e.OldItems == null)
         {
             return;
