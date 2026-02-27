@@ -64,7 +64,10 @@ public class AiRecyclerView : RecyclerView
         }
 
         _parentPage = elm as Page;
-        _parentPage.Appearing += ParentPageAppearing;
+        if (_parentPage != null)
+        {
+            _parentPage.Appearing += ParentPageAppearing;
+        }
     }
 
     public AiRecyclerView(Context context, IAttributeSet attrs) : base(context, attrs)
@@ -89,19 +92,19 @@ public class AiRecyclerView : RecyclerView
             // ステップ1: RecyclerViewからコンポーネントを切り離す
             // これにより以降のDispose中にRecyclerView経由のコールバックを防止する
             try { SetAdapter(null); }
-            catch (ObjectDisposedException) { }
+            catch (Exception) { }
 
             try { SetLayoutManager(null); }
-            catch (ObjectDisposedException) { }
+            catch (Exception) { }
 
             if (_itemDecoration != null)
             {
                 try { RemoveItemDecoration(_itemDecoration); }
-                catch (ObjectDisposedException) { }
+                catch (Exception) { }
             }
 
             try { _itemTouchhelper?.AttachToRecyclerView(null); }
-            catch (ObjectDisposedException) { }
+            catch (Exception) { }
 
             // ステップ2: HeaderView/FooterViewをクリーンアップ
             if (_settingsView?.Root != null)
@@ -124,11 +127,13 @@ public class AiRecyclerView : RecyclerView
             {
                 foreach (var handler in _shouldDisposeHandlers)
                 {
+                    // DisconnectHandler()後にPlatformViewがnullになるため、先に参照を保持する
+                    var pv = handler.PlatformView;
                     handler.DisconnectHandler();
-                    if (handler.PlatformView.Handle != IntPtr.Zero)
+                    if (pv != null && pv.Handle != IntPtr.Zero)
                     {
-                        handler.PlatformView.RemoveFromParent();
-                        handler.PlatformView.Dispose();
+                        pv.RemoveFromParent();
+                        pv.Dispose();
                     }
                 }
             }
@@ -141,11 +146,11 @@ public class AiRecyclerView : RecyclerView
                 _parentPage = null;
             }
 
-            if (_settingsView != null)
+            if (_settingsView?.Root != null)
             {
                 _settingsView.Root.CollectionChanged -= RootCollectionChanged;
-                _settingsView = null;
             }
+            _settingsView = null;
 
             // ステップ5: 切り離し済みのコンポーネントをDispose
             _adapter?.Dispose();
@@ -167,10 +172,15 @@ public class AiRecyclerView : RecyclerView
 
     void DisposeChildView(View view)
     {
-        view.Handler?.DisconnectHandler();
-        var platformView = view.Handler?.PlatformView as AView;
-        platformView?.RemoveFromParent();
-        platformView?.Dispose();
+        // DisconnectHandler()後にview.Handlerがnullになるため、先に参照を保持する
+        var handler = view.Handler as IPlatformViewHandler;
+        var pv = handler?.PlatformView as AView;
+        handler?.DisconnectHandler();
+        if (pv != null && pv.Handle != IntPtr.Zero)
+        {
+            pv.RemoveFromParent();
+            pv.Dispose();
+        }
     }
 
     void ParentPageAppearing(object sender, EventArgs e)
@@ -210,12 +220,14 @@ public class AiRecyclerView : RecyclerView
 
     internal void UpdateSeparatorColor()
     {
+        if (_disposed || _settingsView == null || _divider == null) return;
         _divider.SetTint(_settingsView.SeparatorColor.ToPlatform());
         InvalidateItemDecorations();
     }
 
     internal void UpdateRowHeight()
     {
+        if (_disposed || _settingsView == null) return;
         if (_settingsView.RowHeight == -1)
         {
             _settingsView.RowHeight = 60;
@@ -228,6 +240,7 @@ public class AiRecyclerView : RecyclerView
 
     internal void UpdateScrollToTop()
     {
+        if (_disposed || _settingsView == null || _layoutManager == null) return;
         if (_settingsView.ScrollToTop)
         {
             _layoutManager.ScrollToPosition(0);
@@ -237,6 +250,7 @@ public class AiRecyclerView : RecyclerView
 
     internal void UpdateScrollToBottom()
     {
+        if (_disposed || _settingsView == null || _layoutManager == null) return;
         if (_settingsView.ScrollToBottom)
         {
             if (_adapter != null)
@@ -249,6 +263,7 @@ public class AiRecyclerView : RecyclerView
 
     internal void UpdateBackgroundColor()
     {
+        if (_disposed || _settingsView == null) return;
         if (_settingsView.BackgroundColor.IsNotDefault())
         {
             SetBackgroundColor(_settingsView.BackgroundColor.ToPlatform());
