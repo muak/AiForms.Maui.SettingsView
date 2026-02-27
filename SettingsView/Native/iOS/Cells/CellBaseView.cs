@@ -178,7 +178,7 @@ public class CellBaseView : UITableViewCell, IImageSourcePartSetter
         {
             UpdateSelectedColor();
         }
-        else if (e.PropertyName == TableView.RowHeightProperty.PropertyName)
+        else if (e.PropertyName == SettingsView.RowHeightProperty.PropertyName)
         {
             UpdateMinRowHeight();
         }
