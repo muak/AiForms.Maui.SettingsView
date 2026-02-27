@@ -48,37 +48,37 @@ public partial class SettingsViewHandler : ViewHandler<SettingsView, AiRecyclerV
 
     private static void MapSeparatorColor(SettingsViewHandler handler, SettingsView sv)
     {
-        handler.PlatformView.UpdateSeparatorColor();
+        handler.PlatformView?.UpdateSeparatorColor();
     }
 
     private static void MapBackgroundColor(SettingsViewHandler handler, SettingsView sv)
     {
-        handler.PlatformView.UpdateBackgroundColor();
+        handler.PlatformView?.UpdateBackgroundColor();
     }
 
     private static void MapRowHeight(SettingsViewHandler handler, SettingsView sv)
     {
-        handler.PlatformView.UpdateRowHeight();
+        handler.PlatformView?.UpdateRowHeight();
     }
 
     private static void MapScrollToTop(SettingsViewHandler handler, SettingsView sv)
     {
-        handler.PlatformView.UpdateScrollToTop();
+        handler.PlatformView?.UpdateScrollToTop();
     }
 
     private static void MapScrollToBottom(SettingsViewHandler handler, SettingsView sv)
     {
-        handler.PlatformView.UpdateScrollToBottom();
+        handler.PlatformView?.UpdateScrollToBottom();
     }
 
     private static void MapDataSetChanged(SettingsViewHandler handler, SettingsView sv)
     {
-        handler.PlatformView.GetAdapter()?.NotifyDataSetChanged();
+        handler.PlatformView?.GetAdapter()?.NotifyDataSetChanged();
     }
 
     private static void MapInvalidateItemDecorations(SettingsViewHandler handler, SettingsView sv)
     {
-        handler.PlatformView.InvalidateItemDecorations();
+        handler.PlatformView?.InvalidateItemDecorations();
     }
 }
 
