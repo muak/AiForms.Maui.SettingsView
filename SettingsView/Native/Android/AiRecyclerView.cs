@@ -26,6 +26,7 @@ public class AiRecyclerView : RecyclerView
     SettingsView _settingsView;
 
     List<IPlatformViewHandler> _shouldDisposeHandlers = new List<IPlatformViewHandler>();
+    bool _disposed;
 
     // Fix scrollbar visibility and flash. https://github.com/xamarin/Xamarin.Forms/pull/10893
     public AiRecyclerView(Context context, SettingsView settingsView) : base(new ContextThemeWrapper(context, Resource.Style.settingsViewTheme),null, Resource.Attribute.settingsViewStyle)
@@ -80,35 +81,51 @@ public class AiRecyclerView : RecyclerView
 
     protected override void Dispose(bool disposing)
     {
+        if (_disposed) return;
+        _disposed = true;
+
         if (disposing)
         {
-            foreach (var section in _settingsView.Root)
+            if (_settingsView?.Root != null)
             {
-                if (section.HeaderView != null)
+                foreach (var section in _settingsView.Root)
                 {
-                    DisposeChildView(section.HeaderView);
-                }
-                if (section.FooterView != null)
-                {
-                    DisposeChildView(section.FooterView);
+                    if (section.HeaderView != null)
+                    {
+                        DisposeChildView(section.HeaderView);
+                    }
+                    if (section.FooterView != null)
+                    {
+                        DisposeChildView(section.FooterView);
+                    }
                 }
             }
 
-            foreach (var handler in _shouldDisposeHandlers)
+            if (_shouldDisposeHandlers != null)
             {
-                handler.DisconnectHandler();
-                if (handler.PlatformView.Handle != IntPtr.Zero)
+                foreach (var handler in _shouldDisposeHandlers)
                 {
-                    handler.PlatformView.RemoveFromParent();
-                    handler.PlatformView.Dispose();
-                }                
+                    handler.DisconnectHandler();
+                    if (handler.PlatformView.Handle != IntPtr.Zero)
+                    {
+                        handler.PlatformView.RemoveFromParent();
+                        handler.PlatformView.Dispose();
+                    }
+                }
             }
-
             _shouldDisposeHandlers = null;
 
-            RemoveItemDecoration(_itemDecoration);
-            _parentPage.Appearing -= ParentPageAppearing;
-            _parentPage = null;
+            if (_itemDecoration != null)
+            {
+                RemoveItemDecoration(_itemDecoration);
+            }
+
+            if (_parentPage != null)
+            {
+                _parentPage.Appearing -= ParentPageAppearing;
+                _parentPage = null;
+            }
+
             _adapter?.Dispose();
             _adapter = null;
             _layoutManager?.Dispose();
@@ -123,8 +140,11 @@ public class AiRecyclerView : RecyclerView
             _divider?.Dispose();
             _divider = null;
 
-            _settingsView.Root.CollectionChanged -= RootCollectionChanged;
-            _settingsView = null;
+            if (_settingsView != null)
+            {
+                _settingsView.Root.CollectionChanged -= RootCollectionChanged;
+                _settingsView = null;
+            }
         }
         base.Dispose(disposing);
     }
