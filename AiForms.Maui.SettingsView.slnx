@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/Solution Items/" />
+  <Project Path="Sample/Sample.csproj" />
+  <Project Path="SettingsView/SettingsView.csproj" />
+</Solution>
