@@ -118,7 +118,15 @@ public partial class PickerPage : ContentPage
     {
         base.OnDisappearing();
 
-        settingsView.Model.RowSelected -= Model_RowSelected;
+        if (settingsView?.Model != null)
+        {
+            settingsView.Model.RowSelected -= Model_RowSelected;
+        }
+
+        if (_pickerCell == null || _selectedCache == null)
+        {
+            return;
+        }
 
         _pickerCell.SelectedItems.Clear();
 
