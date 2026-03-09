@@ -123,7 +123,7 @@ public partial class PickerPage : ContentPage
             settingsView.Model.RowSelected -= Model_RowSelected;
         }
 
-        if (_pickerCell == null || _selectedCache == null)
+        if (_pickerCell == null || _selectedCache == null || _pickerCell.SelectedItems == null)
         {
             return;
         }
