@@ -258,13 +258,27 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
         var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
         if(cell == null || !_proxy[position].Cell.IsEnabled){
-            //if FormsCell IsEnable is false, does nothing. 
+            //if FormsCell IsEnable is false, does nothing.
             return;
         }
 
-        _settingsView.Model.OnRowSelected(_proxy[position].Cell);
+        try
+        {
+            _settingsView.Model.OnRowSelected(_proxy[position].Cell);
 
-        cell.RowSelected(this,position);
+            cell.RowSelected(this,position);
+        }
+        catch (Android.Content.ActivityNotFoundException ex)
+        {
+            // Android 11+ でブラウザが見つからない場合などに発生する
+            // ActivityNotFoundException をキャッチしてクラッシュを防ぐ
+            System.Diagnostics.Debug.WriteLine($"ActivityNotFoundException in OnClick: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // その他の例外もキャッチしてクラッシュを防ぐ
+            System.Diagnostics.Debug.WriteLine($"Exception in OnClick: {ex.Message}");
+        }
     }
 
     public virtual bool OnLongClick(AView v)
@@ -282,11 +296,27 @@ public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickList
 
         if (cell == null || !_proxy[position].Cell.IsEnabled)
         {
-            //if FormsCell IsEnable is false, does nothing. 
+            //if FormsCell IsEnable is false, does nothing.
             return false;
         }
 
-        cell.RowLongPressed(this, position);
+        try
+        {
+            cell.RowLongPressed(this, position);
+        }
+        catch (Android.Content.ActivityNotFoundException ex)
+        {
+            // Android 11+ でブラウザが見つからない場合などに発生する
+            // ActivityNotFoundException をキャッチしてクラッシュを防ぐ
+            System.Diagnostics.Debug.WriteLine($"ActivityNotFoundException in OnLongClick: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            // その他の例外もキャッチしてクラッシュを防ぐ
+            System.Diagnostics.Debug.WriteLine($"Exception in OnLongClick: {ex.Message}");
+            return false;
+        }
 
         return true;
     }

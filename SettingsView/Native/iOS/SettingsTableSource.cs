@@ -369,11 +369,19 @@ public class SettingsTableSource : UITableViewSource
     /// <param name="indexPath">Index path.</param>
     public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
     {
-        _settingsView.Model.OnRowSelected(indexPath.Section, indexPath.Row);
-
-        if (tableView.CellAt(indexPath) is CellBaseView cell)
+        try
         {
-            cell.RowSelected(tableView, indexPath);
+            _settingsView.Model.OnRowSelected(indexPath.Section, indexPath.Row);
+
+            if (tableView.CellAt(indexPath) is CellBaseView cell)
+            {
+                cell.RowSelected(tableView, indexPath);
+            }
+        }
+        catch (Exception ex)
+        {
+            // コマンド実行時の例外をキャッチしてクラッシュを防ぐ
+            System.Diagnostics.Debug.WriteLine($"Exception in RowSelected: {ex.Message}");
         }
     }       
 
