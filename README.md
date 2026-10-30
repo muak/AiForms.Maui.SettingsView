@@ -2,7 +2,11 @@
 
 This is a flexible TableView specialized in settings for Android / iOS.
 
-**This is currently a preview version. It is not stable, so please use it for research and verification purposes only.**
+> [!IMPORTANT]
+> **The successor library, [KsSettingsView](https://github.com/kamusoft/KsSettingsView), is now available.**
+>
+> KsSettingsView builds list-style settings screens on iOS, Android, and .NET MAUI with native rendering on both platforms. For .NET MAUI, install the [`KsSettingsView.Maui`](https://www.nuget.org/packages/KsSettingsView.Maui/) package.
+> Future development will continue in KsSettingsView, and no further updates are planned for this library. For new projects, we recommend KsSettingsView. To migrate an existing settings page, see the [migration guide from AiForms.Maui.SettingsView](https://github.com/kamusoft/KsSettingsView/blob/main/skills/en/kssettingsview-aiforms-migration/SKILL.md).
 
 [Japanese](./README-ja.md)
 
