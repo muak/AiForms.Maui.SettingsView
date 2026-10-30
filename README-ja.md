@@ -3,7 +3,11 @@
 SettingViewは.NET MAUIで使用できる設定に特化した柔軟なTableViewです。  
 AndroidとiOSに対応しています。
 
-**現在プレビュー版です。動作は安定しませんので調査・検証用としてお使いください。**
+> [!IMPORTANT]
+> **後継ライブラリ [KsSettingsView](https://github.com/kamusoft/KsSettingsView) を公開しました。**
+>
+> KsSettingsViewは、iOS、Android、.NET MAUIでリスト形式の設定画面を構築するためのライブラリで、両platformでNative描画を行います。.NET MAUIでは [`KsSettingsView.Maui`](https://www.nuget.org/packages/KsSettingsView.Maui/) パッケージを導入してください。
+> 今後の開発はKsSettingsViewで行うため、このライブラリの更新は予定していません。新規プロジェクトではKsSettingsViewの利用をおすすめします。既存の設定画面を移行する場合は [AiForms.Maui.SettingsViewからの移行ガイド](https://github.com/kamusoft/KsSettingsView/blob/main/skills/ja/kssettingsview-aiforms-migration/SKILL.md) を参照してください。
 
 ![Build status](https://dev.azure.com/kamusoft/NugetCI/_apis/build/status/AiForms.Maui.SettingsView)
 
